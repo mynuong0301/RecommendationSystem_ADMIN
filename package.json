@@ -12,10 +12,13 @@
   "dependencies": {
     "axios": "^0.24.0",
     "chart.js": "^3.7.0",
+    "metismenu": "^3.0.7",
     "vue": "^2.5.2",
     "vue-chartjs": "^3.5.1",
     "vue-google-charts": "^0.3.3",
+    "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^3.0.1",
+    "vue-scriptx": "^0.2.5",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

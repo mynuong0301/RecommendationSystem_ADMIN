@@ -9,10 +9,7 @@
                 <div class="topbar-left">
                     <a href="index.html" class="logo">
                         <span class="logo-light">
-                            <i class="mdi mdi-camera-control"></i>
-                        </span>
-                        <span class="logo-sm">
-                            <i class="mdi mdi-camera-control"></i>
+                            <img src="@/assets/images/fulllogo-removebg-preview.png">
                         </span>
                     </a>
                 </div>
@@ -60,11 +57,28 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu" id="side-menu">
-                        <li class="menu-title">Menu</li>
+                       
                         <li>
-                            <a href="/#/TestManager" class="waves-effect"><span>Quản Lý Bài Đánh Giá </span> </a>
-                            <a href="/#/" class="waves-effect"><span>Quản Lý Profile Chuyên Ngành </span> </a>
-                            <a href="/#/" class="waves-effect"><span>Quản Lý Profile Sinh Viên </span> </a>
+                            <!--<a href="/#/" class="waves-effect"><i class="fas fa-store-alt" ></i><span> Trang chủ </span> </a>
+                            <a href="/#/" class="waves-effect"><i class="fas fa-info-circle"></i><span>  Giới thiệu </span> </a> -->
+                            
+                            <li class="mm-active">
+                                <a href="/#/TestManager" class="waves-effect" aria-expanded="true"><i class="fas fa-folder-open"></i><span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu mm-collapse mm-show" style="">
+                                    <li><a href="email-inbox.html">Kỹ thuật phần mềm</a></li>
+                                    <li><a href="email-read.html">Hệ thống thông tin</a></li>
+                                    <li><a href="email-compose.html">Khoa học máy tính</a></li>
+                                    <li><a href="email-compose.html">Công nghệ tri thức</a></li>
+                                    <li><a href="email-compose.html">Thị giác máy tính</a></li>
+                                    <li><a href="email-compose.html">Mạng máy tính và viễn thông</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                            <a href="/#/" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
+                             </li>
+                             <li>
+                            <a href="/#/TestManager" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
+                             <li>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +93,7 @@
         <router-view />
     </div>
     <footer class="footer">
-        © 2022 Recommendation System <span class="d-none d-sm-inline-block"><i class="mdi mdi-heart text-danger"></i></span>.
+        © 2022 FIT - Gợi ý chuyên ngành <span class="d-none d-sm-inline-block"><i class="mdi mdi-heart text-danger"></i></span>.
     </footer>
 </div>
 </template>
