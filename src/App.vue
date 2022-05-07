@@ -77,7 +77,7 @@
                             <a href="/#/" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
                              </li>
                              <li>
-                            <a href="/#/TestManager" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
+                            <a href="/#/StudentProfile" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
                              <li>
                         </li>
                     </ul>

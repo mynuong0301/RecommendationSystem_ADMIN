@@ -114,7 +114,7 @@
                     
                 </table>
                    <div class="card-footer pb-0 pt-3 " style="text-align: end; background-color: transparent;">
-                        <jw-pagination :items="exampleItems" @changePage="onChangePage" :labels="customLabels"></jw-pagination>
+                        <jw-pagination :pageSize="pageSize" :items="exampleItems" @changePage="onChangePage" :labels="customLabels"></jw-pagination>
                     </div>
 
                 <!-- modal -->
@@ -228,7 +228,8 @@ export default {
         return {
            exampleItems,
             pageOfItems: [],
-            customLabels
+            customLabels,
+            pageSize: 5,
         };
     },
     methods: {
