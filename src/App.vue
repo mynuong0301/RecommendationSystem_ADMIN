@@ -63,23 +63,23 @@
                             <a href="/#/" class="waves-effect"><i class="fas fa-info-circle"></i><span>  Giới thiệu </span> </a> -->
                             
                             <li class="mm-active">
-                                <a href="/#/TestManager" class="waves-effect" aria-expanded="true"><i class="fas fa-folder-open"></i><span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu mm-collapse mm-show" style="">
-                                    <li><a href="email-inbox.html">Kỹ thuật phần mềm</a></li>
-                                    <li><a href="email-read.html">Hệ thống thông tin</a></li>
-                                    <li><a href="email-compose.html">Khoa học máy tính</a></li>
-                                    <li><a href="email-compose.html">Công nghệ tri thức</a></li>
-                                    <li><a href="email-compose.html">Thị giác máy tính</a></li>
-                                    <li><a href="email-compose.html">Mạng máy tính và viễn thông</a></li>
-                                </ul>
+                                <a class="waves-effect" aria-expanded="true"><i class="fas fa-folder-open"></i><span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <tbody v-for=" (major, index) in accountJson" :key="index">
+                                        <a class="dropdown-item" href="#">{{major.TenChuyenNganh}}</a>
+                                        </tbody>
+                                    </div>
                             </li>
                             <li>
                             <a href="/#/" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
                              </li>
                              <li>
                             <a href="/#/StudentProfile" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
+                              </li>
                              <li>
-                        </li>
+                            <a href="/#/Setting" class="waves-effect"><i class="mdi mdi-settings"></i><span>Tùy chỉnh </span> </a>
+                             </li>
+                      
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -99,8 +99,21 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'App',
+  methods: {
+  getAllMajors() {
+        let url = 'https://localhost:44326/api/ChuyenNganh';
+        axios.get(url).then((response) => {
+        this.accountJson = response.data; 
+      });
+    },
+  }, data () {
+    return {
+     accountJson: "",
+    }
+  },
 }
 </script>
 
