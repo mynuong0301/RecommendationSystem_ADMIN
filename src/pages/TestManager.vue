@@ -9,26 +9,13 @@
         <div class="container-fluid">
             <!-- end page-title -->
             
-           
-           <!-- <div class="button-items">
-                <button type="button" class="btn btn-outline-primary waves-effect waves-light">Lọc</button>
-                <li class="d-none d-md-inline-block">
-                    <form role="search" class="app-search">
-                        <div class="form-group mb-0">
-                            <input type="text" class="form-control" placeholder="Tìm kiếm..">
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
-                </li>
-                <button type="button" class="btn btn-primary waves-effect waves-light">Tải tập tin Excel</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light">Thêm câu hỏi </button>
-                -->
+            
                 <div class="card-body">
                      
                    <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4 class="page-title">Bài đánh giá</h4>
+                                    <h3 class="page-title">BÀI ĐÁNH GIÁ</h3>
                                 </div>
                             </div> <!-- end row -->
                         </div>               
@@ -45,31 +32,33 @@
 
                         <div class="col-lg-2 m-r-1">
                              <div class="dropdown mo-mb-2 ">
-	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> Chọn chuyên ngành </button>
+	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{major === "-1" ? 'Tất cả chuyên ngành' : major.TenChuyenNganh}} </button>
 	                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                        <a class="dropdown-item" href="#">Kỹ thuật phần mềm</a>
-                        <a class="dropdown-item" href="#">Hệ thống thông tin</a> 
-                        <a class="dropdown-item" href="#">Khoa học máy tính</a> 
-                        <a class="dropdown-item" href="#">Công nghệ tri thức</a> 
-                        <a class="dropdown-item" href="#">Thị giác máy tính </a> 
-                        <a class="dropdown-item" href="#">Mạng máy tính và viễn thông </a> 
+                        <div  style="height:120px !important; overflow:scroll;">
+                             <tbody v-for=" (major, index) in majorJson" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onMajorSelect(major)">{{major.TenChuyenNganh}}</a>
+                                                    </tbody>
+                        </div>
                     </div>
                 </div>
                         </div>
 
                         <div class="col-lg-2">
                             <div class="dropdown mo-mb-2">
-	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> Chọn hướng phát triển </button>
+	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
 	                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                        <a class="dropdown-item" href="#">Developer</a> 
-                        <a class="dropdown-item" href="#">Tester</a> 
-                </div>
+                        <div  style="height:120px !important; overflow:scroll;">
+                             <tbody v-for=" (job, index) in jobData" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onJobSelect(job)">{{job.TenCongViec}}</a>
+                                                    </tbody>
+                        </div>
+                    </div>
                         </div> </div>
     
                     <div class="col-lg-4">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
-                                <a href="add-product.html" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin Excel</span> </a>
+                                <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>
                                 <a href="/#/AddQuestion" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addQuestionModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
                                 
                             </div>
@@ -77,10 +66,6 @@
                     </div>
     
                 </div>
-               
-
-                
-
 
                 <div class="table-responsive">
                     <table class="table table-striped mb-0">
@@ -93,12 +78,12 @@
                                 <th>Hành động</th>
                             </tr>
                         </thead>                   
-                     <tbody v-for="(item) in pageOfItems" :key="item.id">
+                     <tbody v-for="(item, index) in pageOfItems" :key="index">
                         <tr>
-                            <th scope="row" style="width: 50px">{{item.id}}</th>
-                            <td>Kỹ thuật phần mềm</td>
-                            <td>Developer</td>
-                            <td>Tạo 1 website hoặc ứng dụng nào đó?</td>           
+                            <th scope="row" style="width: 50px">{{index}}</th>
+                            <td>{{item.TenChuyenNganh}}</td>
+                            <td>{{item.TenCongViec}}</td>      
+                            <td>{{item.TenCauHoi}}</td>    
                             <td>
                                 <div class="btn-toolbar form-group mb-0">
                                     <div class="">
@@ -114,7 +99,7 @@
                     
                 </table>
                    <div class="card-footer pb-0 pt-3 " style="text-align: end; background-color: transparent;">
-                        <jw-pagination :pageSize="pageSize" :items="exampleItems" @changePage="onChangePage" :labels="customLabels"></jw-pagination>
+                        <jw-pagination :pageSize="pageSize" :items="tableData" @changePage="onChangePage" :labels="customLabels"></jw-pagination>
                     </div>
 
                 <!-- modal -->
@@ -134,6 +119,36 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
                                 <button type="button" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+
+                <!-- modal -->
+                <div id="importExcelFile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0" id="myModalLabel">Tải tập tin câu hỏi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <!-- Styled -->
+                                    <b-form-file
+                                    v-model="file1"
+                                    :state="Boolean(file1)"
+                                    placeholder="Chọn tập tin hoặc kéo thả..."
+                                    drop-placeholder="Kéo thả tập tin vào đây..."
+                                    ></b-form-file>
+                                    <div class="mt-3">Tập tin đã chọn: {{ file1 ? file1.name : '' }}</div>
+
+                                    <!-- Plain mode -->
+                                    <b-form-file v-model="file2" class="mt-3" plain></b-form-file>
+                                    <!--<div class="mt-3">Tập tin đã chọn: {{ file2 ? file2.name : '' }}</div> -->
+                                </div>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
@@ -159,27 +174,25 @@
 			                                <label>Chuyên ngành</label>
 			                                <div class="dropdown mo-mb-2">
                                                 <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
-                                                       Chọn chuyên ngành
+                                                       {{majorPopup.TenChuyenNganh}}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Kỹ thuật phần mềm</a>
-                                                    <a class="dropdown-item" href="#">Hệ thống thông tin</a>
-                                                    <a class="dropdown-item" href="#">Khoa hoc máy tính</a>
-                                                    <a class="dropdown-item" href="#">Công nghệ tri thức</a>
-                                                    <a class="dropdown-item" href="#">Thị giác máy tính</a>
-                                                    <a class="dropdown-item" href="#">Mạng máy tính và viễn thông</a>
+                                                    <tbody v-for=" (major, index) in majorJson" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onMajorSelect(major, 1)">{{major.TenChuyenNganh}}</a>
+                                                    </tbody>
                                                 </div>
                                             </div>
 		                                </div>
 		                                <div class="form-group">
 			                                <label>Công việc/hướng phát triển</label>
 			                                <div class="dropdown mo-mb-2">
-                                                <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important; background-color:transparent; boder:#000000; color: #000000; text-align: left">
-                                                    Chọn công việc/hướng phát triển
+                                                <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                                       {{jobPopup === "-1" ? 'Chon cong viec' : jobPopup.TenCongViec}}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Developer</a>
-                                                    <a class="dropdown-item" href="#">Tester</a>
+                                                    <tbody v-for=" (job, index) in jobDataPopup" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onJobSelect(job, 1)">{{job.TenCongViec}}</a>
+                                                    </tbody>
                                                 </div>
                                             </div>
 		                                </div>
@@ -215,7 +228,11 @@
 
 
 <script>
-const exampleItems = [...Array(50).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) }));
+import axios from 'axios';
+import {
+  mapGetters,
+    mapActions
+} from 'vuex';
 const customLabels = {
     first: '<<',
     last: '>>',
@@ -224,21 +241,55 @@ const customLabels = {
 };
 export default {
     name: 'TestManger',
-    data() {
-        return {
-           exampleItems,
+    computed: {
+        //
+            ...mapGetters([
+               'major',
+                'job',
+                'jobData',
+                'tableData',
+                'jobPopup',
+                 'jobDataPopup',
+                'majorPopup'
+            ]),
+        },
+    mounted() {
+    this.getAllMajors();
+    this.onMajorSelect();
+  },
+    methods: {
+        getTableData() {
+             this.$store.dispatch('onGetQuestionsAction');
+           },
+           onMajorSelect(major, type) {
+             this.$store.dispatch('onMajorSelectAction', {major, type});
+           },
+           onJobSelect(job, type) {
+             this.$store.dispatch('onJobSelectAction', {job, type});
+           },
+        onChangePage(pageOfItems) {
+            this.pageOfItems = pageOfItems;
+        },
+        getAllMajors() {
+        let url = 'https://localhost:44326/api/ChuyenNganh';
+        axios.get(url).then((response) => {
+        this.majorJson = response.data; 
+      });
+    },
+    addQuestion() {
+        let url = 'https://localhost:44326/api/ChuyenNganh';
+        axios.get(url).then((response) => {
+        this.majorJson = response.data; 
+      });
+    },
+    }, data () {
+    return {
             pageOfItems: [],
             customLabels,
             pageSize: 5,
-        };
-    },
-    methods: {
-        onChangePage(pageOfItems) {
-            // update page of items
-            this.pageOfItems = pageOfItems;
-            console.log(this.pageOfItems);
-        }
+            majorJson: "",
     }
+  },
     
 }
 </script>

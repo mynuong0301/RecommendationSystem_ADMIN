@@ -8,6 +8,7 @@ import Vuex from 'vuex'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { store } from './store/store.js'
 
 Vue.config.productionTip = false
 
@@ -18,6 +19,7 @@ Vue.use(Vuex)
 new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>'
 })
