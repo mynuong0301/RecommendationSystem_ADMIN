@@ -61,15 +61,14 @@
                         <li>
                             <!--<a href="/#/" class="waves-effect"><i class="fas fa-store-alt" ></i><span> Trang chủ </span> </a>
                             <a href="/#/" class="waves-effect"><i class="fas fa-info-circle"></i><span>  Giới thiệu </span> </a> -->
-                            
-                            <li class="mm-active">
-                                <a class="waves-effect" aria-expanded="true"><i class="fas fa-folder-open"></i><span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <tbody v-for=" (major, index) in accountJson" :key="index">
-                                        <a class="dropdown-item" href="#">{{major.TenChuyenNganh}}</a>
-                                        </tbody>
-                                    </div>
+                             <li>
+                                <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                                <ul id="chuyenNganhList" class="submenu mm-collapse mm-show" >
+                                    <li v-for=" (major, index) in accountJson" :key="index"><a class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a></li>
+                                   
+                                </ul>
                             </li>
+                            
                             <li>
                             <a href="/#/" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
                              </li>
@@ -102,6 +101,9 @@
 import axios from 'axios';
 export default {
   name: 'App',
+  mounted() {
+      this.getAllMajors();
+  },
   methods: {
   getAllMajors() {
         let url = 'https://localhost:44326/api/ChuyenNganh';
@@ -109,6 +111,19 @@ export default {
         this.accountJson = response.data; 
       });
     },
+    showChuyenNganhList() {
+        const ul = document.getElementById("chuyenNganhList");
+        const arrow = document.getElementsByClassName("mdi mdi-chevron-right")[0];
+        
+        if (ul.className.includes("mm-show")) {
+            ul.className = ul.className.replace("mm-show", "");
+            arrow.style.transform = 'rotate(0deg)'
+        } else {
+            ul.className += " mm-show";
+            arrow.style.transform = 'rotate(90deg)'
+        }
+
+    }
   }, data () {
     return {
      accountJson: "",

@@ -23,11 +23,11 @@
                     </div>
                     <div class="col-lg-2 m-r-1">
                         <div class="dropdown mo-mb-2 ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874">{{major.TenChuyenNganh}} </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
-                                <div style="height:120px !important; overflow:scroll;">
-                                    <tbody v-for=" (ma, index) in accountJson" :key="index">
-                                        <a class="dropdown-item" href="#">{{ma.TenChuyenNganh}}</a>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{majorStudent === "-1" ? 'Tất cả chuyên ngành' : majorStudent.TenChuyenNganh}} </button>
+	                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
+                                <div  style="height:120px !important; overflow:scroll;">
+                                    <tbody v-for=" (majorStudent, index) in majorJson" :key="index">
+                                        <a class="dropdown-item" v-on:click="onMajorStudentSelect(majorStudent)">{{majorStudent.TenChuyenNganh}}</a>
                                     </tbody>
                                 </div>
                             </div>
@@ -36,10 +36,13 @@
 
                     <div class="col-lg-3">
                         <div class="dropdown mo-mb-2">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> Chọn hướng phát triển </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
-                                <a class="dropdown-item" href="#">Developer</a>
-                                <a class="dropdown-item" href="#">Tester</a>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{jobStudent === "-1" ? 'Chọn hướng phát triển' : jobStudent.TenCongViec}} </button>
+	                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
+                                <div  style="height:120px !important; overflow:scroll;">
+                                    <tbody v-for=" (jobStudent, index) in jobDataStudent" :key="index">
+                                        <a class="dropdown-item" v-on:click="onJobStudentSelect(jobStudent)">{{jobStudent.TenCongViec}}</a>
+                                    </tbody>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,15 +55,17 @@
                                 <th>MSSV</th>
                                 <th>Điểm trung bình</th>
                                 <th>Định hướng nghề nghiệp</th>
-                                <th>Hành động</th>
+                                <th>Chuyên ngành</th>
+                                <th> </th>
                             </tr>
                         </thead>
-                        <tbody v-for="(item) in pageOfItems" :key="item.id" style="text-align: center">
+                        <tbody v-for="(item, index) in pageOfItems" :key="index" style="text-align: center">
                             <tr>
-                                <th scope="row" style="width: 50px">{{item.id}}</th>
-                                <td>18120605</td>
-                                <td>8.0</td>
-                                <td>Business Analyst</td>
+                                <th scope="row" style="width: 50px">{{index+1}}</th>
+                                <td>{{item.MSSV}}</td>
+                                <td>{{item.DiemTBCSN}}</td>  
+                                <td>{{item.TenChuyenNganh}}</td>     
+                                <td>{{item.TenCongViec}}</td> 
                                 <td>
                                     <div class="btn-toolbar form-group mb-0" style="justify-content: center !important;">
                                         <div class="" style="text-align: center;">
@@ -74,10 +79,7 @@
                     </table>
 
                     <div class="card-footer pb-0 pt-3 " style="text-align: end; background-color: transparent;">
-                        <div>
-                            <label>50 kết quả</label>
-                        </div>
-                        <jw-pagination :items="exampleItems" @changePage="onChangePage" :labels="customLabels"></jw-pagination>
+                        <jw-pagination :pageSize="pageSize" :items="tableDataStudent" @changePage="onChangePage" :labels="studentLabels"></jw-pagination>
                     </div>
                 </div>
             </div>
@@ -259,11 +261,15 @@
 
 <script>
 import axios from 'axios';
+import {
+  mapGetters,
+    mapActions
+} from 'vuex';
 const exampleItems = [...Array(50).keys()].map(i => ({
     id: (i + 1),
     name: 'Item ' + (i + 1)
 }));
-const customLabels = {
+const studentLabels = {
     first: '<<',
     last: '>>',
     previous: '<',
@@ -275,30 +281,48 @@ export default {
         return {
             exampleItems,
             pageOfItems: [],
-            customLabels,
-            accountJson: "",
-            major: {ChuyenNganhId: -1, TenChuyenNganh: "Tất cả chuyên ngành"},
+            studentLabels,
+            majorJson: "",
         };
     },
-    mounted() {
-        this.getAllMajors();
-    },
-    methods: {
-        onMajorSelected(major) {
-            this.major = major;
+computed: {
+        //
+            ...mapGetters([
+               'majorStudent',
+                'jobStudent',
+                'jobDataStudent',
+                'tableDataStudent',
+            ]),
         },
+    mounted() {
+    this.getAllMajors();
+    this.onMajorStudentSelect();
+  },
+    methods: {
+                getTableData() {
+             this.$store.dispatch('onGetStudentsAction');
+           },
+           onMajorStudentSelect(majorStudent) {
+             this.$store.dispatch('onMajorStudentSelectAction', majorStudent);
+           },
+           onJobStudentSelect(jobStudent) {
+             this.$store.dispatch('onJobStudentSelectAction', jobStudent);
+           },
         onChangePage(pageOfItems) {
-            // update page of items
             this.pageOfItems = pageOfItems;
-            console.log(this.pageOfItems);
         },
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
-            axios.get(url).then((response) => {
-                this.accountJson = response.data;
-                this.accountJson = [{ChuyenNganhId: -1, TenChuyenNganh: "Tat ca"}, ...this.accountJson];
-            });
-        },
+        let url = 'https://localhost:44326/api/ChuyenNganh';
+        axios.get(url).then((response) => {
+        this.majorJson = response.data; 
+      });
+    },
+    addStudents() {
+        let url = 'https://localhost:44326/api/CauHoi';
+        axios.get(url).then((response) => {
+        this.majorJson = response.data; 
+      });
+    },
     },
 }
 </script>

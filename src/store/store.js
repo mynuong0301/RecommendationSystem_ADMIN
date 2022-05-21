@@ -19,15 +19,28 @@ const testManager = {
     }),
 };
 
+//student profile
+const studentProfile = {
+    state: () => ({
+        majorStudent: "-1",
+        jobStudent: "-1",
+        jobDataStudent: [],
+        tableDataStudent: [],
+    }),
+};
+
 
 export const store = new Vuex.Store({
     modules: {
         //B2: import module
-        testManager: testManager
+        testManager: testManager,
+        //student profile
+        studentProfile: studentProfile
     },
 
     // B3: Tạo mutation
     mutations: {
+        //Test manager
         onMajorSelect(state, { major, job, responseData, type }) {
             //
             if (!type) {
@@ -56,9 +69,26 @@ export const store = new Vuex.Store({
         onGetQuestions(state, tableData) {
             state.testManager.tableData = tableData
         },
+
+        //student profile
+        onMajorStudentSelect(state, { majorStudent, jobStudent, responseDataStudent }) {
+            state.studentProfile.majorStudent = majorStudent;
+            state.studentProfile.jobDataStudent = responseDataStudent;
+            state.studentProfile.jobStudent = jobStudent;
+        },
+        onJobStudentSelect(state, { jobStudent, tableDataStudent }) {
+            state.studentProfile.jobStudent = jobStudent
+            state.studentProfile.tableDataStudent = tableDataStudent
+        },
+
+        onGetStudents(state, tableDataStudent) {
+            state.studentProfile.tableDataStudent = tableDataStudent
+        },
+
     },
     // B4: Tạo action (cái này sẽ gọi bên vue)
     actions: {
+        //test manager
         onMajorSelectAction({ commit }, { major, type }) {
             let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien';
 
@@ -117,10 +147,55 @@ export const store = new Vuex.Store({
                 commit('onGetQuestions', response.data)
             });
         },
+
+        //student profile
+        onMajorStudentSelectAction({ commit }, majorStudent) {
+            let url = 'https://localhost:44326/api/SinhVien';
+
+            if (majorStudent && majorStudent !== "-1") {
+                url += '/' + majorStudent.ChuyenNganhId;
+                let urlJob = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${majorStudent.ChuyenNganhId}`;
+
+                axios.get(urlJob).then((response) => {
+                    const responseDataStudent = response.data;
+
+                    let jobStudent = "-1";
+
+                    commit('onMajorStudentSelect', {
+                        majorStudent,
+                        jobStudent,
+                        responseDataStudent,
+                    });
+                });
+            }
+
+            axios.get(url).then((response) => {
+                commit('onGetStudents', response.data)
+            });
+        },
+
+        onJobStudentSelectAction({ commit, state }, jobStudent) {
+            let url = 'https://localhost:44326/api/SinhVien/' + state.studentProfile.majorStudent.ChuyenNganhId + '?job_id=' + jobStudent.CongViecVaHuongPhatTrienId;
+            axios.get(url).then((response) => {
+                const tableDataStudent = response.data;
+                commit('onJobStudentSelect', { jobStudent, tableDataStudent })
+            });
+        },
+        onGetStudentsAction(commit) {
+            let url = 'https://localhost:44326/api/SinhVien';
+
+            if (state.studentProfile.majorStudent !== "-1") {
+                url += '/' + state.studentProfile.majorStudent.ChuyenNganhId;
+            }
+
+            axios.get(url).then((response) => {
+                commit('onGetStudents', response.data)
+            });
+        },
     },
     // B5: Tạo getter (vue get mấy cái state ra)
     getters: {
-        //
+        //test manager
         major(state) {
             return state.testManager.major
         },
@@ -141,6 +216,19 @@ export const store = new Vuex.Store({
         },
         majorPopup(state) {
             return state.testManager.majorPopup
+        },
+        //student profile
+        majorStudent(state) {
+            return state.studentProfile.majorStudent
+        },
+        jobStudent(state) {
+            return state.studentProfile.jobStudent
+        },
+        jobDataStudent(state) {
+            return state.studentProfile.jobDataStudent
+        },
+        tableDataStudent(state) {
+            return state.studentProfile.tableDataStudent
         },
     }
 })
