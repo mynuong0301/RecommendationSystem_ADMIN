@@ -32,28 +32,29 @@
 
                         <div class="col-lg-2 m-r-1">
                              <div class="dropdown mo-mb-2 ">
-	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{major === "-1" ? 'Tất cả chuyên ngành' : major.TenChuyenNganh}} </button>
-	                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                        <div  style="height:120px !important; overflow:scroll;">
-                             <tbody v-for=" (major, index) in majorJson" :key="index">
-                                                    <a class="dropdown-item" v-on:click="onMajorSelect(major)">{{major.TenChuyenNganh}}</a>
-                                                    </tbody>
-                        </div>
-                    </div>
-                </div>
+	                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{major === "-1" ? 'Tất cả chuyên ngành' : major.TenChuyenNganh}} </button>
+	                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
+                                    <div  style="height:120px !important; overflow:scroll;">
+                                        <tbody v-for=" (major, index) in majorJson" :key="index">
+                                            <a class="dropdown-item" v-on:click="onMajorSelect(major)">{{major.TenChuyenNganh}}</a>
+                                        </tbody>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-lg-2">
                             <div class="dropdown mo-mb-2">
-	                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
-	                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                        <div  style="height:120px !important; overflow:scroll;">
-                             <tbody v-for=" (job, index) in jobData" :key="index">
-                                                    <a class="dropdown-item" v-on:click="onJobSelect(job)">{{job.TenCongViec}}</a>
-                                                    </tbody>
+	                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
+	                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
+                                    <div  style="height:120px !important; overflow:scroll;">
+                                        <tbody v-for=" (job, index) in jobData" :key="index">
+                                            <a class="dropdown-item" v-on:click="onJobSelect(job)">{{job.TenCongViec}}</a>
+                                        </tbody>
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
-                    </div>
-                        </div> </div>
     
                     <div class="col-lg-4">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
@@ -71,16 +72,16 @@
                     <table class="table table-striped mb-0">
                         <thead>
                             <tr class="bg-primary" style="background-color: #1C819E !important;">
-                                <th>#</th>
+                                <th>STT</th>
                                 <th>Chuyên ngành</th>
                                 <th>Công việc/hướng phát triển</th>
                                 <th>Câu hỏi</th>
-                                <th>Hành động</th>
+                                <th> </th>
                             </tr>
                         </thead>                   
                      <tbody v-for="(item, index) in pageOfItems" :key="index">
                         <tr>
-                            <th scope="row" style="width: 50px">{{index}}</th>
+                            <th scope="row" style="width: 50px">{{index+1}}</th>
                             <td>{{item.TenChuyenNganh}}</td>
                             <td>{{item.TenCongViec}}</td>      
                             <td>{{item.TenCauHoi}}</td>    
@@ -174,7 +175,7 @@
 			                                <label>Chuyên ngành</label>
 			                                <div class="dropdown mo-mb-2">
                                                 <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
-                                                       {{majorPopup.TenChuyenNganh}}
+                                                       {{majorPopup=== "-1" ? 'Chọn chuyên ngành' :majorPopup.TenChuyenNganh}}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <tbody v-for=" (major, index) in majorJson" :key="index">
@@ -187,7 +188,7 @@
 			                                <label>Công việc/hướng phát triển</label>
 			                                <div class="dropdown mo-mb-2">
                                                 <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
-                                                       {{jobPopup === "-1" ? 'Chon cong viec' : jobPopup.TenCongViec}}
+                                                       {{jobPopup === "-1" ? 'Chọn hướng phát triển' : jobPopup.TenCongViec}}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <tbody v-for=" (job, index) in jobDataPopup" :key="index">
@@ -277,7 +278,7 @@ export default {
       });
     },
     addQuestion() {
-        let url = 'https://localhost:44326/api/ChuyenNganh';
+        let url = 'https://localhost:44326/api/CauHoi';
         axios.get(url).then((response) => {
         this.majorJson = response.data; 
       });

@@ -4,6 +4,7 @@ import TestManager from '@/pages/TestManager.vue'
 import StudentProfile from '@/pages/StudentProfile.vue'
 import SoftwareEngineer from '@/pages/SoftwareEngineer.vue'
 import Setting from '@/pages/Setting.vue'
+import MajorDetail from '@/pages/MajorDetail.vue'
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
 Vue.use(Router)
@@ -25,5 +26,9 @@ export default new Router({
         path: "/Setting",
         name: "Setting",
         component: Setting
+    }, {
+        path: "/MajorDetail",
+        name: "MajorDetail",
+        component: MajorDetail
     }]
 })
