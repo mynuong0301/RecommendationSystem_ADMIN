@@ -19,26 +19,28 @@
                         <div class="col-sm-6">
                             <h3 class="page-title">MÔN HỌC XÉT CHUYÊN NGÀNH</h3>
                         </div>
-                    </div> <!-- end row -->           
+                    </div> <!-- end row -->
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-6">
-                        <form role="search" class="email-inbox">
-                        <div class="form-group mb-0">
-                            <input name="search" v-model="searchKey" type="text" class="form-control rounded" placeholder="Nhập môn học bạn muốn tìm kiếm.."  v-on:keyup.enter="getSubjects()">
-                            <button type="submit"><i class="fa fa-search"></i></button>
-                        </div>
-                        </form>
-                    </div> 
+                        <b-form-input id="input-2" v-model="searchKey" placeholder="Nhập môn học bạn muốn tìm kiếm.." v-on:keyup.enter="getSubjects()"></b-form-input>
+                               
+                        <!-- <form class="email-inbox">
+                            <div class="form-group mb-0">
+                                 <input v-model="searchKey" type="text" class="form-control rounded" placeholder="" > -->
+                                <!-- <button><i class="fa fa-search"></i></button>
+                            </div>
+                        </form> -->
+                    </div>
 
                     <div class="col-sm-6">
-                            <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
-                                <div class="">
-                                    <a href="/#/AddSubject" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addSubjectModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm môn học</span> </a>
-                                </div>
+                        <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
+                            <div class="">
+                                <a href="/#/AddSubject" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addSubjectModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm môn học</span> </a>
                             </div>
-                        </div> 
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -101,13 +103,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group" style="boder: #000000;">
-                                            <b-form-checkbox
-                                                id="checkbox-1"
-                                                v-model="checkBoxValue"
-                                                name="checkbox-1"
-                                                value="1"
-                                                unchecked-value="0"
-                                                >
+                                            <b-form-checkbox id="checkbox-1" v-model="checkBoxValue" name="checkbox-1" value="1" unchecked-value="0">
                                                 Chọn để xét chuyên ngành
                                             </b-form-checkbox>
                                         </div>
@@ -148,9 +144,9 @@ export default {
         this.getSubjects();
     },
     created() {
-    this.CHANGE_STATE = 1;
-    this.UNCHANGE_STATE = 0;
-  },
+        this.CHANGE_STATE = 1;
+        this.UNCHANGE_STATE = 0;
+    },
     methods: {
         fetchSubjet(callback) {
             callback();
@@ -184,21 +180,26 @@ export default {
             if (this.searchKey) {
                 url += `?name=${this.searchKey}`
             }
-            axios.get(url).then((response) => {
-                this.subjectJson = response.data;
-            });
+            try {
+                axios.get(url).then((response) => {
+                    this.subjectJson = response.data;
+                });
+            } catch (e) {
+                console.log(e);
+            }
+
         },
-        updateSubjectState(subject){
+        updateSubjectState(subject) {
             let url = `https://localhost:44326/api/MonHoc/${id}`;
             axios.put(url, account).then(response => {
-            console.log(response.data);
-            }) 
-            .catch(error => {
-                this.errorMessage=error.message; 
-                console.error("There was an error", error);
-            });
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
         },
-    
+
     },
     data() {
         return {

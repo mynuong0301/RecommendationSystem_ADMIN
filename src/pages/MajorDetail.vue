@@ -112,7 +112,7 @@
                                             <table class="table table-striped mb-0">
                                                 <thead>
                                                     <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
-                                                        <th>#</th> 
+                                                        <th>STT</th> 
                                                         <th>Công việc/hướng phát triển</th> 
                                                         <th>Câu hỏi</th> 
                                                     </tr>
@@ -139,7 +139,7 @@
                                             <table class="table table-striped mb-0">
                                                 <thead>
                                                     <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
-                                                        <th>#</th> 
+                                                        <th>STT</th> 
                                                         <th>Hướng nghiên cứu</th> 
                                                         <th>Chủ đề nghiên cứu</th> 
                                                         <th>Dự án nghiên cứu</th> 

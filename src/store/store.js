@@ -7,7 +7,7 @@ Vue.use(Vuex)
 // B1: tạo state
 const testManager = {
     state: () => ({
-        major: "-1",
+        major: { ChuyenNganhId: "-1", TenChuyenNganh: 'Tất cả chuyên ngành' },
         job: "-1",
         jobData: [],
         //
@@ -22,7 +22,7 @@ const testManager = {
 //student profile
 const studentProfile = {
     state: () => ({
-        majorStudent: "-1",
+        majorStudent: { ChuyenNganhId: "-1", TenChuyenNganh: 'Tất cả chuyên ngành' },
         jobStudent: "-1",
         jobDataStudent: [],
         tableDataStudent: [],
@@ -92,7 +92,7 @@ export const store = new Vuex.Store({
         onMajorSelectAction({ commit }, { major, type }) {
             let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien';
 
-            if (major && major !== "-1") {
+            if (major && major.ChuyenNganhId !== "-1") {
                 url += '/' + major.ChuyenNganhId;
                 let urlJob = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${major.ChuyenNganhId}`;
 
@@ -114,6 +114,14 @@ export const store = new Vuex.Store({
                     });
 
                 });
+            } else {
+                commit('onMajorSelect', {
+                    major,
+                    job: { TenCongViec: "Chọn hướng phát triển" },
+                    responseData: [],
+                    type,
+                });
+
             }
 
             if (!type) {
@@ -136,7 +144,7 @@ export const store = new Vuex.Store({
         onGetQuestionsAction({ commit, state }) {
             let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien';
 
-            if (state.testManager.major !== "-1") {
+            if (state.testManager.major.ChuyenNganhId !== "-1") {
                 url += '/' + state.testManager.major.ChuyenNganhId;
             }
 
@@ -152,7 +160,7 @@ export const store = new Vuex.Store({
         onMajorStudentSelectAction({ commit }, majorStudent) {
             let url = 'https://localhost:44326/api/SinhVien';
 
-            if (majorStudent && majorStudent !== "-1") {
+            if (majorStudent && majorStudent.ChuyenNganhId !== "-1") {
                 url += '/' + majorStudent.ChuyenNganhId;
                 let urlJob = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${majorStudent.ChuyenNganhId}`;
 
@@ -166,6 +174,13 @@ export const store = new Vuex.Store({
                         jobStudent,
                         responseDataStudent,
                     });
+                });
+            } else {
+                commit('onMajorStudentSelect', {
+                    majorStudent,
+                    jobStudent: { TenCongViec: "Chọn hướng phát triển" },
+                    responseStudentData: [],
+
                 });
             }
 
@@ -181,11 +196,15 @@ export const store = new Vuex.Store({
                 commit('onJobStudentSelect', { jobStudent, tableDataStudent })
             });
         },
-        onGetStudentsAction(commit) {
+        onGetStudentsAction({ commit, state }, mssv) {
             let url = 'https://localhost:44326/api/SinhVien';
 
-            if (state.studentProfile.majorStudent !== "-1") {
+            if (state.studentProfile.majorStudent && state.studentProfile.majorStudent.ChuyenNganhId !== "-1") {
                 url += '/' + state.studentProfile.majorStudent.ChuyenNganhId;
+            }
+
+            if (mssv) {
+                url += `?mssv=${mssv}`;
             }
 
             axios.get(url).then((response) => {
