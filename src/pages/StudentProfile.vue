@@ -14,18 +14,13 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-lg-7">
-                        <form role="search" class="email-inbox">
-                            <div class="form-group mb-0">
-                                <input style="width: 500px !important; font-size: 16px;height: 53px; padding-left: 53px;" type="text" class="form-control rounded" placeholder="Nhập vào mã số sinh viên muốn tìm kiếm..">
-                                <button style="top: 13px; left: 10px; font-size: 18px" type="submit"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
+                        <b-form-input id="input-2" v-model="inputMSSV" placeholder="Nhập MSSV bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"></b-form-input>
                     </div>
                     <div class="col-lg-2 m-r-1">
                         <div class="dropdown mo-mb-2 ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{majorStudent === "-1" ? 'Tất cả chuyên ngành' : majorStudent.TenChuyenNganh}} </button>
-	                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                                <div  style="height:120px !important; overflow:scroll;">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{majorStudent ?  majorStudent.TenChuyenNganh: 'Chọn chuyên ngành'}} </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                <div style="height:120px !important; overflow:scroll;">
                                     <tbody v-for=" (majorStudent, index) in majorJson" :key="index">
                                         <a class="dropdown-item" v-on:click="onMajorStudentSelect(majorStudent)">{{majorStudent.TenChuyenNganh}}</a>
                                     </tbody>
@@ -36,9 +31,9 @@
 
                     <div class="col-lg-3">
                         <div class="dropdown mo-mb-2">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{jobStudent === "-1" ? 'Chọn hướng phát triển' : jobStudent.TenCongViec}} </button>
-	                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);"> 
-                                <div  style="height:120px !important; overflow:scroll;">
+                            <button :disabled="majorStudent === '-1' || (majorStudent && majorStudent.ChuyenNganhId === '-1')" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{jobStudent === "-1" ? 'Chọn hướng phát triển' : jobStudent.TenCongViec}} </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                <div style="height:120px !important; overflow:scroll;">
                                     <tbody v-for=" (jobStudent, index) in jobDataStudent" :key="index">
                                         <a class="dropdown-item" v-on:click="onJobStudentSelect(jobStudent)">{{jobStudent.TenCongViec}}</a>
                                     </tbody>
@@ -63,13 +58,13 @@
                             <tr>
                                 <th scope="row" style="width: 50px">{{index+1}}</th>
                                 <td>{{item.MSSV}}</td>
-                                <td>{{item.DiemTBCSN}}</td>  
-                                <td>{{item.TenChuyenNganh}}</td>     
-                                <td>{{item.TenCongViec}}</td> 
+                                <td>{{item.DiemTBCSN}}</td>
+                                <td>{{item.TenChuyenNganh}}</td>
+                                <td>{{item.TenCongViec}}</td>
                                 <td>
                                     <div class="btn-toolbar form-group mb-0" style="justify-content: center !important;">
                                         <div class="" style="text-align: center;">
-                                            <a style="text-align: center;" href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5" data-toggle="modal" data-target="#viewStudentInfoModal"><i class="mdi mdi-eye-outline" style="text-align: center;"></i></a>
+                                            <a v-on:click="getModalData(item)" style="text-align: center;" href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5" data-toggle="modal" data-target="#viewStudentInfoModal"><i class="mdi mdi-eye-outline" style="text-align: center;"></i></a>
                                         </div>
                                     </div>
                                 </td>
@@ -98,7 +93,7 @@
                             <div>
                                 <b-card no-body>
                                     <b-tabs card>
-                                        <b-tab title="Thông tin cá nhân" active>
+                                        <!--<b-tab title="Thông tin cá nhân" active>
                                             <b-card-text>
                                                 <form class="" action="#">
                                                     <div class="form-group">
@@ -153,97 +148,33 @@
                                                 </form>
 
                                             </b-card-text>
-                                        </b-tab>
+                                        </b-tab> -->
                                         <b-tab title="Điểm cơ sở ngành">
                                             <b-card-text>
                                                 <form action="#">
-
-                                                    <div class="form-group">
-                                                        <label>Nhập môn lập trình</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
+                                                    <tbody v-for="(item, index) in mainSubjectJson" :key="index">
+                                                        <div class="form-group">
+                                                            <label>{{item.TenMonHoc}}</label>
+                                                            <div>
+                                                                <b-form-input :id="item.TenMonHoc" v-model="item.DiemMH" disabled required></b-form-input>
+                                                               
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Kỹ thuật lập trình</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Cấu trúc dữ liệu và giải thuật</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Lập trình hướng đối tượng</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Cơ sở dữ liệu</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Mạng máy tính</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Hệ điều hành</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Kiến trúc máy tính</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
+                                                    </tbody>
                                                 </form>
                                             </b-card-text>
                                         </b-tab>
                                         <b-tab title="Điểm đại cương quan trọng">
                                             <b-card-text>
                                                 <form action="#">
-
-                                                    <div class="form-group">
-                                                        <label>Vi tích phân 1B</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
+                                                    <tbody v-for="(item, index) in generalSubjectJson" :key="index">
+                                                        <div class="form-group">
+                                                            <label>{{item.TenMonHoc}}</label>
+                                                            <div>
+                                                                <b-form-input :id="item.TenMonHoc" v-model="item.DiemMH" disabled required></b-form-input>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Vi tích phân 2B</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Xác suất thống kê</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Toán rời rạc</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Đại số tuyến tính</label>
-                                                        <div>
-                                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                                        </div>
-                                                    </div>
+                                                    </tbody>
                                                 </form>
                                             </b-card-text>
                                         </b-tab>
@@ -262,7 +193,7 @@
 <script>
 import axios from 'axios';
 import {
-  mapGetters,
+    mapGetters,
     mapActions
 } from 'vuex';
 const exampleItems = [...Array(50).keys()].map(i => ({
@@ -283,46 +214,73 @@ export default {
             pageOfItems: [],
             studentLabels,
             majorJson: "",
+            mainSubjectJson: "",
+            generalSubjectJson: "",
+            studentSubjectJson: "",
+            inputMSSV: "",
         };
     },
-computed: {
+    computed: {
         //
-            ...mapGetters([
-               'majorStudent',
-                'jobStudent',
-                'jobDataStudent',
-                'tableDataStudent',
-            ]),
-        },
+        ...mapGetters([
+            'majorStudent',
+            'jobStudent',
+            'jobDataStudent',
+            'tableDataStudent',
+
+        ]),
+    },
     mounted() {
-    this.getAllMajors();
-    this.onMajorStudentSelect();
-  },
+        this.getAllMajors();
+        this.onMajorStudentSelect();
+    },
     methods: {
-                getTableData() {
-             this.$store.dispatch('onGetStudentsAction');
-           },
-           onMajorStudentSelect(majorStudent) {
-             this.$store.dispatch('onMajorStudentSelectAction', majorStudent);
-           },
-           onJobStudentSelect(jobStudent) {
-             this.$store.dispatch('onJobStudentSelectAction', jobStudent);
-           },
+        getTableData() {
+            this.$store.dispatch('onGetStudentsAction', this.inputMSSV);
+        },
+        onMajorStudentSelect(majorStudent) {
+            this.$store.dispatch('onMajorStudentSelectAction', majorStudent);
+        },
+        onJobStudentSelect(jobStudent) {
+            this.$store.dispatch('onJobStudentSelectAction', jobStudent);
+        },
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;
         },
         getAllMajors() {
-        let url = 'https://localhost:44326/api/ChuyenNganh';
-        axios.get(url).then((response) => {
-        this.majorJson = response.data; 
-      });
+            let url = 'https://localhost:44326/api/ChuyenNganh';
+            axios.get(url).then((response) => {
+                this.majorJson = response.data;
+                this.majorJson = [{
+                    ChuyenNganhId: "-1",
+                    TenChuyenNganh: 'Tất cả chuyên ngành',
+                }, ...this.majorJson];
+                console.log('major', this.majorJson);
+            });
+        },
+        addStudents() {
+            let url = 'https://localhost:44326/api/CauHoi';
+            axios.get(url).then((response) => {
+                this.majorJson = response.data;
+            });
+        },
+        getMainSubjectsInfo(id) {
+            let url = `https://localhost:44326/api/DiemCSN/${id}`;
+            axios.get(url).then((response) => {
+                this.mainSubjectJson = response.data;
+            });
+        },
+        getGeneralSubjectsInfo(id) {
+            let url = `https://localhost:44326/api/DiemMonQuanTrong/${id}`;
+            axios.get(url).then((response) => {
+                this.generalSubjectJson = response.data;
+            });
+        },
+        getModalData(sinhVien) {
+            this.getMainSubjectsInfo(sinhVien.MSSV);
+            this.getGeneralSubjectsInfo(sinhVien.MSSV);
+        },
     },
-    addStudents() {
-        let url = 'https://localhost:44326/api/CauHoi';
-        axios.get(url).then((response) => {
-        this.majorJson = response.data; 
-      });
-    },
-    },
+
 }
 </script>

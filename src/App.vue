@@ -64,7 +64,7 @@
                              <li>
                                 <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                                 <ul id="chuyenNganhList" class="submenu mm-collapse mm-show" >
-                                    <li v-for=" (major, index) in accountJson" :key="index"><a class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a></li>
+                                    <li v-for=" (major, index) in accountJson" :key="index"><a style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a></li>
                                    
                                 </ul>
                             </li>
