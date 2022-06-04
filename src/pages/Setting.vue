@@ -17,7 +17,7 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <h3 class="page-title">MÔN HỌC XÉT CHUYÊN NGÀNH</h3>
+                            <h3 class="page-title" style="padding-left: 0px !important;">MÔN HỌC XÉT CHUYÊN NGÀNH</h3>
                         </div>
                     </div> <!-- end row -->
                 </div>
@@ -25,16 +25,29 @@
                 <div class="row mb-3">
                     <div class="col-sm-6">
                         <b-form-input id="input-2" v-model="searchKey" placeholder="Nhập môn học bạn muốn tìm kiếm.." v-on:keyup.enter="getSubjects()"></b-form-input>
-                               
+
                         <!-- <form class="email-inbox">
                             <div class="form-group mb-0">
                                  <input v-model="searchKey" type="text" class="form-control rounded" placeholder="" > -->
-                                <!-- <button><i class="fa fa-search"></i></button>
+                        <!-- <button><i class="fa fa-search"></i></button>
                             </div>
                         </form> -->
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-lg-2 m-r-1">
+                        <div class="dropdown mo-mb-2 ">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{ khoaHoc === -1 ? 'Chọn năm' : khoaHoc}} </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                <div style="height:120px !important; overflow:scroll;">
+                                    <tbody v-for=" (year, index) in yearList" :key="index">
+                                        <a class="dropdown-item" v-on:click="onKhoaHocSelect(year)">{{year}}</a>
+                                    </tbody>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
                                 <a href="/#/AddSubject" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addSubjectModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm môn học</span> </a>
@@ -73,7 +86,7 @@
 
                 </table>
                 <div class="card-footer pb-0 pt-3 " style="text-align: end; background-color: transparent;">
-                    <jw-pagination :pageSize="pageSize" :items="subjectJson" @changePage="onChangePage" :labels="subjectLabels"></jw-pagination>
+                    <jw-pagination :pageSize="pageSize" :items="tableDataMonHocXetCN" @changePage="onChangePage" :labels="subjectLabels"></jw-pagination>
                 </div>
 
                 <!-- modal -->
@@ -81,7 +94,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title mt-0" id="myModalLabel">Thêm môn học</h5>
+                                <h5 class="modal-title mt-0" id="myModalLabel">Thêm môn học xét chuyên ngành</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">×</span>
                                 </button>
@@ -91,12 +104,28 @@
                                     <form>
                                         <div class="form-group">
                                             <label>Mã môn học</label>
-                                            <div>
+                                            <!--<div>
                                                 <input v-model="subjectId" required="true" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào mã môn học " id="subjectId">
+                                            </div> -->
+                                            <div class="dropdown mo-mb-2">
+                                                <button class="btn btn-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        id="dropdownMenuButton" 
+                                                        data-toggle="dropdown" 
+                                                        aria-haspopup="true" 
+                                                        aria-expanded="false" 
+                                                        style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;"
+                                                        placeholder="Chọn mã môn học">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <tbody v-for=" (major, index) in subjectJson" :key="index">
+                                                        <a class="dropdown-item" v-on:click="onMajorSelect(major, 1)">{{major.TenChuyenNganh}}</a>
+                                                    </tbody>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group" style="boder: #000000;">
+                                        <!--<div class="form-group" style="boder: #000000;">
                                             <label>Tên môn học</label>
                                             <div>
                                                 <input v-model="subjectName" required="true" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào tên môn học " id="subjectName">
@@ -106,7 +135,7 @@
                                             <b-form-checkbox id="checkbox-1" v-model="checkBoxValue" name="checkbox-1" value="1" unchecked-value="0">
                                                 Chọn để xét chuyên ngành
                                             </b-form-checkbox>
-                                        </div>
+                                        </div> -->
                                         <div class="form-group" style="text-align: end;">
                                             <div>
                                                 <button type="reset" class="btn btn-secondary waves-effect m-l-5" data-dismiss="modal"> Hủy </button>
@@ -132,6 +161,10 @@
 
 <script>
 import axios from 'axios';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex';
 const subjectLabels = {
     first: '<<',
     last: '>>',
@@ -142,6 +175,7 @@ export default {
     name: 'Setting',
     mounted() {
         this.getSubjects();
+        this.getAllYears();
     },
     created() {
         this.CHANGE_STATE = 1;
@@ -200,6 +234,32 @@ export default {
                 });
         },
 
+        getAllYears() {  
+            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh';
+            axios.get(url).then((response) => {
+                this.yearJson = response.data;
+            
+              this.yearJson.forEach((item) => {
+                    if (!this.yearList.includes(item.KhoaHoc)) {
+                        this.yearList = [...this.yearList, item.KhoaHoc];
+                    }
+                });
+
+               
+               if (this.yearList.length) {
+                   this.getTableData();
+               }
+            });
+        },
+
+        getTableData() {
+            this.$store.dispatch('onGetMonHocXetCNAction', this.yearList[0]);
+        },
+        onKhoaHocSelect(khoaHoc) {
+    
+            this.$store.dispatch('onKhoaHocSelectAction', khoaHoc);
+        },
+
     },
     data() {
         return {
@@ -213,7 +273,17 @@ export default {
             subjectJson: "",
             checkBoxValue: 1,
             searchKey: "",
+            yearJson:"",
+            yearList: [],
+
         }
+    },
+    computed: {
+        //
+        ...mapGetters([
+            'khoaHoc',
+            'tableDataMonHocXetCN',
+        ]),
     },
 }
 </script>

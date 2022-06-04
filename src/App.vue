@@ -70,7 +70,7 @@
                             </li>
                             
                             <li>
-                            <a href="/#/" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
+                            <a href="/#/TestManager" class="waves-effect"><i class="fas fa-book"></i><span>Bài đánh giá </span> </a>
                              </li>
                              <li>
                             <a href="/#/StudentProfile" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
