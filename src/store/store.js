@@ -29,13 +29,23 @@ const studentProfile = {
     }),
 };
 
+//Setting
+
+const setting = {
+    state: () => ({
+        khoaHoc: -1,
+        tableDataMonHocXetCN: [],
+    }),
+};
 
 export const store = new Vuex.Store({
     modules: {
         //B2: import module
         testManager: testManager,
         //student profile
-        studentProfile: studentProfile
+        studentProfile: studentProfile,
+        //setting
+        setting: setting
     },
 
     // B3: Tạo mutation
@@ -52,9 +62,6 @@ export const store = new Vuex.Store({
                 state.testManager.jobDataPopup = responseData;
                 state.testManager.jobPopup = job;
             }
-
-
-
 
         },
         onJobSelect(state, { job, tableData, type }) {
@@ -85,6 +92,16 @@ export const store = new Vuex.Store({
             state.studentProfile.tableDataStudent = tableDataStudent
         },
 
+        //setting
+        onKhoaHocSelect(state, { khoaHoc, responseDataMonHocXetCN }) {
+            console.log(khoaHoc);
+            state.setting.khoaHoc = khoaHoc;
+            state.setting.tableDataMonHocXetCN = responseDataMonHocXetCN;
+        },
+        onGetMonHocXetCN(state, { tableData, khoaHoc }) {
+            state.setting.tableDataMonHocXetCN = tableData;
+            state.setting.khoaHoc = khoaHoc;
+        },
     },
     // B4: Tạo action (cái này sẽ gọi bên vue)
     actions: {
@@ -211,6 +228,29 @@ export const store = new Vuex.Store({
                 commit('onGetStudents', response.data)
             });
         },
+
+        //setting
+        onKhoaHocSelectAction({ commit, state }, khoaHoc) {
+            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh/' + khoaHoc;
+
+            axios.get(url).then((response) => {
+                const responseDataMonHocXetCN = response.data;
+                commit('onKhoaHocSelect', { khoaHoc, responseDataMonHocXetCN })
+            });
+        },
+
+        onGetMonHocXetCNAction({ commit, state }, khoaHoc) {
+            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh/' + khoaHoc;
+            axios.get(url).then((response) => {
+                var tableData = response.data;
+
+                commit('onGetMonHocXetCN', {
+                    tableData,
+                    khoaHoc,
+                });
+            });
+        },
+
     },
     // B5: Tạo getter (vue get mấy cái state ra)
     getters: {
@@ -249,5 +289,14 @@ export const store = new Vuex.Store({
         tableDataStudent(state) {
             return state.studentProfile.tableDataStudent
         },
+
+        //setting
+        khoaHoc(state) {
+            return state.setting.khoaHoc
+        },
+        tableDataMonHocXetCN(state) {
+            return state.setting.tableDataMonHocXetCN
+        },
+
     }
 })

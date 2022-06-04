@@ -8,7 +8,7 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <h3 class="page-title">HỒ SƠ SINH VIÊN</h3>
+                            <h3 class="page-title" style="padding-left: 0px !important;">HỒ SƠ SINH VIÊN</h3>
                         </div>
                     </div> <!-- end row -->
                 </div>
@@ -84,7 +84,7 @@
                 <div class="modal-dialog modal-dialog-centered" style="max-width: 610px !important;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title mt-0" id="myModalLabel">Thông tin chi tiết</h5>
+                            <h5 class="modal-title mt-0" id="myModalLabel">Điểm môn học</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -93,89 +93,54 @@
                             <div>
                                 <b-card no-body>
                                     <b-tabs card>
-                                        <!--<b-tab title="Thông tin cá nhân" active>
+                                        <b-tab title="Cơ sở ngành">
                                             <b-card-text>
-                                                <form class="" action="#">
-                                                    <div class="form-group">
-                                                        <label>Họ và tên</label>
-                                                        <div>
-                                                            <input type="text" id="pass2" class="form-control" required="" placeholder="Hoàng Thị Thùy Trang">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Kết quả bài đánh giá </label>
-                                                        <div class="table-responsive">
-                                                            <table class="table align-middle mb-0">
-                                                                <thead class="table-light">
-                                                                    <tr style="text-align: center">
-                                                                        <th>Chuyên ngành</th>
-                                                                        <th>Mức độ phù hợp</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody style="text-align: center">
-                                                                    <tr>
-                                                                        <td>Hệ thống thông tin</td>
-                                                                        <td style="color: #fd0808">87%</td>
-
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td>Công nghệ phần mềm</td>
-                                                                        <td>65%</td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td>Khoa học máy tính</td>
-                                                                        <td>42%</td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td>Mạng máy tính và viễn thông</td>
-                                                                        <td>33%</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Công nghệ tri thức</td>
-                                                                        <td>28%</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Thị giác máy tính</td>
-                                                                        <td>12%</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                            </b-card-text>
-                                        </b-tab> -->
-                                        <b-tab title="Điểm cơ sở ngành">
-                                            <b-card-text>
-                                                <form action="#">
-                                                    <tbody v-for="(item, index) in mainSubjectJson" :key="index">
-                                                        <div class="form-group">
-                                                            <label>{{item.TenMonHoc}}</label>
-                                                            <div>
-                                                                <b-form-input :id="item.TenMonHoc" v-model="item.DiemMH" disabled required></b-form-input>
-                                                               
-                                                            </div>
-                                                        </div>
-                                                    </tbody>
-                                                </form>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped mb-0">
+                                                        <thead>
+                                                            <tr class="bg-primary" style="background-color: #1C819E !important;">
+                                                                <th>STT</th>
+                                                                <th>Mã môn học</th>
+                                                                <th>Tên môn học</th>
+                                                                <th>Điểm</th>
+                                                                <th> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody v-for="(item, index) in mainSubjectJson" :key="index">
+                                                            <tr style="background: white !important">
+                                                                <th scope="row" style="width: 50px">{{index+1}}</th>
+                                                                <td>{{item.MonHocId}}</td>
+                                                                <td>{{item.TenMonHoc}}</td>
+                                                                <td>{{item.DiemMH}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </b-card-text>
                                         </b-tab>
-                                        <b-tab title="Điểm đại cương quan trọng">
+                                        <b-tab title="Đại cương quan trọng">
                                             <b-card-text>
-                                                <form action="#">
-                                                    <tbody v-for="(item, index) in generalSubjectJson" :key="index">
-                                                        <div class="form-group">
-                                                            <label>{{item.TenMonHoc}}</label>
-                                                            <div>
-                                                                <b-form-input :id="item.TenMonHoc" v-model="item.DiemMH" disabled required></b-form-input>
-                                                            </div>
-                                                        </div>
-                                                    </tbody>
-                                                </form>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped mb-0">
+                                                        <thead>
+                                                            <tr class="bg-primary" style="background-color: #1C819E !important;">
+                                                                <th>STT</th>
+                                                                <th>Mã môn học</th>
+                                                                <th>Tên môn học</th>
+                                                                <th>Điểm</th>
+                                                                <th> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody v-for="(item, index) in generalSubjectJson" :key="index">
+                                                            <tr  style="background: white !important">
+                                                                <th scope="row" style="width: 50px">{{index+1}}</th>
+                                                                <td>{{item.MonHocId}}</td>
+                                                                <td>{{item.TenMonHoc}}</td>
+                                                                <td>{{item.DiemMH}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </b-card-text>
                                         </b-tab>
                                     </b-tabs>
@@ -239,9 +204,11 @@ export default {
             this.$store.dispatch('onGetStudentsAction', this.inputMSSV);
         },
         onMajorStudentSelect(majorStudent) {
+             console.log('majorStudent', majorStudent);
             this.$store.dispatch('onMajorStudentSelectAction', majorStudent);
         },
         onJobStudentSelect(jobStudent) {
+            console.log('jobStudent', jobStudent);
             this.$store.dispatch('onJobStudentSelectAction', jobStudent);
         },
         onChangePage(pageOfItems) {

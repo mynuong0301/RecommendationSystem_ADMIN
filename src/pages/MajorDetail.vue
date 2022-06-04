@@ -1,58 +1,110 @@
 <template>
 <div class="content-page">
     <!-- Start content -->
-    <div class="content">       
+    <div class="content">
         <div class="row mb-3">
             <p></p>
             <div class="col-lg-12">
                 <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
-                        <div class="">
-                            <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="mdi mdi-pencil"></i> <i></i> <span>Chỉnh sửa</span> </a>
-                            <a href="/#/AddQuestion" style="background-color: #005874; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addMajorModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm chuyên ngành</span> </a>
-                        </div>
+                    <div class="">
+                        <!-- <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="mdi mdi-pencil"></i> <i></i> <span>Chỉnh sửa</span> </a> -->
+                        <a href="/#/AddQuestion" style="background-color: #005874; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addMajorModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm chuyên ngành</span> </a>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-12">
-                    <h1>{{majorJson.TenChuyenNganh}} </h1>
+        <div class="col-lg-12">
+            <h1 class="mb-3">{{majorJson.TenChuyenNganh}} </h1>
+            <div class="row mb-1" style="justify-content: space-between;">
+                <div class="col-lg-8">
+                    <label> Lĩnh vực nghiên cứu</label>
+                </div>
+                <div class="" style="margin-right: 13px">
+                    <a role="button" class="btn btn-success waves-effect waves-light m-r-5" v-on:click="onEditLinhVucNghienCuu()"><i class="mdi mdi-pencil-outline"></i></a>
+                </div>
             </div>
 
             <div class="row mb-3">
-                <p></p>
-                <div class="col-lg-2">
-                    <label> Lĩnh vực nghiên cứu</label>
+
+                <div class="col-lg-12">
+                    <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                    <div>
+                        <b-form-textarea :readonly="!isEditLinhVucNghienCuu" id="LinhVucNghienCuu" v-model="majorJson.LinhVucNghienCuu" required rows="4"></b-form-textarea>
+                    </div>
                 </div>
-                <div class="col-lg-10">
-                    <label> {{majorJson.LinhVucNghienCuu}}</label>
-                </div>
+                <!-- </div>
+                    <textarea required="required" rows="5" v-model="majorJson.LinhVucNghienCuu" class="form-control" disabled></textarea>
+
+                </div> -->
             </div>
-        <div>   
-        <b-card no-body>
-            <b-tabs card>
-                <div class="row mb-3">
-                    <div class="col-lg-12">
-                        <!-- Tab Công việc-->
-                        <b-tab title="Công việc và hướng phát triển" active>
-                            <b-card-text>
-                                <label> Các công việc và hướng phát triển của chuyên ngành</label>
-                                <form class="" action="#">
-                                <div class="form-group">
-                                    <tbody v-for="(item, index) in jobJson" :key="index"  style="text-align: center">
+        </div>
+        <div v-if="isEditLinhVucNghienCuu">
+            <div class="row mb-3" style="justify-content: right; margin-right: 13px;">
+                <button style="margin-right: 15px;" type="button" class="btn btn-secondary waves-effect" v-on:click="onCancelEditLinhVucNghienCuu">Hủy</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateLinhVucNghienCuu()">Lưu</button>
+
+            </div>
+        </div>
+
+        <div style="margin-left: 13px; margin-right: 13px;">
+            <b-card no-body>
+                <b-tabs card>
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <!-- Tab Công việc-->
+                            <b-tab title="Công việc và hướng phát triển" active>
+                                <b-card-text>
+                                    <form class="" action="#">
+                                        <div class="form-group">
+                                            <!--<tbody v-for="(item, index) in jobJson" :key="index"  style="text-align: center">
                                         <tr>
                                             <td>{{item.TenCongViec}}</td>
                                         </tr>
-						            </tbody>
-						        </div>                           
-                                </form>
-                            </b-card-text>
-                        </b-tab>
-                    </div>
-                    <!-- Tab học phần-->
-                    <div class="col-lg-3">
-                        <b-tab title="Các học phần">
-                            <b-card-text>
-                                <label> Các học phần chuyên ngành</label>
+
+            </tbody> -->
+                                            <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
+                                                <a href="/#/AddJob" role="button" data-toggle="modal" data-target="#addJob" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                                    <i class="fas fa-plus"></i> <i></i>
+                                                    <span>Thêm công việc </span>
+                                                </a>
+                                            </div>
+                                            <div class="table-responsive" style="width:100%">
+                                                <table class="table table-striped mb-0">
+                                                    <thead>
+                                                        <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
+                                                            <th>STT</th>
+                                                            <th>Công việc và hướng phát triển</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-for="(item, index) in jobJson" :key="index">
+                                                        <tr>
+                                                            <th scope="row" style="width: 50px;">{{index+1}}</th>
+                                                            <td>{{item.TenCongViec}}</td>
+                                                            <td>
+                                                                <div class="btn-toolbar form-group mb-0">
+                                                                    <div class="">
+                                                                        <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
+                                                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" data-target="#alertDeleteModal"><i class="far fa-trash-alt"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </b-card-text>
+                            </b-tab>
+                        </div>
+                        <!-- Tab học phần-->
+                        <div class="col-lg-12">
+                            <b-tab title="Các học phần">
+                                <b-card-text>
+                                    <!--<label> Các học phần chuyên ngành</label>
                                 <form action="#">
                                     <tbody v-for="(item, index) in subjectJson" :key="index" >
                                         <div class="form-group">
@@ -60,109 +112,146 @@
                                             <td>{{item.TenMonHoc}}</td>
                                         </div>
                                     </tbody>            
-                                </form> 
-                            </b-card-text>
-                        </b-tab>
-                    </div>
-                    <!-- Tab ĐIểm sàn-->
-                    <div class="col-lg-3">
-                        <b-tab title="Điểm sàn">
-                            <b-card-text>
-                                <form action="#">      
-                                    <div class="form-group">
-                                        <label>Vi tích phân 1B</label>
-                                        <div>
-                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                        </div>
+                                </form> -->
+                                    <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
+                                        <a href="/#/AddSubject" role="button" data-toggle="modal" data-target="#addSubject" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                            <i class="fas fa-plus"></i> <i></i>
+                                            <span>Thêm học phần </span>
+                                        </a>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Vi tích phân 2B</label>
-                                        <div>
-                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Xác suất thống kê</label>
-                                        <div>
-                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Toán rời rạc</label>
-                                        <div>
-                                             <input type="text" class="form-control" required="" placeholder="7.0">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Đại số tuyến tính</label>
-                                        <div>
-                                            <input type="text" class="form-control" required="" placeholder="7.0">
-                                        </div>
-                                    </div>                                        
-                                </form>
-                            </b-card-text>
-                        </b-tab>
-                    </div>
-                    <!-- Tab bài đánh giá-->
-                        <b-tab title="Bài đánh giá" active>
-                            <b-card-text>
-                                <form class="" action="#">
-                                    <div class="form-group">
-						                <div class="table-responsive" style ="width:1000px">
-                                            <table class="table table-striped mb-0">
-                                                <thead>
-                                                    <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
-                                                        <th>STT</th> 
-                                                        <th>Công việc/hướng phát triển</th> 
-                                                        <th>Câu hỏi</th> 
-                                                    </tr>
-                                                    </thead> 
-                                                    <tbody v-for="(item, index) in questionJson" :key="index">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive" style="width:100%">
+                                                <table class="table table-striped mb-0">
+                                                    <thead>
+                                                        <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
+                                                            <th>STT</th>
+                                                            <th>Mã môn học</th>
+                                                            <th>Tên môn học</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-for="(item, index) in subjectJson" :key="index">
                                                         <tr>
-                                                            <th scope="row" style="width: 50px;">{{index+1}}</th> 
-                                                            <td>{{item.TenCongViec}}</td> 
-                                                            <td>{{item.TenCauHoi}}</td> 
+                                                            <th scope="row" style="width: 50px;">{{index+1}}</th>
+                                                            <td>{{item.MonHocId}}</td>
+                                                            <td>{{item.TenMonHoc}}</td>
+                                                            <td>
+                                                                <div class="btn-toolbar form-group mb-0">
+                                                                    <div class="">
+                                                                        <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
+                                                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" data-target="#alertDeleteModal"><i class="far fa-trash-alt"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>                          
+                                        </div>
+
+                                    </div>
+                                </b-card-text>
+                            </b-tab>
+                        </div>
+                        <!-- Tab ĐIểm sàn-->
+                        <b-tab title="Điểm sàn">
+                            <b-card-text>
+                                <form class="">
+                                    <div class="form-group">
+                                        <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
+                                            <a href="/#/AddMinScore" role="button" data-toggle="modal" data-target="#addMinScore" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                                <i class="fas fa-plus"></i> <i></i>
+                                                <span>Thêm điểm sàn </span>
+                                            </a>
+                                        </div>
+                                        <div class="table-responsive" style="width:100%">
+                                            <table class="table table-striped mb-0">
+                                                <thead>
+                                                    <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
+                                                        <th>STT</th>
+                                                        <th>Năm</th>
+                                                        <th>Điểm</th>
+                                                        <th>Ghi chú</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-for="(item, index) in minScoreJson" :key="index">
+                                                    <tr>
+                                                        <th scope="row" style="width: 50px;">{{index+1}}</th>
+                                                        <td>{{item.Nam}}</td>
+                                                        <td>{{item.Diem===0?'Không có dữ liệu' : item.Diem }}</td>
+                                                        <td>{{item.GhiChu}}</td>
+                                                        <td>
+                                                            <div class="btn-toolbar form-group mb-0">
+                                                                <div class="">
+                                                                    <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedMinScore(item)" v-b-modal="'editMinScoreModal'"></i></a>
+                                                                    <button v-on:click="setDeletedMinScoreId(item.DiemSanId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" 
+                                                                   v-b-modal="'alertDeleteMinScoreModal'"><i class="far fa-trash-alt"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </form>
                             </b-card-text>
                         </b-tab>
+
                         <!-- Tab Hướng nghiên cứu-->
                         <b-tab title="Định hướng nghiên cứu" active>
                             <b-card-text>
-                                <form class="" action="#">
+                                <form class="">
                                     <div class="form-group">
-						                <div class="table-responsive" style ="width:1000px">
+                                        <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
+                                            <a href="/#/addResearch" role="button" data-toggle="modal" data-target="#addResearch" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                                <i class="fas fa-plus"></i> <i></i>
+                                                <span>Thêm định hướng nghiên cứu </span>
+                                            </a>
+                                        </div>
+                                        <div class="table-responsive" style="width:100%">
                                             <table class="table table-striped mb-0">
                                                 <thead>
                                                     <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
-                                                        <th>STT</th> 
-                                                        <th>Hướng nghiên cứu</th> 
-                                                        <th>Chủ đề nghiên cứu</th> 
-                                                        <th>Dự án nghiên cứu</th> 
+                                                        <th>STT</th>
+                                                        <th>Hướng nghiên cứu</th>
+                                                        <th>Chủ đề nghiên cứu</th>
+                                                        <th>Dự án nghiên cứu</th>
+                                                        <th></th>
                                                     </tr>
-                                                    </thead> 
-                                                    <tbody v-for="(item, index) in researchJson" :key="index">
-                                                        <tr>
-                                                            <th scope="row" style="width: 50px;">{{index+1}}</th> 
-                                                            <td>{{item.TenDinhHuong}}</td> 
-                                                            <td>{{item.DuAnNghienCuu}}</td> 
-                                                            <td>{{item.ChuDeNghienCuu}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>                          
+                                                </thead>
+                                                <tbody v-for="(item, index) in researchJson" :key="index">
+                                                    <tr>
+                                                        <th scope="row" style="width: 50px;">{{index+1}}</th>
+                                                        <td>{{item.TenDinhHuong}}</td>
+                                                        <td>{{item.DuAnNghienCuu}}</td>
+                                                        <td>{{item.ChuDeNghienCuu}}</td>
+                                                       
+                                                        <td>
+                                                            <div class="btn-toolbar form-group mb-0">
+                                                                <div class="">
+                                                                    <a v-on:click="setNeedUpdatedResearchOrientation(item) " role="button" class="btn btn-success waves-effect waves-light m-r-5" v-b-modal="'editResearchModal'"><i class="far fa-edit"></i></a>
+                                                                    <button v-on:click="setDeletedResearchOrientationId(item.DinhHuongNghienCuuId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" 
+                                                                   v-b-modal="'alertDeleteResearchOrientationModal'"><i class="far fa-trash-alt"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </form>
                             </b-card-text>
                         </b-tab>
                     </div>
-            </b-tabs>                 
-        </b-card>
+                </b-tabs>
+            </b-card>
+        </div>
     </div>
+
     <div id="addMajorModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -198,7 +287,7 @@
                             <div class="form-group">
                                 <label>Các học phần của chuyên ngành</label>
                                 <div class="dropdown mo-mb-2">
-                                    <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
                                         Chọn các môn chuyên ngành
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -214,7 +303,7 @@
                             <div class="form-group">
                                 <label>Các môn đại cương quan trọng</label>
                                 <div class="dropdown mo-mb-2">
-                                    <button  class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important; background-color:transparent; boder:#000000; color: #000000; text-align: left">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important; background-color:transparent; boder:#000000; color: #000000; text-align: left">
                                         Chọn các môn đại cương
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -234,7 +323,7 @@
                             <div class="form-group" style="text-align: end;">
                                 <div>
                                     <button type="reset" class="btn btn-secondary waves-effect m-l-5"> Hủy </button>
-                                    <button type="submit" class="btn btn-primary waves-effect waves-light"> Lưu </button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light" v-on:click="updateLinhVucNghienCuu()"> Lưu </button>
                                 </div>
                             </div>
                         </form>
@@ -244,6 +333,163 @@
             </div>
         </div>
     </div>
+
+    <!--alertDeleteResearchOrientationModal -->
+    <!-- modal -->
+     <b-modal id="alertDeleteResearchOrientationModal" title="Xóa định hướng nghiên cứu" hide-footer>
+     <div class="modal-body">
+                    <h5 class="font-16">Bạn có chắc chắn muốn xóa định hướng nghiên cứu này không?</h5>
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteResearchOrientation()">Xác nhận</button>
+                </div>
+  </b-modal>
+
+  <!--alertDeleteMinScoreModal -->
+    <!-- modal -->
+     <b-modal id="alertDeleteMinScoreModal" title="Xóa điểm sàn" hide-footer>
+     <div class="modal-body">
+                    <h5 class="font-16">Bạn có chắc chắn muốn xóa điểm sàn này không?</h5>
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMinScore()">Xác nhận</button>
+                </div>
+  </b-modal>
+
+    <!--Edit DinhHuongNghienCuu -->
+    <!-- modal -->
+     <b-modal id="editResearchModal" title="Chỉnh sửa định hướng nghiên cứu" hide-footer>
+        <div class="modal-body">
+            <label>Định hướng nghiên cứu</label>
+            <b-form-textarea id="dinhHuong" v-model="needUpdatedResearchOrientation.TenDinhHuong" required rows="4"></b-form-textarea>
+            <label>Dự án nghiên cứu</label>
+            <b-form-textarea id="duAn" v-model="needUpdatedResearchOrientation.DuAnNghienCuu" required rows="4"></b-form-textarea>
+            <label>Chủ đề nghiên cứu</label>
+            <b-form-textarea id="chuDe" v-model="needUpdatedResearchOrientation.ChuDeNghienCuu" required rows="4"></b-form-textarea>
+                </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditResearch">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateResearch()">Lưu</button>
+        </div>
+  </b-modal>
+
+  <!--Edit MinScore -->
+    <!-- modal -->
+     <b-modal id="editMinScoreModal" title="Chỉnh sửa điểm sàn" hide-footer>
+        <div class="modal-body">
+            <label>Năm</label>
+            <b-form-input id="nam" v-model="needUpdatedMinScore.Nam"></b-form-input>
+            <label>Điểm</label>
+            <b-form-input id="diem" v-model="needUpdatedMinScore.Diem"></b-form-input>
+            <label>Ghi chú</label>
+            <b-form-textarea id="ghiChu" v-model="needUpdatedMinScore.GhiChu" required rows="4"></b-form-textarea>
+                </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditMinScore">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateMinScore()">Lưu</button>
+        </div>
+  </b-modal>
+
+
+    <!-- add job modal -->
+    <div id="addJob" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm công việc và hướng phát triển</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Công việc và hướng phát triển</label>
+                    <textarea required="required" rows="5" placeholder="Nhập vào công việc và hướng phát triển " class="form-control" v-model="jobName"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addJob(jobName)">Lưu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- add subject modal -->
+    <div id="addSubject" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm học phần chuyên ngành</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Mã môn học</label>
+                    <textarea required="required" rows="5" placeholder="Nhập vào công việc và hướng phát triển " class="form-control" v-model="jobName"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addJob(jobName)">Lưu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- add min score modal -->
+    <div id="addMinScore" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm điểm sàn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Năm học</label>
+                    <b-form-input id="input-2" v-model="year" placeholder="Nhập năm học"></b-form-input>
+                    <label>Điểm</label>
+                    <b-form-input id="input-2" v-model="score" placeholder="Nhập điểm"></b-form-input>
+                    <label>Ghi chú</label>
+                    <b-form-input id="input-2" v-model="note" placeholder="Nhập ghi chú"></b-form-input>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addMinScore(score, year, note)">Lưu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- add dinhHuongNghienCuu modal -->
+    <div id="addResearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm định hướng nghiên cứu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Tên định hướng</label>
+                    <textarea required="required" rows="5" placeholder="Nhập vào định hướng" class="form-control" v-model="researchName"></textarea>
+                    <label>Dự án nghiên cứu</label>
+                    <textarea required="required" rows="5" placeholder="Nhập vào dự án nghiên cứu " class="form-control" v-model="projectName"></textarea>
+                    <label>Chủ đề nghiên cứu</label>
+                    <textarea required="required" rows="5" placeholder="Nhập vào chủ đề nghiên cứu " class="form-control" v-model="topicName"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" >Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addResearch(researchName, projectName, topicName)">Lưu</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
     </div>
 </div>
 </template>
@@ -252,64 +498,334 @@
 import axios from 'axios';
 export default {
     name: 'MajorDetail',
-     watch: {
-    '$route': function(to, from) {
-        this.chuyenNganhId = this.$route.query.id;
-     console.log(this.$route.query.id);
-     this.getMajorById(this.chuyenNganhId);
-     this.getJobByMajorId(this.chuyenNganhId);
-     this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
-     this.GetQuestionsByMajorandJob(this.chuyenNganhId);
-     this.GetResearchOrientationById(this.chuyenNganhId);
-    }
-  },
-  methods: {
-    getMajorById(id) {
+    watch: {
+        '$route': function (to, from) {
+            this.chuyenNganhId = this.$route.query.id;
+            console.log(this.$route.query.id);
+            this.getMajorById(this.chuyenNganhId);
+            this.getJobByMajorId(this.chuyenNganhId);
+            this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+            this.GetQuestionsByMajorandJob(this.chuyenNganhId);
+            this.GetResearchOrientationById(this.chuyenNganhId);
+            this.GetMinScoreByMajorId(this.chuyenNganhId);
+        }
+    },
+    methods: {
+        getMajorById(id) {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/ChuyenNganh/${id}`;
             axios.get(url).then((response) => {
-            this.majorJson = response.data; 
-        });
-    },
-    getJobByMajorId(major_id) {
+                this.majorJson = response.data;
+                this.backUpLinhVucNghienCuu = this.majorJson.LinhVucNghienCuu;
+            });
+        },
+        getJobByMajorId(major_id) {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${major_id}`;
             axios.get(url).then((response) => {
-            this.jobJson = response.data; 
-        });
-    },
-    getMainAndGenaralSubjectsByMajorId(major_id) {
+                this.jobJson = response.data;
+            });
+        },
+        getMainAndGenaralSubjectsByMajorId(major_id) {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/MonHocChuyenNganh/${major_id}`;
             axios.get(url).then((response) => {
-            this.subjectJson = response.data; 
-        });
-    },
-    GetQuestionsByMajorandJob(major_id) {
+                this.subjectJson = response.data;
+            });
+        },
+        GetQuestionsByMajorandJob(major_id) {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/CauHoiHuongPhatTrien/${major_id}`;
             axios.get(url).then((response) => {
-            this.questionJson = response.data; 
+                this.questionJson = response.data;
             });
-    },
-    GetResearchOrientationById(major_id) {
+        },
+        GetResearchOrientationById(major_id) {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/DinhHuongNghienCuu/${major_id}`;
             axios.get(url).then((response) => {
-            this.researchJson = response.data; 
+                this.researchJson = response.data;
+
+                this.backUpTenDinhHuong = this.researchJson.TenDinhHuong;
+                this.backUpDuAnNghienCuu = this.researchJson.DuAnNghienCuu;
+                this.backUpChuDeNghienCuu = this.researchJson.ChuDeNghienCuu;
             });
+        },
+
+        GetMinScoreByMajorId(major_id) {
+            console.log(this.$route.query.id);
+            let url = `https://localhost:44326/api/DiemSan/${major_id}`;
+            axios.get(url).then((response) => {
+                this.minScoreJson = response.data;
+            });
+        },
+
+        setDeletedResearchOrientationId(id) {
+            this.DinhHuongNghienCuuId = id;
+        },
+
+        setNeedUpdatedResearchOrientation(object) {
+            this.needUpdatedResearchOrientation = object;
+        },
+
+        setNeedUpdatedMinScore(object) {
+            this.needUpdatedMinScore = object;
+        },
+
+        setDeletedMinScoreId(id) {
+            this.DiemSanId = id;
+        },
+
+        deleteResearchOrientation() {
+            let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.DinhHuongNghienCuuId}`;
+
+            axios.delete(url, this.DinhHuongNghienCuuId).then(response => {
+                  
+
+                    this.$bvToast.toast('Xóa thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                     this.GetResearchOrientationById(this.chuyenNganhId);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+                this.$bvModal.hide('alertDeleteResearchOrientationModal');
+        },
+
+        deleteMinScore() {
+            let url = `https://localhost:44326/api/DiemSan/${this.DiemSanId}`;
+
+            axios.delete(url, this.DiemSanId).then(response => {
+                  
+
+                    this.$bvToast.toast('Xóa thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                     this.GetMinScoreByMajorId(this.chuyenNganhId);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+                this.$bvModal.hide('alertDeleteMinScoreModal');
+        },
+
+        updateLinhVucNghienCuu() {
+            let url = `https://localhost:44326/api/ChuyenNganh/${this.chuyenNganhId}`;
+            axios.put(url, this.majorJson).then(response => {
+                    console.log(response.data);
+                    this.majorJson = response.data;
+                    this.backUpLinhVucNghienCuu = this.majorJson.LinhVucNghienCuu;
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+                    this.isEditLinhVucNghienCuu = false;
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+        },
+
+        updateResearch() {
+            let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.needUpdatedResearchOrientation.DinhHuongNghienCuuId}`;
+            axios.put(url,{
+                        ChuyenNganhId: this.needUpdatedResearchOrientation.ChuyenNganhId,
+                        TenDinhHuong: this.needUpdatedResearchOrientation.TenDinhHuong,
+                        DuAnNghienCuu: this.needUpdatedResearchOrientation.DuAnNghienCuu,
+                        ChuDeNghienCuu: this.needUpdatedResearchOrientation.ChuDeNghienCuu,
+                        DinhHuongNghienCuuId: this.needUpdatedResearchOrientation.DinhHuongNghienCuuId
+                }).then(response => {
+                    console.log(response.data);
+                    this.researchJson = response.data;
+                    
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+                    
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+                this.$bvModal.hide('editResearchModal');
+        },
+
+        updateMinScore() {
+            let url = `https://localhost:44326/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
+            axios.put(url,{
+                        Diem: this.needUpdatedMinScore.Diem,
+                        Nam: this.needUpdatedMinScore.Nam,
+                        GhiChu: this.needUpdatedMinScore.GhiChu,
+                        ChuyenNganhId: this.needUpdatedMinScore.ChuyenNganhId,
+                        DiemSanId: this.needUpdatedMinScore.DiemSanId
+                }).then(response => {
+                    console.log(response.data);
+                    this.minScoreJson = response.data;
+                    
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+                    
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+                this.$bvModal.hide('editMinScoreModal');
+        },
+
+        addJob(jobName) {
+
+            const body = {
+                "TenCongViec": jobName,
+                "ChuyenNganhId": this.chuyenNganhId,
+            }
+
+            let url = 'https://localhost:44326/api/CongViecVaHuongPhatTrien';
+            axios.post(url, body).then((response) => {
+                this.questionJson = response.data;
+
+                this.$bvToast.toast('Thêm công việc và hướng phát triển thành công!', {
+                    title: 'Thành công',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 1000,
+                });
+                this.getJobByMajorId(this.chuyenNganhId);
+            });
+
+            this.jobName = "";
+        },
+
+        addMinScore(score, year, note) {
+            const body = {
+                "Diem": score,
+                "Nam": year,
+                "GhiChu": note,
+                "ChuyenNganhId": this.chuyenNganhId,
+            }
+
+            let url = 'https://localhost:44326/api/DiemSan';
+            axios.post(url, body).then((response) => {
+                this.minScoreJson = response.data;
+
+                this.$bvToast.toast('Thêm điểm sàn thành công!', {
+                    title: 'Thành công',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 1000,
+                });
+                this.GetMinScoreByMajorId(this.chuyenNganhId);
+            });
+
+            this.year = "";
+            this.score = "";
+            this.note = "";
+        },
+
+        addResearch(researchName, projectName, topicName) {
+            const body = {
+                "TenDinhHuong": researchName,
+                "DuAnNghienCuu": projectName,
+                "ChuDeNghienCuu": topicName,
+                "ChuyenNganhId": this.chuyenNganhId,
+            }
+
+            let url = 'https://localhost:44326/api/DinhHuongNghienCuu';
+            axios.post(url, body).then((response) => {
+                this.researchJsonPopup = response.data;
+
+                this.$bvToast.toast('Thêm định hướng nghiên cứu thành công!', {
+                    title: 'Thành công',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 1000,
+                });
+
+                 this.GetResearchOrientationById(this.chuyenNganhId);
+
+            });
+
+            this.researchName = "";
+            this.projectName = "";
+            this.topicName = "";
+        },
+
+        onCancelEditLinhVucNghienCuu() {
+            this.majorJson.LinhVucNghienCuu = this.backUpLinhVucNghienCuu;
+            this.isEditLinhVucNghienCuu = false;
+        },
+        onEditLinhVucNghienCuu() {
+            this.isEditLinhVucNghienCuu = true;
+        },
+        onCancelEditResearch() {
+            this.$bvModal.hide('editResearchModal');
+        },
+
+        onCancelEditMinScore()
+        {
+            this.$bvModal.hide('editMinScoreModal');
+        }
     },
-  },
     data() {
         return {
             chuyenNganhId: "",
             majorJson: "",
-            jobJson:"",
+            jobJson: "",
             subjectJson: "",
             questionJson: "",
-            researchJson:"",
+            researchJson: "",
+            minScoreJson: "",
+            backUpLinhVucNghienCuu: "",
+            isEditLinhVucNghienCuu: false,
+            jobName: "",
+            minScoreJson: "",
+            researchJsonPopup: "",
+            researchJsonEditPopup:"",
+            DinhHuongNghienCuuId: "",
+            year: "",
+            score : "",
+            note : "",
+
+            researchName:"",
+            projectName: "",
+            topicName:"",
+
+            DiemSanId:"",
+
+            backUpTenDinhHuong: "",
+            backUpDuAnNghienCuu: "",
+            backUpChuDeNghienCuu: "",
+
+            needUpdatedResearchOrientation: {}, 
+            needUpdatedMinScore:{},
         }
-    }
+    },
+
 }
 </script>
 

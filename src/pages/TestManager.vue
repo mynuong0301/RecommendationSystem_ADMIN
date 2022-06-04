@@ -14,7 +14,7 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <h3 class="page-title">BÀI ĐÁNH GIÁ</h3>
+                            <h3 class="page-title" style="padding-left: 0px !important;">BÀI ĐÁNH GIÁ</h3>
                         </div>
                     </div> <!-- end row -->
                 </div>
@@ -23,7 +23,7 @@
 
                         <form role="search" class="email-inbox">
                             <div class="form-group mb-0">
-                                <input type="text" class="form-control rounded" placeholder="Nhập câu hỏi bạn muốn tìm kiếm..">
+                                <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </div>
                         </form>
@@ -162,7 +162,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body">
-                                <form class="" action="#">
+                                <form class="">
                                     <div class="form-group">
                                         <label>Chuyên ngành</label>
                                         <div class="dropdown mo-mb-2">
@@ -192,13 +192,13 @@
                                     <div class="form-group" style="boder: #000000;">
                                         <label>Câu hỏi</label>
                                         <div>
-                                            <textarea required="" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào nội dung câu hỏi "></textarea>
+                                            <textarea required="" v-model="tencauhoi" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào nội dung câu hỏi "></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group" style="text-align: end;">
                                         <div>
                                             <button type="reset" class="btn btn-secondary waves-effect m-l-5"> Hủy </button>
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light" v-on:click="deleteQuestion(item.BaiDanhGiaDinhHuongNgheNghiepId)"> Lưu </button>
+                                            <button class="btn btn-primary waves-effect waves-light" v-on:click="addQuestion(tencauhoi)"> Lưu </button>
                                         </div>
                                     </div>
                                 </form>
@@ -277,10 +277,23 @@ export default {
                 console.log('major', this.majorJson);
             });
         },
-        addQuestion() {
-            let url = 'https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep';
-            axios.get(url).then((response) => {
+        addQuestion(tencauhoi) {
+            const id = this.jobPopup.CongViecVaHuongPhatTrienId;
+
+            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${tencauhoi}&id=${id}`;
+            axios.post(url).then((response) => {
                 this.questionJson = response.data;
+
+                if (response.data === "Success") {
+                    this.$bvToast.toast('Thêm câu hỏi thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.tencauhoi = "";
+                }
             });
         },
         deleteQuestion(id) {
@@ -297,6 +310,7 @@ export default {
                     console.error("There was an error", error);
                 });
         },
+
     },
     data() {
         return {
@@ -305,6 +319,7 @@ export default {
             pageSize: 5,
             majorJson: "",
             questionJson: "",
+            tencauhoi: "",
         }
     },
 
