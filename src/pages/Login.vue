@@ -1,6 +1,5 @@
 <template>
-<div class="content-page">
-    <!-- Start content -->
+
     <div class="content">
         <div class="wrapper-page">
             <div class="card card-pages shadow-none">
@@ -14,7 +13,7 @@
                     </div>
                     <h5 class="font-45 text-center">ĐĂNG NHẬP</h5>
 
-                    <form class="form-horizontal m-t-30" action="index.html">
+                    <form class="form-horizontal m-t-30">
 
                         <div class="form-group">
                             <div class="col-12">
@@ -43,7 +42,7 @@
 
                         <div class="form-group text-center m-t-20">
                             <div class="col-12">
-                                <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">Đăng nhập</button>
+                                <button v-on:click="onLogin()" class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">Đăng nhập</button>
                             </div>
                         </div>
 
@@ -59,8 +58,11 @@
                 </div>
             </div>
         </div>
+
+        <footer class="footer" style="left: 0 !important">
+        © 2022 FIT - Gợi ý chuyên ngành <span class="d-none d-sm-inline-block"><i class="mdi mdi-heart text-danger"></i></span>.
+    </footer>
     </div>
-</div>
 </template>
 
 <script>
@@ -85,7 +87,13 @@ export default {
 
     },
     methods: {
-
+        onLogin(){
+            // Đăng nhập thành công lưu token lại
+            localStorage.token = 'eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTEzNzE';
+           this.$router.replace({
+                    path: '/MajorDetail'
+                });
+        },
     },
 
 }
