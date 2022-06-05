@@ -210,6 +210,7 @@ export default {
         onJobStudentSelect(jobStudent) {
             console.log('jobStudent', jobStudent);
             this.$store.dispatch('onJobStudentSelectAction', jobStudent);
+            this.getTableData();
         },
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;

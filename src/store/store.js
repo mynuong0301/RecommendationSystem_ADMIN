@@ -178,7 +178,7 @@ export const store = new Vuex.Store({
             let url = 'https://localhost:44326/api/SinhVien';
 
             if (majorStudent && majorStudent.ChuyenNganhId !== "-1") {
-                url += '/' + majorStudent.ChuyenNganhId;
+                url += '?major=' + majorStudent.ChuyenNganhId;
                 let urlJob = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${majorStudent.ChuyenNganhId}`;
 
                 axios.get(urlJob).then((response) => {
@@ -206,8 +206,8 @@ export const store = new Vuex.Store({
             });
         },
 
-        onJobStudentSelectAction({ commit, state }, jobStudent) {
-            let url = 'https://localhost:44326/api/SinhVien/' + state.studentProfile.majorStudent.ChuyenNganhId + '?job_id=' + jobStudent.CongViecVaHuongPhatTrienId;
+        onJobStudentSelectAction({ commit }, jobStudent) {
+            let url = 'https://localhost:44326/api/SinhVien' + '?job=' + jobStudent.CongViecVaHuongPhatTrienId;
             axios.get(url).then((response) => {
                 const tableDataStudent = response.data;
                 commit('onJobStudentSelect', { jobStudent, tableDataStudent })
@@ -231,7 +231,7 @@ export const store = new Vuex.Store({
 
         //setting
         onKhoaHocSelectAction({ commit, state }, khoaHoc) {
-            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh/' + khoaHoc;
+            let url = 'https://localhost:44326/api/MonHocCSNvaToan/' + khoaHoc;
 
             axios.get(url).then((response) => {
                 const responseDataMonHocXetCN = response.data;
@@ -240,7 +240,7 @@ export const store = new Vuex.Store({
         },
 
         onGetMonHocXetCNAction({ commit, state }, khoaHoc) {
-            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh/' + khoaHoc;
+            let url = 'https://localhost:44326/api/MonHocCSNvaToan/' + khoaHoc;
             axios.get(url).then((response) => {
                 var tableData = response.data;
 

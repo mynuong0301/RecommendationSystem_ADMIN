@@ -235,7 +235,7 @@ export default {
         },
 
         getAllYears() {  
-            let url = 'https://localhost:44326/api/MonHocXetChuyenNganh';
+            let url = 'https://localhost:44326/api/MonHocCSNvaToan';
             axios.get(url).then((response) => {
                 this.yearJson = response.data;
             
