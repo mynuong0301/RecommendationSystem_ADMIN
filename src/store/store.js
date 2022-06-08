@@ -110,7 +110,7 @@ export const store = new Vuex.Store({
             let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien';
 
             if (major && major.ChuyenNganhId !== "-1") {
-                url += '/' + major.ChuyenNganhId;
+                url += '?major_id=' + major.ChuyenNganhId;
                 let urlJob = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${major.ChuyenNganhId}`;
 
                 axios.get(urlJob).then((response) => {
@@ -133,7 +133,7 @@ export const store = new Vuex.Store({
                 });
             } else {
                 commit('onMajorSelect', {
-                    major,
+                    major: { ChuyenNganhId: "-1", TenChuyenNganh: 'Tất cả chuyên ngành' },
                     job: { TenCongViec: "Chọn hướng phát triển" },
                     responseData: [],
                     type,
@@ -152,20 +152,31 @@ export const store = new Vuex.Store({
         },
 
         onJobSelectAction({ commit, state }, { job, type }) {
-            let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien/' + state.testManager.major.ChuyenNganhId + '?job_id=' + job.CongViecVaHuongPhatTrienId;
+            let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien?major_id=' + state.testManager.major.ChuyenNganhId + '&job_id=' + job.CongViecVaHuongPhatTrienId;
             axios.get(url).then((response) => {
                 const tableData = response.data;
                 commit('onJobSelect', { job, tableData, type })
             });
         },
-        onGetQuestionsAction({ commit, state }) {
+        onGetQuestionsAction({ commit, state }, name) {
             let url = 'https://localhost:44326/api/CauHoiHuongPhatTrien';
 
             if (state.testManager.major.ChuyenNganhId !== "-1") {
-                url += '/' + state.testManager.major.ChuyenNganhId;
-            }
+                url += '?major_id=' + state.testManager.major.ChuyenNganhId;
 
+                if (state.testManager.job !== "-1") {
+                    url += '&job_id=' + state.testManager.job.CongViecVaHuongPhatTrienId;
+                }
+                if (name) {
+                    url += `&name=${name}`;
+                }
+            } else {
+                if (name) {
+                    url += `?name=${name}`;
+                }
+            }
             console.log(url);
+
 
             axios.get(url).then((response) => {
                 console.log(response.data);
@@ -217,7 +228,7 @@ export const store = new Vuex.Store({
             let url = 'https://localhost:44326/api/SinhVien';
 
             if (state.studentProfile.majorStudent && state.studentProfile.majorStudent.ChuyenNganhId !== "-1") {
-                url += '/' + state.studentProfile.majorStudent.ChuyenNganhId;
+                url += '?major=' + state.studentProfile.majorStudent.ChuyenNganhId;
             }
 
             if (mssv) {

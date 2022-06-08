@@ -21,12 +21,10 @@
                 <div class="row mb-3">
                     <div class="col-lg-4">
 
-                        <form role="search" class="email-inbox">
-                            <div class="form-group mb-0">
+                     
                                 <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
+                           
+                     
                     </div>
 
                     <div class="col-lg-2 m-r-1">
@@ -59,7 +57,7 @@
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
                                 <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>
-                                <a href="/#/AddQuestion" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addQuestionModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
+                                <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addQuestionModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
 
                             </div>
                         </div>
@@ -87,8 +85,8 @@
                                 <td>
                                     <div class="btn-toolbar form-group mb-0">
                                         <div class="">
-                                            <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
-                                            <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" data-target="#alertDeleteModal"><i class="far fa-trash-alt"></i></button>
+                                            <a v-on:click="setNeedUpdatedQuestion(item)" v-b-modal="'editQuestionModal'" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
+                                            <button v-on:click="setNeedUpdatedQuestion(item)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" v-b-modal="'alertDeleteModal'"><i class="far fa-trash-alt"></i></button>
                                         </div>
                                     </div>
                                 </td>
@@ -101,26 +99,16 @@
                     </div>
 
                     <!-- modal -->
-                    <div id="alertDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title mt-0" id="myModalLabel">Xóa câu hỏi</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <h5 class="font-16">Bạn có chắc chắn muốn xóa câu hỏi này không?</h5>
-                                    <p></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                                    <button type="button" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
+            
+                     <b-modal id="alertDeleteModal" title="Xóa câu hỏ" hide-footer>
+                <div class="modal-body">
+                     <h5 class="font-16">Bạn có chắc chắn muốn xóa câu hỏi này không?</h5>
+                                    <p></p></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteQuestion()">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteQuestion()">Xác nhận</button>
+                </div>
+            </b-modal>
 
                     <!-- modal -->
                     <div id="importExcelFile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -162,7 +150,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body">
-                                <form class="">
+                                <form>
                                     <div class="form-group">
                                         <label>Chuyên ngành</label>
                                         <div class="dropdown mo-mb-2">
@@ -212,6 +200,23 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div>
+
+            <!--Edit MinScore -->
+            <!-- modal -->
+            <b-modal id="editQuestionModal" title="Chỉnh sửa câu hỏi" hide-footer>
+                <div class="modal-body">
+                    <label>Chuyên ngành</label>
+                    <b-form-input id="chuyenNganh" v-model="needUpdatedQuestion.TenChuyenNganh"></b-form-input>
+                    <label>Công việc và hướng phát triển</label>
+                    <b-form-input id="congViec" v-model="needUpdatedQuestion.TenCongViec"></b-form-input>
+                    <label>Tên câu hỏi</label>
+                    <b-form-textarea id="tenCauHoi" v-model="needUpdatedQuestion.TenCauHoi" required rows="4"></b-form-textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditQuestion()">Hủy</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateQuestion()">Lưu</button>
+                </div>
+            </b-modal>
         </div>
     </div>
 </div>
@@ -249,19 +254,36 @@ export default {
     },
     methods: {
         getTableData() {
-            this.$store.dispatch('onGetQuestionsAction');
+            console.log('inputQuestion', this.inputQuestion);
+            this.$store.dispatch('onGetQuestionsAction', this.inputQuestion);
+
+        },
+        
+        setNeedUpdatedQuestion(object) {
+            this.needUpdatedQuestion = object;
+        },
+
+        onCancelEditQuestion()
+        {
+            this.$bvModal.hide('editQuestionModal');
+        },
+          onCancelDeleteQuestion()
+        {
+            this.$bvModal.hide('alertDeleteModal');
         },
         onMajorSelect(major, type) {
             this.$store.dispatch('onMajorSelectAction', {
                 major,
                 type
             });
+            this.inputQuestion = "";
         },
         onJobSelect(job, type) {
             this.$store.dispatch('onJobSelectAction', {
                 job,
                 type
             });
+             this.inputQuestion = "";
         },
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;
@@ -275,6 +297,7 @@ export default {
                     TenChuyenNganh: 'Tất cả chuyên ngành',
                 }, ...this.majorJson];
                 console.log('major', this.majorJson);
+                this.backUpQuestionName = this.questionJson.TenCauHoi;
             });
         },
         addQuestion(tencauhoi) {
@@ -293,22 +316,53 @@ export default {
                     });
 
                     this.tencauhoi = "";
+                      this.getTableData();
                 }
             });
         },
-        deleteQuestion(id) {
-            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${id}`;
+        deleteQuestion() {
+            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
 
-            axios.delete(url, id).then(response => {
-                    if (response.data == 'success') {
-                        // Tạm thời
-                        this.$router.go();
+            axios.delete(url).then(response => {
+                       if (response.data) {
+                    this.$bvToast.toast('Xóa câu hỏi thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+                    this.getTableData();
                     }
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
+
+                this.onCancelDeleteQuestion();
+        },
+
+        updateQuestion() {
+            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
+            axios.put(url, 
+                        {BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
+                        TenCauHoi: this.needUpdatedQuestion.TenCauHoi
+                        }).then(response => {
+                    console.log(response.data);
+                    this.questionJson = response.data;
+                    this.backUpQuestionName = this.questionJson.TenCauHoi;
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+                this.$bvModal.hide('editQuestionModal');
         },
 
     },
@@ -320,6 +374,9 @@ export default {
             majorJson: "",
             questionJson: "",
             tencauhoi: "",
+            inputQuestion: "",
+            backUpQuestionName: "",
+            needUpdatedQuestion:{},
         }
     },
 

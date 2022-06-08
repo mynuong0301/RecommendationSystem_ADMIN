@@ -28,10 +28,10 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Profile</a>
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> My Wallet</a>
-                                    <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
+                                    <a class="dropdown-item" ><i class="mdi mdi-account-circle"></i> Profile</a>
+                                    <a class="dropdown-item" ><i class="mdi mdi-wallet"></i> My Wallet</a>
+                                    <a class="dropdown-item d-block" ><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
+                                    <a class="dropdown-item" ><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item text-danger" v-on:click="logOut()"><i class="mdi mdi-power text-danger"></i> Logout</a>
                                 </div>
@@ -95,32 +95,34 @@
 import axios from 'axios';
 export default {
     name: 'App',
-    mounted() {
-        this.getAllMajors();
-
+    computed() {
+       
          console.log('localStorage', localStorage.token);
 
             if (localStorage.token) {
                 this.isLogin = true;
                 this.$router.replace({
-                    path: '/MajorDetail'
+                    path: '/StudentProfile'
                 });
             } else {
 
                 this.isLogin = false;
             }
     },
-    watch: {
-        '$route': function (to, from) {
-            console.log('localStorage', localStorage.token);
+    mounted() {
+         this.getAllMajors();
 
             if (localStorage.token) {
                 this.isLogin = true;
-                this.$router.replace({
-                    path: '/MajorDetail'
-                });
             } else {
-
+                this.isLogin = false;
+            }
+    },
+    watch: {
+        '$route': function (to, from) {
+               if (localStorage.token) {
+                this.isLogin = true;
+            } else {
                 this.isLogin = false;
             }
         }
