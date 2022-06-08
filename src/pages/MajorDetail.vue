@@ -55,7 +55,7 @@
                             <!-- Tab Công việc-->
                             <b-tab title="Công việc và hướng phát triển" active>
                                 <b-card-text>
-                                    <form class="" action="#">
+                                    <form class="">
                                         <div class="form-group">
                                             <!--<tbody v-for="(item, index) in jobJson" :key="index"  style="text-align: center">
                                         <tr>
@@ -85,8 +85,8 @@
                                                             <td>
                                                                 <div class="btn-toolbar form-group mb-0">
                                                                     <div class="">
-                                                                        <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
-                                                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" data-target="#alertDeleteModal"><i class="far fa-trash-alt"></i></button>
+                                                                        <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedJob(item)" v-b-modal="'editJobModal'"></i></a>
+                                                                    <!--<button v-on:click="setDeletedJob(item.MonHocId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteSJobModal'"><i class="far fa-trash-alt"></i></button> -->
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -114,7 +114,7 @@
                                     </tbody>            
                                 </form> -->
                                     <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
-                                        <a href="/#/AddSubject" role="button" data-toggle="modal" data-target="#addSubject" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                        <a role="button" data-toggle="modal" data-target="#addSubject" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
                                             <i class="fas fa-plus"></i> <i></i>
                                             <span>Thêm học phần </span>
                                         </a>
@@ -139,8 +139,8 @@
                                                             <td>
                                                                 <div class="btn-toolbar form-group mb-0">
                                                                     <div class="">
-                                                                        <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
-                                                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" data-toggle="modal" data-target="#alertDeleteModal"><i class="far fa-trash-alt"></i></button>
+                                                                        <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedSubject(item)" v-b-modal="'editSubjectModal'"></i></a>
+                                                                    <button v-on:click="setDeletedSubject(item.MonHocId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteSubjectModal'"><i class="far fa-trash-alt"></i></button>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -186,8 +186,7 @@
                                                             <div class="btn-toolbar form-group mb-0">
                                                                 <div class="">
                                                                     <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedMinScore(item)" v-b-modal="'editMinScoreModal'"></i></a>
-                                                                    <button v-on:click="setDeletedMinScoreId(item.DiemSanId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" 
-                                                                   v-b-modal="'alertDeleteMinScoreModal'"><i class="far fa-trash-alt"></i></button>
+                                                                    <button v-on:click="setDeletedMinScoreId(item.DiemSanId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'alertDeleteMinScoreModal'"><i class="far fa-trash-alt"></i></button>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -228,13 +227,12 @@
                                                         <td>{{item.TenDinhHuong}}</td>
                                                         <td>{{item.DuAnNghienCuu}}</td>
                                                         <td>{{item.ChuDeNghienCuu}}</td>
-                                                       
+
                                                         <td>
                                                             <div class="btn-toolbar form-group mb-0">
                                                                 <div class="">
-                                                                    <a v-on:click="setNeedUpdatedResearchOrientation(item) " role="button" class="btn btn-success waves-effect waves-light m-r-5" v-b-modal="'editResearchModal'"><i class="far fa-edit"></i></a>
-                                                                    <button v-on:click="setDeletedResearchOrientationId(item.DinhHuongNghienCuuId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" 
-                                                                   v-b-modal="'alertDeleteResearchOrientationModal'"><i class="far fa-trash-alt"></i></button>
+                                                                    <a v-on:click="setNeedUpdatedResearchOrientation(item) " role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit"></i></a>
+                                                                    <button v-on:click="setDeletedResearchOrientationId(item.DinhHuongNghienCuuId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'alertDeleteResearchOrientationModal'"><i class="far fa-trash-alt"></i></button>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -263,7 +261,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <form class="" action="#">
+                        <form class="">
                             <div class="form-group" style="boder: #000000;">
                                 <label>Tên chuyên ngành</label>
                                 <div>
@@ -291,12 +289,12 @@
                                         Chọn các môn chuyên ngành
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Nhập môn lập trình</a>
-                                        <a class="dropdown-item" href="#">Kỹ thuật lập trình</a>
-                                        <a class="dropdown-item" href="#">Cơ sở dữ liệu</a>
-                                        <a class="dropdown-item" href="#">Mạng máy tính</a>
-                                        <a class="dropdown-item" href="#">Hệ thống máy tính</a>
-                                        <a class="dropdown-item" href="#">Lập trình hướng đối tượng</a>
+                                        <a class="dropdown-item">Nhập môn lập trình</a>
+                                        <a class="dropdown-item">Kỹ thuật lập trình</a>
+                                        <a class="dropdown-item">Cơ sở dữ liệu</a>
+                                        <a class="dropdown-item">Mạng máy tính</a>
+                                        <a class="dropdown-item">Hệ thống máy tính</a>
+                                        <a class="dropdown-item">Lập trình hướng đối tượng</a>
                                     </div>
                                 </div>
                             </div>
@@ -307,10 +305,10 @@
                                         Chọn các môn đại cương
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Xác suất thống kê</a>
-                                        <a class="dropdown-item" href="#">Vi tích phân 1B</a>
-                                        <a class="dropdown-item" href="#">Vi tích phân 2B</a>
-                                        <a class="dropdown-item" href="#">Đại số tuyến tính</a>
+                                        <a class="dropdown-item">Xác suất thống kê</a>
+                                        <a class="dropdown-item">Vi tích phân 1B</a>
+                                        <a class="dropdown-item">Vi tích phân 2B</a>
+                                        <a class="dropdown-item">Đại số tuyến tính</a>
                                     </div>
                                 </div>
                             </div>
@@ -336,33 +334,46 @@
 
     <!--alertDeleteResearchOrientationModal -->
     <!-- modal -->
-     <b-modal id="alertDeleteResearchOrientationModal" title="Xóa định hướng nghiên cứu" hide-footer>
-     <div class="modal-body">
-                    <h5 class="font-16">Bạn có chắc chắn muốn xóa định hướng nghiên cứu này không?</h5>
-                    <p></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteResearchOrientation()">Xác nhận</button>
-                </div>
-  </b-modal>
+    <b-modal id="alertDeleteResearchOrientationModal" title="Xóa định hướng nghiên cứu" hide-footer>
+        <div class="modal-body">
+            <h5 class="font-16">Bạn có chắc chắn muốn xóa định hướng nghiên cứu này không?</h5>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteResearchOrientation()">Xác nhận</button>
+        </div>
+    </b-modal>
 
-  <!--alertDeleteMinScoreModal -->
+<!--deleteSubjectModal -->
     <!-- modal -->
-     <b-modal id="alertDeleteMinScoreModal" title="Xóa điểm sàn" hide-footer>
-     <div class="modal-body">
-                    <h5 class="font-16">Bạn có chắc chắn muốn xóa điểm sàn này không?</h5>
-                    <p></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMinScore()">Xác nhận</button>
-                </div>
-  </b-modal>
+    <b-modal id="deleteSubjectModal" title="Xóa môn học" hide-footer>
+        <div class="modal-body">
+            <h5 class="font-16">Bạn có chắc chắn muốn xóa môn học này không?</h5>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteSubject()">Xác nhận</button>
+        </div>
+    </b-modal>
+
+    <!--alertDeleteMinScoreModal -->
+    <!-- modal -->
+    <b-modal id="alertDeleteMinScoreModal" title="Xóa điểm sàn" hide-footer>
+        <div class="modal-body">
+            <h5 class="font-16">Bạn có chắc chắn muốn xóa điểm sàn này không?</h5>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMinScore()">Xác nhận</button>
+        </div>
+    </b-modal>
 
     <!--Edit DinhHuongNghienCuu -->
     <!-- modal -->
-     <b-modal id="editResearchModal" title="Chỉnh sửa định hướng nghiên cứu" hide-footer>
+    <b-modal id="editResearchModal" title="Chỉnh sửa định hướng nghiên cứu" hide-footer>
         <div class="modal-body">
             <label>Định hướng nghiên cứu</label>
             <b-form-textarea id="dinhHuong" v-model="needUpdatedResearchOrientation.TenDinhHuong" required rows="4"></b-form-textarea>
@@ -370,16 +381,16 @@
             <b-form-textarea id="duAn" v-model="needUpdatedResearchOrientation.DuAnNghienCuu" required rows="4"></b-form-textarea>
             <label>Chủ đề nghiên cứu</label>
             <b-form-textarea id="chuDe" v-model="needUpdatedResearchOrientation.ChuDeNghienCuu" required rows="4"></b-form-textarea>
-                </div>
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditResearch">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateResearch()">Lưu</button>
         </div>
-  </b-modal>
+    </b-modal>
 
-  <!--Edit MinScore -->
+    <!--Edit MinScore -->
     <!-- modal -->
-     <b-modal id="editMinScoreModal" title="Chỉnh sửa điểm sàn" hide-footer>
+    <b-modal id="editMinScoreModal" title="Chỉnh sửa điểm sàn" hide-footer>
         <div class="modal-body">
             <label>Năm</label>
             <b-form-input id="nam" v-model="needUpdatedMinScore.Nam"></b-form-input>
@@ -387,14 +398,40 @@
             <b-form-input id="diem" v-model="needUpdatedMinScore.Diem"></b-form-input>
             <label>Ghi chú</label>
             <b-form-textarea id="ghiChu" v-model="needUpdatedMinScore.GhiChu" required rows="4"></b-form-textarea>
-                </div>
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditMinScore">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateMinScore()">Lưu</button>
         </div>
-  </b-modal>
+    </b-modal>
 
+    <!--Edit MJob -->
+    <!-- modal -->
+    <b-modal id="editJobModal" title="Chỉnh sửa công việc và hướng phát triển" hide-footer>
+        <div class="modal-body">
+            <label>Tên công việc</label>
+            <b-form-input id="congViec" v-model="needUpdatedJob.TenCongViec"></b-form-input>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditJob">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateJob()">Lưu</button>
+        </div>
+    </b-modal>
 
+    <!-- modal edit subject -->
+    <b-modal id="editSubjectModal" title="Chỉnh sửa học phần" hide-footer>
+        <div class="modal-body">
+            <label>Mã môn học</label>
+            <b-form-textarea id="monHocId" v-model="needUpdatedSubject.MonHocId" required rows="4"></b-form-textarea>
+            <label>Tên môn học</label>
+            <b-form-textarea id="duAn" v-model="needUpdatedSubject.TenMonHoc" required rows="4"></b-form-textarea>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditSubject">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateSubject()">Lưu</button>
+        </div>
+    </b-modal>
     <!-- add job modal -->
     <div id="addJob" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered">
@@ -485,7 +522,7 @@
                     <textarea required="required" rows="5" placeholder="Nhập vào chủ đề nghiên cứu " class="form-control" v-model="topicName"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" >Hủy</button>
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
                     <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addResearch(researchName, projectName, topicName)">Lưu</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -535,7 +572,7 @@ export default {
         },
         GetQuestionsByMajorandJob(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien/${major_id}`;
+            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?major_id=${major_id}`;
             axios.get(url).then((response) => {
                 this.questionJson = response.data;
             });
@@ -544,11 +581,14 @@ export default {
             console.log(this.$route.query.id);
             let url = `https://localhost:44326/api/DinhHuongNghienCuu/${major_id}`;
             axios.get(url).then((response) => {
-                this.researchJson = response.data;
 
-                this.backUpTenDinhHuong = this.researchJson.TenDinhHuong;
-                this.backUpDuAnNghienCuu = this.researchJson.DuAnNghienCuu;
-                this.backUpChuDeNghienCuu = this.researchJson.ChuDeNghienCuu;
+                if (response.data) {
+                    this.researchJson = response.data;
+                    this.backUpTenDinhHuong = this.researchJson.TenDinhHuong;
+                    this.backUpDuAnNghienCuu = this.researchJson.DuAnNghienCuu;
+                    this.backUpChuDeNghienCuu = this.researchJson.ChuDeNghienCuu;
+                }
+
             });
         },
 
@@ -565,7 +605,26 @@ export default {
         },
 
         setNeedUpdatedResearchOrientation(object) {
-            this.needUpdatedResearchOrientation = object;
+            this.$bvModal.show('editResearchModal');
+            this.needUpdatedResearchOrientation = {
+                ...object
+            };
+        },
+        setDeletedSubject(id) {
+            this.MonHocId = id;
+        },
+        setNeedUpdatedSubject(object) {
+            this.$bvModal.show('editSubjectModal');
+            this.needUpdatedSubject = {
+                ...object
+            };
+        },
+
+        setNeedUpdatedJob(object) {
+            this.$bvModal.show('editJobModal');
+            this.needUpdatedJob = {
+                ...object
+            };
         },
 
         setNeedUpdatedMinScore(object) {
@@ -580,7 +639,6 @@ export default {
             let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.DinhHuongNghienCuuId}`;
 
             axios.delete(url, this.DinhHuongNghienCuuId).then(response => {
-                  
 
                     this.$bvToast.toast('Xóa thành công!', {
                         title: 'Thành công',
@@ -589,21 +647,42 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                     this.GetResearchOrientationById(this.chuyenNganhId);
+                    this.GetResearchOrientationById(this.chuyenNganhId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
 
-                this.$bvModal.hide('alertDeleteResearchOrientationModal');
+            this.$bvModal.hide('alertDeleteResearchOrientationModal');
+        },
+
+        deleteSubject() {
+            let url = `https://localhost:44326/api/MonHoc/${this.MonHocId}`;
+
+            axios.delete(url, this.MonHocId).then(response => {
+
+                    this.$bvToast.toast('Xóa thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+            this.$bvModal.hide('deleteSubjectModal');
         },
 
         deleteMinScore() {
             let url = `https://localhost:44326/api/DiemSan/${this.DiemSanId}`;
 
             axios.delete(url, this.DiemSanId).then(response => {
-                  
 
                     this.$bvToast.toast('Xóa thành công!', {
                         title: 'Thành công',
@@ -612,20 +691,20 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                     this.GetMinScoreByMajorId(this.chuyenNganhId);
+                    this.GetMinScoreByMajorId(this.chuyenNganhId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
 
-                this.$bvModal.hide('alertDeleteMinScoreModal');
+            this.$bvModal.hide('alertDeleteMinScoreModal');
         },
 
         updateLinhVucNghienCuu() {
             let url = `https://localhost:44326/api/ChuyenNganh/${this.chuyenNganhId}`;
             axios.put(url, this.majorJson).then(response => {
-                    console.log(response.data);
+
                     this.majorJson = response.data;
                     this.backUpLinhVucNghienCuu = this.majorJson.LinhVucNghienCuu;
                     this.$bvToast.toast('Cập nhật thành công!', {
@@ -644,58 +723,114 @@ export default {
 
         updateResearch() {
             let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.needUpdatedResearchOrientation.DinhHuongNghienCuuId}`;
-            axios.put(url,{
-                        ChuyenNganhId: this.needUpdatedResearchOrientation.ChuyenNganhId,
-                        TenDinhHuong: this.needUpdatedResearchOrientation.TenDinhHuong,
-                        DuAnNghienCuu: this.needUpdatedResearchOrientation.DuAnNghienCuu,
-                        ChuDeNghienCuu: this.needUpdatedResearchOrientation.ChuDeNghienCuu,
-                        DinhHuongNghienCuuId: this.needUpdatedResearchOrientation.DinhHuongNghienCuuId
+            axios.put(url, {
+                    ChuyenNganhId: this.needUpdatedResearchOrientation.ChuyenNganhId,
+                    TenDinhHuong: this.needUpdatedResearchOrientation.TenDinhHuong,
+                    DuAnNghienCuu: this.needUpdatedResearchOrientation.DuAnNghienCuu,
+                    ChuDeNghienCuu: this.needUpdatedResearchOrientation.ChuDeNghienCuu,
+                    DinhHuongNghienCuuId: this.needUpdatedResearchOrientation.DinhHuongNghienCuuId
                 }).then(response => {
-                    console.log(response.data);
-                    this.researchJson = response.data;
-                    
+
                     this.$bvToast.toast('Cập nhật thành công!', {
                         title: 'Thành công',
                         variant: 'success',
                         solid: true,
                         autoHideDelay: 1000,
                     });
-                    
+
+                       this.GetResearchOrientationById(this.chuyenNganhId);
+
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
 
-                this.$bvModal.hide('editResearchModal');
+            this.$bvModal.hide('editResearchModal');
+
+            console.log('ChuDeNghienCuut', this.needUpdatedResearchOrientation.ChuDeNghienCuu);
+        },
+
+        updateSubject() {
+            let url = `https://localhost:44326/api/MonHoc/${this.needUpdatedSubject.MonHocId}`;
+            axios.put(url, {
+                    MonHocId: this.needUpdatedSubject.MonHocId,
+                    TenMonHoc: this.needUpdatedSubject.TenMonHoc,
+                    
+                }).then(response => {
+
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+                
+
+            this.$bvModal.hide('editSubjectModal');
+        },
+
+         updateJob() {
+            let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.needUpdatedJob.CongViecVaHuongPhatTrienId}`;
+            axios.put(url, {
+                    CongViecVaHuongPhatTrienId: this.needUpdatedJob.CongViecVaHuongPhatTrienId,
+                    TenCongViec: this.needUpdatedJob.TenCongViec,
+                    
+                }).then(response => {
+
+                    this.$bvToast.toast('Cập nhật thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getJobByMajorId(this.chuyenNganhId);
+
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+                
+
+            this.$bvModal.hide('editJobModal');
         },
 
         updateMinScore() {
             let url = `https://localhost:44326/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
-            axios.put(url,{
-                        Diem: this.needUpdatedMinScore.Diem,
-                        Nam: this.needUpdatedMinScore.Nam,
-                        GhiChu: this.needUpdatedMinScore.GhiChu,
-                        ChuyenNganhId: this.needUpdatedMinScore.ChuyenNganhId,
-                        DiemSanId: this.needUpdatedMinScore.DiemSanId
+            axios.put(url, {
+                    Diem: this.needUpdatedMinScore.Diem,
+                    Nam: this.needUpdatedMinScore.Nam,
+                    GhiChu: this.needUpdatedMinScore.GhiChu,
+                    ChuyenNganhId: this.needUpdatedMinScore.ChuyenNganhId,
+                    DiemSanId: this.needUpdatedMinScore.DiemSanId
                 }).then(response => {
-                    console.log(response.data);
-                    this.minScoreJson = response.data;
-                    
+
                     this.$bvToast.toast('Cập nhật thành công!', {
                         title: 'Thành công',
                         variant: 'success',
                         solid: true,
                         autoHideDelay: 1000,
                     });
-                    
+
+                    this.GetMinScoreByMajorId(this.chuyenNganhId);
+
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
 
-                this.$bvModal.hide('editMinScoreModal');
+            this.$bvModal.hide('editMinScoreModal');
         },
 
         addJob(jobName) {
@@ -766,7 +901,7 @@ export default {
                     autoHideDelay: 1000,
                 });
 
-                 this.GetResearchOrientationById(this.chuyenNganhId);
+                this.GetResearchOrientationById(this.chuyenNganhId);
 
             });
 
@@ -783,12 +918,19 @@ export default {
             this.isEditLinhVucNghienCuu = true;
         },
         onCancelEditResearch() {
+
             this.$bvModal.hide('editResearchModal');
         },
 
-        onCancelEditMinScore()
-        {
+        onCancelEditMinScore() {
             this.$bvModal.hide('editMinScoreModal');
+        },
+
+         onCancelEditSubject() {
+            this.$bvModal.hide('editSubjectModal');
+        },
+        onCancelEditJob() {
+            this.$bvModal.hide('editJobModal');
         }
     },
     data() {
@@ -805,24 +947,33 @@ export default {
             jobName: "",
             minScoreJson: "",
             researchJsonPopup: "",
-            researchJsonEditPopup:"",
+            researchJsonEditPopup: "",
             DinhHuongNghienCuuId: "",
             year: "",
-            score : "",
-            note : "",
+            score: "",
+            note: "",
 
-            researchName:"",
+            researchName: "",
             projectName: "",
-            topicName:"",
+            topicName: "",
 
-            DiemSanId:"",
+            DiemSanId: "",
 
             backUpTenDinhHuong: "",
             backUpDuAnNghienCuu: "",
             backUpChuDeNghienCuu: "",
 
-            needUpdatedResearchOrientation: {}, 
-            needUpdatedMinScore:{},
+            needUpdatedResearchOrientation: {
+                TenDinhHuong: '',
+                DuAnNghienCuu: '',
+                ChuDeNghienCuu: ''
+            },
+            needUpdatedMinScore: {},
+
+            needUpdatedSubject:{},
+            MonHocId:"",
+
+            needUpdatedJob:{},
         }
     },
 

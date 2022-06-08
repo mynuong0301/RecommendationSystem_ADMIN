@@ -104,25 +104,8 @@
                                     <form>
                                         <div class="form-group">
                                             <label>Mã môn học</label>
-                                            <!--<div>
-                                                <input v-model="subjectId" required="true" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào mã môn học " id="subjectId">
-                                            </div> -->
-                                            <div class="dropdown mo-mb-2">
-                                                <button class="btn btn-secondary dropdown-toggle" 
-                                                        type="button" 
-                                                        id="dropdownMenuButton" 
-                                                        data-toggle="dropdown" 
-                                                        aria-haspopup="true" 
-                                                        aria-expanded="false" 
-                                                        style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;"
-                                                        placeholder="Chọn mã môn học">
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <tbody v-for=" (major, index) in subjectJson" :key="index">
-                                                        <a class="dropdown-item" v-on:click="onMajorSelect(major, 1)">{{major.TenChuyenNganh}}</a>
-                                                    </tbody>
-                                                </div>
-                                            </div>
+                                    
+                                            <v-select multiple v-model="selectedAddedSubjects" :options="subjectJson" label="TenMonHoc" :reduce="subject => subject.MonHocId" />
                                         </div>
 
                                         <!--<div class="form-group" style="boder: #000000;">
@@ -176,6 +159,7 @@ export default {
     mounted() {
         this.getSubjects();
         this.getAllYears();
+        
     },
     created() {
         this.CHANGE_STATE = 1;
@@ -276,6 +260,9 @@ export default {
             yearJson:"",
             yearList: [],
 
+            addSubjectList:"",
+
+            selectedAddedSubjects: [],
         }
     },
     computed: {

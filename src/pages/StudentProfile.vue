@@ -206,11 +206,12 @@ export default {
         onMajorStudentSelect(majorStudent) {
              console.log('majorStudent', majorStudent);
             this.$store.dispatch('onMajorStudentSelectAction', majorStudent);
+            this.inputMSSV ="";
         },
         onJobStudentSelect(jobStudent) {
             console.log('jobStudent', jobStudent);
             this.$store.dispatch('onJobStudentSelectAction', jobStudent);
-            this.getTableData();
+            this.inputMSSV ="";
         },
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;

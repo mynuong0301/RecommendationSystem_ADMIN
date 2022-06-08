@@ -91,7 +91,7 @@ export default {
             // Đăng nhập thành công lưu token lại
             localStorage.token = 'eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTEzNzE';
            this.$router.replace({
-                    path: '/MajorDetail'
+                    path: '/StudentProfile'
                 });
         },
     },
