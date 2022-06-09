@@ -49,8 +49,8 @@
                                 <th>#</th>
                                 <th>MSSV</th>
                                 <th>Điểm trung bình</th>
-                                <th>Định hướng nghề nghiệp</th>
                                 <th>Chuyên ngành</th>
+                                <th>Định hướng nghề nghiệp</th>
                                 <th> </th>
                             </tr>
                         </thead>
