@@ -3,73 +3,120 @@
     <!-- Start content -->
     <div class="content">
         <div class="row mb-3">
-            <p></p>
-             <!--<div class="col-lg-12">
-                <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
-                    <div class="">
-                        <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="mdi mdi-pencil"></i> <i></i> <span>Chỉnh sửa</span> </a> 
-                        <a href="/#/AddQuestion" style="background-color: #005874; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addMajorModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm chuyên ngành</span> </a>
+
+            <div class="col-lg-6">
+                <h1></h1>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label> Tên chuyên ngành</label>
                     </div>
+
                 </div>
-            </div>-->
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-input id="tenChuyenNganh" v-model="tenChuyenNganh"></b-form-input>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label> Mã chuyên ngành</label>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-input id="MaChuyenNganh" v-model="chuyenNganhId"></b-form-input>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label> Link video</label>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-input id="linkVideo" v-model="linkVideo"></b-form-input>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h1> </h1>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label> Lĩnh vực nghiên cứu</label>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-textarea id="LinhVucNghienCuu" v-model="linhVucNghienCuu" required rows="4"></b-form-textarea>
+                        </div>
+                    </div>            
+                </div>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label> Giới thiệu chuyên ngành</label>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-textarea id="gioiThieuChuyenNganh" v-model="gioiThieuChuyenNganh" required rows="4"></b-form-textarea>
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        
+                        <a  role="button"
+                         class="btn btn-info waves-effect waves-light  m-r-5" 
+                         style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);margin-left: 470px; margin-right: 0px;">
+                         <i class="fas fa-plus" v-on:click ="onClickAddMajor()"></i> <i></i> <span>Thêm chuyên ngành </span></a>
+                    </div>
+                   
+                </div>
+
+            </div>
         </div>
 
-        <div class="col-lg-12">
-            <h1 class="mb-3">{{majorJson.TenChuyenNganh}} </h1>
-            
-            <div class="row mb-1" style="justify-content: space-between;">
-                <div class="col-lg-8">
-                    <label> Mã chuyên ngành</label>
-                </div>
-                
-            </div>
-
-            <div class="row mb-3">
-
-                <div class="col-lg-12">
-                    <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
-                    <div>
-                        <b-form-input :readonly="true" id="MaChuyenNganh" v-model="majorJson.ChuyenNganhId"></b-form-input>
-                    </div>
-                </div>
-                <!-- </div>
-                    <textarea required="required" rows="5" v-model="majorJson.LinhVucNghienCuu" class="form-control" disabled></textarea>
-
-                </div> -->
-            </div>
-
-            <div class="row mb-1" style="justify-content: space-between;">
-                <div class="col-lg-8">
-                    <label> Lĩnh vực nghiên cứu</label>
-                </div>
-                <div class="" style="margin-right: 13px">
-                    <a role="button" class="btn btn-success waves-effect waves-light m-r-5" v-on:click="onEditLinhVucNghienCuu()"><i class="mdi mdi-pencil-outline"></i></a>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-
-                <div class="col-lg-12">
-                    <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
-                    <div>
-                        <b-form-textarea :readonly="!isEditLinhVucNghienCuu" id="LinhVucNghienCuu" v-model="majorJson.LinhVucNghienCuu" required rows="4"></b-form-textarea>
-                    </div>
-                </div>
-                <!-- </div>
-                    <textarea required="required" rows="5" v-model="majorJson.LinhVucNghienCuu" class="form-control" disabled></textarea>
-
-                </div> -->
-            </div>
-        </div>
-        <div v-if="isEditLinhVucNghienCuu">
-            <div class="row mb-3" style="justify-content: right; margin-right: 13px;">
-                <button style="margin-right: 15px;" type="button" class="btn btn-secondary waves-effect" v-on:click="onCancelEditLinhVucNghienCuu">Hủy</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateLinhVucNghienCuu()">Lưu</button>
-
-            </div>
-        </div>
-
-        <div style="margin-left: 13px; margin-right: 13px;">
+        <div style="margin-left: 13px; margin-right: 13px;" v-if="isActiveTab!== false" >
             <b-card no-body>
                 <b-tabs card>
                     <div class="row mb-3">
@@ -79,12 +126,7 @@
                                 <b-card-text>
                                     <form class="">
                                         <div class="form-group">
-                                            <!--<tbody v-for="(item, index) in jobJson" :key="index"  style="text-align: center">
-                                        <tr>
-                                            <td>{{item.TenCongViec}}</td>
-                                        </tr>
-
-            </tbody> -->
+                                           
                                             <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
                                                 <a href="/#/AddJob" role="button" data-toggle="modal" data-target="#addJob" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
                                                     <i class="fas fa-plus"></i> <i></i>
@@ -562,7 +604,7 @@
 <script>
 import axios from 'axios';
 export default {
-    name: 'MajorDetail',
+    name: 'AddMajor',
     watch: {
         '$route': function (to, from) {
             this.chuyenNganhId = this.$route.query.id;
@@ -968,7 +1010,7 @@ export default {
             let url = `https://localhost:44326/api/MonHocChuyenNganh`;
 
             this.submitting = true;
-            axios.post(url, {           
+            axios.post(url, {
                     ChuyenNganhId: this.chuyenNganhId,
                     MonHocIds: this.selectedAddedSubjects,
                 }).then(response => {
@@ -982,7 +1024,7 @@ export default {
                 });
             this.selectedAddedSubjects = [];
         },
-        
+
         getMajorSubjectsNotInMajor(major_id) {
             let url = `https://localhost:44326/api/MonHocCN/${major_id}`;
 
@@ -1018,13 +1060,20 @@ export default {
             this.$bvModal.hide('editJobModal');
         },
 
-         onCancelAddSubject() {
+        onCancelAddSubject() {
             this.$bvModal.hide('addSubjectModal');
             this.selectedAddedSubjects = [];
         },
+
+        onClickAddMajor()
+        {
+            this.isActiveTab = true;
+        }
     },
     data() {
         return {
+            isActiveTab: false,
+
             chuyenNganhId: "",
             majorJson: "",
             jobJson: "",
@@ -1065,8 +1114,8 @@ export default {
 
             needUpdatedJob: {},
 
-            selectedAddedSubjects:[],
-            subjectMajorJson:"",
+            selectedAddedSubjects: [],
+            subjectMajorJson: "",
         }
     },
 

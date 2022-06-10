@@ -59,9 +59,14 @@
                         <li>
                             <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                             <ul id="chuyenNganhList" class="submenu mm-collapse mm-show">
-                                <li v-for=" (major, index) in accountJson" :key="index"><a style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a></li>
-
+                                <li v-for=" (major, index) in accountJson" :key="index">
+                                    <a v-if="accountJson.ChuyenNganhId !== '-100'" style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
+                                    <a v-else style="white-space: break-spaces;" class="dropdown-item" href="/#/AddMajor">{{major.TenChuyenNganh}}</a>
+                                    </li>
+                               
                             </ul>
+
+                        
                         </li>
 
                         <li>
@@ -114,6 +119,7 @@ export default {
 
             if (localStorage.token) {
                 this.isLogin = true;
+
             } else {
                 this.isLogin = false;
             }
@@ -132,7 +138,7 @@ export default {
         getAllMajors() {
             let url = 'https://localhost:44326/api/ChuyenNganh';
             axios.get(url).then((response) => {
-                this.accountJson = response.data;
+                this.accountJson = [...response.data, {TenChuyenNganh: 'Thêm chuyên ngành', ChuyenNganhId: '-100'}];
             });
         },
         showChuyenNganhList() {
