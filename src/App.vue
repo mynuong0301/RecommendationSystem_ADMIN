@@ -59,8 +59,8 @@
                         <li>
                             <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                             <ul id="chuyenNganhList" class="submenu mm-collapse mm-show">
-                                <li v-for=" (major, index) in accountJson" :key="index">
-                                    <a v-if="accountJson.ChuyenNganhId !== '-100'" style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
+                                <li v-for=" (major, index) in responseGlobalMajorData" :key="index">
+                                    <a v-if="major.ChuyenNganhId !== '-100'" style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
                                     <a v-else style="white-space: break-spaces;" class="dropdown-item" href="/#/AddMajor">{{major.TenChuyenNganh}}</a>
                                     </li>
                                
@@ -98,11 +98,21 @@
 
 <script>
 import axios from 'axios';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex';
 export default {
     name: 'App',
-    computed() {
-       
-         console.log('localStorage', localStorage.token);
+    computed: {
+        //
+        ...mapGetters([
+            'responseGlobalMajorData',
+        ]),
+    },
+     beforeMount
+     () {
+           console.log('localStorage', localStorage.token);
 
             if (localStorage.token) {
                 this.isLogin = true;
@@ -113,7 +123,7 @@ export default {
 
                 this.isLogin = false;
             }
-    },
+     },
     mounted() {
          this.getAllMajors();
 
@@ -136,11 +146,9 @@ export default {
     },
     methods: {
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
-            axios.get(url).then((response) => {
-                this.accountJson = [...response.data, {TenChuyenNganh: 'Thêm chuyên ngành', ChuyenNganhId: '-100'}];
-            });
+            this.$store.dispatch('onGlobalMajorAction');
         },
+         
         showChuyenNganhList() {
             const ul = document.getElementById("chuyenNganhList");
             const arrow = document.getElementsByClassName("mdi mdi-chevron-right")[0];

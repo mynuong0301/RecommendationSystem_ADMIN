@@ -21,10 +21,8 @@
                 <div class="row mb-3">
                     <div class="col-lg-4">
 
-                     
-                                <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
-                           
-                     
+                        <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
+
                     </div>
 
                     <div class="col-lg-2 m-r-1">
@@ -56,7 +54,7 @@
                     <div class="col-lg-4">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
-                                <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>
+                                <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" v-b-modal="'importExcelFile'"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>
                                 <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addQuestionModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
 
                             </div>
@@ -99,41 +97,34 @@
                     </div>
 
                     <!-- modal -->
-            
-                     <b-modal id="alertDeleteModal" title="Xóa câu hỏ" hide-footer>
-                <div class="modal-body">
-                     <h5 class="font-16">Bạn có chắc chắn muốn xóa câu hỏi này không?</h5>
-                                    <p></p></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteQuestion()">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteQuestion()">Xác nhận</button>
-                </div>
-            </b-modal>
+
+                    <b-modal id="alertDeleteModal" title="Xóa câu hỏi" hide-footer>
+                        <div class="modal-body">
+                            <h5 class="font-16">Bạn có chắc chắn muốn xóa câu hỏi này không?</h5>
+                            <p></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteQuestion()">Hủy</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteQuestion()">Xác nhận</button>
+                        </div>
+                    </b-modal>
 
                     <!-- modal -->
-                    <div id="importExcelFile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title mt-0" id="myModalLabel">Tải tập tin câu hỏi</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div>
-                                        <!-- Styled -->
-                                        <b-form-file v-model="file1" :state="Boolean(file1)" placeholder="Chọn tập tin hoặc kéo thả..." drop-placeholder="Kéo thả tập tin vào đây..."></b-form-file>
-                                        <div class="mt-3">Tập tin đã chọn: {{ file1 ? file1.name : '' }}</div>
 
-                                        <!-- Plain mode -->
-                                        <b-form-file v-model="file2" class="mt-3" plain></b-form-file>
-                                        <!--<div class="mt-3">Tập tin đã chọn: {{ file2 ? file2.name : '' }}</div> -->
-                                    </div>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
+                    <b-modal id="importExcelFile" title="Tải tập tin câu hỏi" hide-footer>
+                        <b-form-group label="Tập tin" label-for="form-image" label-cols-lg="2">
+                            <b-input-group>
+                                <b-input-group-prepend is-text>
+                                    <i style="font-size: 16px !important" class="mdi mdi-file-excel"></i>
+                                </b-input-group-prepend>
+                                <b-form-file @change="onFileChange" id="form-image" v-model="excelFile"  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"></b-form-file>
+                            </b-input-group>
+                        </b-form-group>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteQuestion()">Hủy</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="uploadQuestionFile()">Xác nhận</button>
+                        </div>
+                    </b-modal>
 
                 </div>
             </div>
@@ -258,17 +249,15 @@ export default {
             this.$store.dispatch('onGetQuestionsAction', this.inputQuestion);
 
         },
-        
+
         setNeedUpdatedQuestion(object) {
             this.needUpdatedQuestion = object;
         },
 
-        onCancelEditQuestion()
-        {
+        onCancelEditQuestion() {
             this.$bvModal.hide('editQuestionModal');
         },
-          onCancelDeleteQuestion()
-        {
+        onCancelDeleteQuestion() {
             this.$bvModal.hide('alertDeleteModal');
         },
         onMajorSelect(major, type) {
@@ -283,7 +272,7 @@ export default {
                 job,
                 type
             });
-             this.inputQuestion = "";
+            this.inputQuestion = "";
         },
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;
@@ -316,15 +305,49 @@ export default {
                     });
 
                     this.tencauhoi = "";
-                      this.getTableData();
+                    this.getTableData();
                 }
             });
         },
-        deleteQuestion() {
-            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
 
-            axios.delete(url).then(response => {
-                       if (response.data) {
+         onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+    
+    },
+
+        uploadQuestionFile() {
+
+            let url = 'https://localhost:44326/api/ReadQuestionExcel';
+            let formData = new FormData();
+            formData.append("formFile", this.excelFile);
+            axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+               
+            }).then((response) => {
+
+                if (response.data === "success") {
+                    this.$bvToast.toast('Thêm tập tin câu hỏi thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getTableData();
+                }
+            });
+        
+
+    },
+    deleteQuestion() {
+        let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
+
+        axios.delete(url).then(response => {
+                if (response.data) {
                     this.$bvToast.toast('Xóa câu hỏi thành công!', {
                         title: 'Thành công',
                         variant: 'success',
@@ -332,41 +355,41 @@ export default {
                         autoHideDelay: 1000,
                     });
                     this.getTableData();
-                    }
-                })
-                .catch(error => {
-                    this.errorMessage = error.message;
-                    console.error("There was an error", error);
-                });
+                }
+            })
+            .catch(error => {
+                this.errorMessage = error.message;
+                console.error("There was an error", error);
+            });
 
-                this.onCancelDeleteQuestion();
-        },
-
-        updateQuestion() {
-            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
-            axios.put(url, 
-                        {BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
-                        TenCauHoi: this.needUpdatedQuestion.TenCauHoi
-                        }).then(response => {
-                    console.log(response.data);
-                    this.questionJson = response.data;
-                    this.backUpQuestionName = this.questionJson.TenCauHoi;
-                    this.$bvToast.toast('Cập nhật thành công!', {
-                        title: 'Thành công',
-                        variant: 'success',
-                        solid: true,
-                        autoHideDelay: 1000,
-                    });
-                })
-                .catch(error => {
-                    this.errorMessage = error.message;
-                    console.error("There was an error", error);
-                });
-                this.$bvModal.hide('editQuestionModal');
-        },
-
+        this.onCancelDeleteQuestion();
     },
-    data() {
+
+    updateQuestion() {
+        let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
+        axios.put(url, {
+                BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
+                TenCauHoi: this.needUpdatedQuestion.TenCauHoi
+            }).then(response => {
+                console.log(response.data);
+                this.questionJson = response.data;
+                this.backUpQuestionName = this.questionJson.TenCauHoi;
+                this.$bvToast.toast('Cập nhật thành công!', {
+                    title: 'Thành công',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 1000,
+                });
+            })
+            .catch(error => {
+                this.errorMessage = error.message;
+                console.error("There was an error", error);
+            });
+        this.$bvModal.hide('editQuestionModal');
+    },
+
+},
+data() {
         return {
             pageOfItems: [],
             customLabels,
@@ -376,7 +399,8 @@ export default {
             tencauhoi: "",
             inputQuestion: "",
             backUpQuestionName: "",
-            needUpdatedQuestion:{},
+            needUpdatedQuestion: {},
+            excelFile: "",
         }
     },
 

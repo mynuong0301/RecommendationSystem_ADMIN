@@ -9,7 +9,25 @@
 
                 <div class="row mb-1" style="justify-content: space-between;">
                     <div class="col-lg-8">
-                        <label> Tên chuyên ngành</label>
+                        <label>Mã chuyên ngành</label>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12">
+                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
+                        <div>
+                            <b-form-input id="cNId" v-model="cNId"></b-form-input>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-1" style="justify-content: space-between;">
+                    <div class="col-lg-8">
+                        <label>Tên chuyên ngành</label>
                     </div>
 
                 </div>
@@ -22,25 +40,7 @@
                             <b-form-input id="tenChuyenNganh" v-model="tenChuyenNganh"></b-form-input>
                         </div>
                     </div>
-                    
-                </div>
 
-                <div class="row mb-1" style="justify-content: space-between;">
-                    <div class="col-lg-8">
-                        <label> Mã chuyên ngành</label>
-                    </div>
-
-                </div>
-
-                <div class="row mb-3">
-
-                    <div class="col-lg-12">
-                        <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
-                        <div>
-                            <b-form-input id="MaChuyenNganh" v-model="chuyenNganhId"></b-form-input>
-                        </div>
-                    </div>
-                    
                 </div>
 
                 <div class="row mb-1" style="justify-content: space-between;">
@@ -56,10 +56,10 @@
                         <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
                         <div>
                             <b-form-input id="linkVideo" v-model="linkVideo"></b-form-input>
-                            
+
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                         <div>
                             <b-form-textarea id="LinhVucNghienCuu" v-model="linhVucNghienCuu" required rows="4"></b-form-textarea>
                         </div>
-                    </div>            
+                    </div>
                 </div>
 
                 <div class="row mb-1" style="justify-content: space-between;">
@@ -98,25 +98,23 @@
                             <b-form-textarea id="gioiThieuChuyenNganh" v-model="gioiThieuChuyenNganh" required rows="4"></b-form-textarea>
                         </div>
                     </div>
-                   
+
                 </div>
 
                 <div class="row mb-3">
 
                     <div class="col-lg-12">
-                        
-                        <a  role="button"
-                         class="btn btn-info waves-effect waves-light  m-r-5" 
-                         style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);margin-left: 470px; margin-right: 0px;">
-                         <i class="fas fa-plus" v-on:click ="onClickAddMajor()"></i> <i></i> <span>Thêm chuyên ngành </span></a>
+
+                        <a v-on:click="addNewMajor()" role="button" class="btn btn-info waves-effect waves-light  m-r-5" style="color: #ffffff; background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);margin-left: 470px; margin-right: 0px;">
+                            <i class="fas fa-plus" style="color: #ffffff;"></i> <i></i> <span>Thêm chuyên ngành </span></a>
                     </div>
-                   
+
                 </div>
 
             </div>
         </div>
 
-        <div style="margin-left: 13px; margin-right: 13px;" v-if="isActiveTab!== false" >
+        <div style="margin-left: 13px; margin-right: 13px;" v-if="isActiveTab!== false">
             <b-card no-body>
                 <b-tabs card>
                     <div class="row mb-3">
@@ -126,7 +124,7 @@
                                 <b-card-text>
                                     <form class="">
                                         <div class="form-group">
-                                           
+
                                             <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
                                                 <a href="/#/AddJob" role="button" data-toggle="modal" data-target="#addJob" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
                                                     <i class="fas fa-plus"></i> <i></i>
@@ -610,11 +608,11 @@ export default {
             this.chuyenNganhId = this.$route.query.id;
             console.log(this.$route.query.id);
             this.getMajorById(this.chuyenNganhId);
-            this.getJobByMajorId(this.chuyenNganhId);
-            this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
-            this.GetQuestionsByMajorandJob(this.chuyenNganhId);
-            this.GetResearchOrientationById(this.chuyenNganhId);
-            this.GetMinScoreByMajorId(this.chuyenNganhId);
+            this.getJobByMajorId(this.cNId);
+            this.getMainAndGenaralSubjectsByMajorId(this.cNId);
+            this.GetQuestionsByMajorandJob(this.cNId);
+            this.GetResearchOrientationById(this.cNId);
+            this.GetMinScoreByMajorId(this.cNId);
         }
     },
     methods: {
@@ -635,7 +633,7 @@ export default {
         },
         getMainAndGenaralSubjectsByMajorId(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/MonHocChuyenNganh/${major_id}`;
+            let url = `https://localhost:44326/api/MonHocChuyenNganh/${this.cNId}`;
             axios.get(url).then((response) => {
                 this.subjectJson = response.data;
             });
@@ -723,7 +721,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.GetResearchOrientationById(this.chuyenNganhId);
+                    this.GetResearchOrientationById(this.cNId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -735,7 +733,7 @@ export default {
 
         deleteSubject() {
 
-            let url = `https://localhost:44326/api/MonHocChuyenNganh/${this.ChuyenNganhId}/${this.MonHocId}`;
+            let url = `https://localhost:44326/api/MonHocChuyenNganh/${this.cNId}/${this.MonHocId}`;
 
             axios.delete(url).then(response => {
 
@@ -746,7 +744,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+                    this.getMainAndGenaralSubjectsByMajorId(this.cNId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -768,7 +766,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.GetMinScoreByMajorId(this.chuyenNganhId);
+                    this.GetMinScoreByMajorId(this.cNId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -779,7 +777,7 @@ export default {
         },
 
         updateLinhVucNghienCuu() {
-            let url = `https://localhost:44326/api/ChuyenNganh/${this.chuyenNganhId}`;
+            let url = `https://localhost:44326/api/ChuyenNganh/${this.cNId}`;
             axios.put(url, this.majorJson).then(response => {
 
                     this.majorJson = response.data;
@@ -815,7 +813,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.GetResearchOrientationById(this.chuyenNganhId);
+                    this.GetResearchOrientationById(this.cNId);
 
                 })
                 .catch(error => {
@@ -843,7 +841,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+                    this.getMainAndGenaralSubjectsByMajorId(this.cNId);
 
                 })
                 .catch(error => {
@@ -869,7 +867,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.getJobByMajorId(this.chuyenNganhId);
+                    this.getJobByMajorId(this.cNId);
 
                 })
                 .catch(error => {
@@ -891,7 +889,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.getJobByMajorId(this.chuyenNganhId);
+                    this.getJobByMajorId(this.cNId);
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -918,7 +916,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.GetMinScoreByMajorId(this.chuyenNganhId);
+                    this.GetMinScoreByMajorId(this.cNId);
 
                 })
                 .catch(error => {
@@ -933,7 +931,7 @@ export default {
 
             const body = {
                 "TenCongViec": jobName,
-                "ChuyenNganhId": this.chuyenNganhId,
+                "ChuyenNganhId": this.cNId,
             }
 
             let url = 'https://localhost:44326/api/CongViecVaHuongPhatTrien';
@@ -946,7 +944,7 @@ export default {
                     solid: true,
                     autoHideDelay: 1000,
                 });
-                this.getJobByMajorId(this.chuyenNganhId);
+                this.getJobByMajorId(this.cNId);
             });
 
             this.jobName = "";
@@ -957,7 +955,7 @@ export default {
                 "Diem": score,
                 "Nam": year,
                 "GhiChu": note,
-                "ChuyenNganhId": this.chuyenNganhId,
+                "ChuyenNganhId": this.cNId,
             }
 
             let url = 'https://localhost:44326/api/DiemSan';
@@ -970,7 +968,7 @@ export default {
                     solid: true,
                     autoHideDelay: 1000,
                 });
-                this.GetMinScoreByMajorId(this.chuyenNganhId);
+                this.GetMinScoreByMajorId(this.cNId);
             });
 
             this.year = "";
@@ -983,7 +981,7 @@ export default {
                 "TenDinhHuong": researchName,
                 "DuAnNghienCuu": projectName,
                 "ChuDeNghienCuu": topicName,
-                "ChuyenNganhId": this.chuyenNganhId,
+                "ChuyenNganhId": this.cNId,
             }
 
             let url = 'https://localhost:44326/api/DinhHuongNghienCuu';
@@ -997,7 +995,7 @@ export default {
                     autoHideDelay: 1000,
                 });
 
-                this.GetResearchOrientationById(this.chuyenNganhId);
+                this.GetResearchOrientationById(this.cNId);
 
             });
 
@@ -1011,10 +1009,10 @@ export default {
 
             this.submitting = true;
             axios.post(url, {
-                    ChuyenNganhId: this.chuyenNganhId,
+                    ChuyenNganhId: this.cNId,
                     MonHocIds: this.selectedAddedSubjects,
                 }).then(response => {
-                    this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+                    this.getMainAndGenaralSubjectsByMajorId(this.cNId);
 
                 })
                 .catch(error => {
@@ -1037,6 +1035,30 @@ export default {
             }
 
         },
+
+        //add chuyên ngành
+        addNewMajor() {
+            let url = 'https://localhost:44326/api/ChuyenNganh';
+
+            this.submitting = true;
+            axios.post(url, {
+                    ChuyenNganhId: this.cNId,
+                    TenChuyenNganh: this.tenChuyenNganh,
+                    LinhVucNghienCuu: this.linhVucNghienCuu,
+                    LinkVideo: this.linkVideo,
+                    GioiThieuChuyenNganh: this.gioiThieuChuyenNganh
+                }).then(response => {
+                   this.isActiveTab=true;
+                    this.$store.dispatch('onGlobalMajorAction');
+                    this.getMajorSubjectsNotInMajor(this.cNId);
+                })
+                .catch(error => {
+                    this.submitting = false;
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });           
+        },
+
         onCancelEditLinhVucNghienCuu() {
             this.majorJson.LinhVucNghienCuu = this.backUpLinhVucNghienCuu;
             this.isEditLinhVucNghienCuu = false;
@@ -1065,8 +1087,7 @@ export default {
             this.selectedAddedSubjects = [];
         },
 
-        onClickAddMajor()
-        {
+        onClickAddMajor() {
             this.isActiveTab = true;
         }
     },
@@ -1116,6 +1137,13 @@ export default {
 
             selectedAddedSubjects: [],
             subjectMajorJson: "",
+
+            //add chuyên ngành
+            cNId:"",
+            tenChuyenNganh:"",
+            linkVideo:"",
+            linhVucNghienCuu:"",
+            gioiThieuChuyenNganh:"",
         }
     },
 

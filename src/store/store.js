@@ -38,6 +38,15 @@ const setting = {
     }),
 };
 
+//Global Major
+
+const globalMajor = {
+    state: () => ({
+
+        responseGlobalMajorData: [],
+    }),
+};
+
 export const store = new Vuex.Store({
     modules: {
         //B2: import module
@@ -45,7 +54,10 @@ export const store = new Vuex.Store({
         //student profile
         studentProfile: studentProfile,
         //setting
-        setting: setting
+        setting: setting,
+        //globalMajor
+        globalMajor: globalMajor,
+
     },
 
     // B3: Tạo mutation
@@ -101,6 +113,16 @@ export const store = new Vuex.Store({
         onGetMonHocXetCN(state, { tableData, khoaHoc }) {
             state.setting.tableDataMonHocXetCN = tableData;
             state.setting.khoaHoc = khoaHoc;
+        },
+
+        //globalMajor
+
+        onGetGlobalMajor(state, {
+
+            responseGlobalMajorData
+        }) {
+
+            state.globalMajor.responseGlobalMajorData = responseGlobalMajorData;
         },
     },
     // B4: Tạo action (cái này sẽ gọi bên vue)
@@ -262,6 +284,16 @@ export const store = new Vuex.Store({
             });
         },
 
+        //GlobalMajor
+        onGlobalMajorAction({ commit, state }) {
+            let url = 'https://localhost:44326/api/ChuyenNganh';
+
+            axios.get(url).then((response) => {
+                const responseGlobalMajorData = [...response.data, { TenChuyenNganh: 'Thêm chuyên ngành', ChuyenNganhId: '-100' }];
+                commit('onGetGlobalMajor', { responseGlobalMajorData })
+            });
+        },
+
     },
     // B5: Tạo getter (vue get mấy cái state ra)
     getters: {
@@ -309,5 +341,10 @@ export const store = new Vuex.Store({
             return state.setting.tableDataMonHocXetCN
         },
 
+        //globalMajor
+
+        responseGlobalMajorData(state) {
+            return state.globalMajor.responseGlobalMajorData
+        },
     }
 })

@@ -4,7 +4,7 @@
     <div class="content">
         <div class="row mb-3">
             <p></p>
-             <!--<div class="col-lg-12">
+            <!--<div class="col-lg-12">
                 <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                     <div class="">
                         <a href="/#/ImportFile" style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#importExcelFile"><i class="mdi mdi-pencil"></i> <i></i> <span>Chỉnh sửa</span> </a> 
@@ -15,13 +15,16 @@
         </div>
 
         <div class="col-lg-12">
-            <h1 class="mb-3">{{majorJson.TenChuyenNganh}} </h1>
-            
+            <div class="row mb-1" style="justify-content: space-between; align-items: center;">
+                <h1 class="col-lg-10 mb-3">{{majorJson.TenChuyenNganh}} </h1>
+                <button style="margin-right: 13px; height: 40px" v-on:click="setDeletedMajor(this.chuyenNganhId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteMajorModal'"><i class="far fa-trash-alt"></i></button>
+            </div>
+
             <div class="row mb-1" style="justify-content: space-between;">
                 <div class="col-lg-8">
                     <label> Mã chuyên ngành</label>
                 </div>
-                
+
             </div>
 
             <div class="row mb-3">
@@ -107,7 +110,7 @@
                                                             <td>
                                                                 <div class="btn-toolbar form-group mb-0">
                                                                     <div class="">
-                                                                        <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedJob(item)" v-b-modal="'editJobModal'"></i></a>
+                                                                        <a role="button" class="btn btn-success waves-effect waves-light m-r-5"  v-on:click="setNeedUpdatedJob(item)" v-b-modal="'editJobModal'"><i class="far fa-edit"></i></a>
                                                                         <button v-on:click="setDeletedJob(item.CongViecVaHuongPhatTrienId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteJobModal'"><i class="far fa-trash-alt"></i></button>
                                                                     </div>
                                                                 </div>
@@ -393,6 +396,19 @@
         </div>
     </b-modal>
 
+    <!--deleteMajorModal -->
+    <!-- modal -->
+    <b-modal id="deleteMajorModal" title="Xóa chuyên ngành" hide-footer>
+        <div class="modal-body">
+            <h5 class="font-16">Bạn có chắc chắn muốn xóa chuyên ngành này không?</h5>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMajor()">Xác nhận</button>
+        </div>
+    </b-modal>
+
     <!--alertDeleteMinScoreModal -->
     <!-- modal -->
     <b-modal id="alertDeleteMinScoreModal" title="Xóa điểm sàn" hide-footer>
@@ -426,18 +442,24 @@
     <!--Edit MinScore -->
     <!-- modal -->
     <b-modal id="editMinScoreModal" title="Chỉnh sửa điểm sàn" hide-footer>
-        <div class="modal-body">
-            <label>Năm</label>
-            <b-form-input id="nam" v-model="needUpdatedMinScore.Nam"></b-form-input>
-            <label>Điểm</label>
-            <b-form-input id="diem" v-model="needUpdatedMinScore.Diem"></b-form-input>
-            <label>Ghi chú</label>
-            <b-form-textarea id="ghiChu" v-model="needUpdatedMinScore.GhiChu" required rows="4"></b-form-textarea>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditMinScore">Hủy</button>
-            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateMinScore()">Lưu</button>
-        </div>
+        <form @submit.prevent="updateMinScore" novalidate>
+
+            <div class="modal-body">
+
+                <form-group :validator="$v.needUpdatedMinScore.Nam" label="Năm">
+                    <b-form-input type="number" :required="true" id="nam" v-model="needUpdatedMinScore.Nam" @input="$v.needUpdatedMinScore.$touch()"></b-form-input>
+                </form-group>
+                <form-group :validator="$v.needUpdatedMinScore.Diem" label="Điểm">
+                <b-form-input type="number" :required="true" id="diem" v-model="needUpdatedMinScore.Diem" @input="$v.needUpdatedMinScore.$touch()"></b-form-input>
+                </form-group>
+                <label>Ghi chú</label>
+                <b-form-textarea id="ghiChu" v-model="needUpdatedMinScore.GhiChu" required rows="4"></b-form-textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditMinScore">Hủy</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+            </div>
+        </form>
     </b-modal>
 
     <!--Edit MJob -->
@@ -561,8 +583,33 @@
 
 <script>
 import axios from 'axios';
+import {
+    required,
+    email
+} from "vuelidate/lib/validators";
+import {
+    isGt2000,
+    isGt0to10,
+} from "../validators";
+
 export default {
     name: 'MajorDetail',
+    validations: {
+        needUpdatedMinScore: {
+            Nam: {
+                required,
+                gt2000: isGt2000
+            },
+            Diem: {
+                required,
+                gt0to10: isGt0to10
+            },
+            // Thêm field cho needUpdatedMinScore
+
+        }
+        
+        // Thêm field mới 
+    },
     watch: {
         '$route': function (to, from) {
             this.chuyenNganhId = this.$route.query.id;
@@ -574,6 +621,17 @@ export default {
             this.GetResearchOrientationById(this.chuyenNganhId);
             this.GetMinScoreByMajorId(this.chuyenNganhId);
         }
+    },
+    beforeMount() {
+        this.chuyenNganhId = this.$route.query.id;
+        console.log(this.$route.query.id);
+        this.getMajorById(this.chuyenNganhId);
+        this.getJobByMajorId(this.chuyenNganhId);
+        this.getMainAndGenaralSubjectsByMajorId(this.chuyenNganhId);
+        this.GetQuestionsByMajorandJob(this.chuyenNganhId);
+        this.GetResearchOrientationById(this.chuyenNganhId);
+        this.GetMinScoreByMajorId(this.chuyenNganhId);
+
     },
     methods: {
         getMajorById(id) {
@@ -627,6 +685,10 @@ export default {
             axios.get(url).then((response) => {
                 this.minScoreJson = response.data;
             });
+        },
+
+        setDeletedMajor(id) {
+            this.ChuyenNganhId = id;
         },
 
         setDeletedResearchOrientationId(id) {
@@ -859,7 +921,36 @@ export default {
             this.$bvModal.hide('deleteJobModal');
         },
 
+        deleteMajor() {
+            let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.CongViecVaHuongPhatTrienId}`;
+
+            axios.delete(url, this.CongViecVaHuongPhatTrienId).then(response => {
+
+                    this.$bvToast.toast('Xóa thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getJobByMajorId(this.chuyenNganhId);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+            this.$bvModal.hide('deleteJobModal');
+        },
+
         updateMinScore() {
+            console.log("submitted");
+            this.$v.needUpdatedMinScore.$touch();
+            // if its still pending or an error is returned do not submit
+            if (this.$v.needUpdatedMinScore.$pending || this.$v.needUpdatedMinScore.$error) return;
+            // to form submit after this
+            alert("Form submitted");
+
             let url = `https://localhost:44326/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
             axios.put(url, {
                     Diem: this.needUpdatedMinScore.Diem,
@@ -968,7 +1059,7 @@ export default {
             let url = `https://localhost:44326/api/MonHocChuyenNganh`;
 
             this.submitting = true;
-            axios.post(url, {           
+            axios.post(url, {
                     ChuyenNganhId: this.chuyenNganhId,
                     MonHocIds: this.selectedAddedSubjects,
                 }).then(response => {
@@ -982,7 +1073,7 @@ export default {
                 });
             this.selectedAddedSubjects = [];
         },
-        
+
         getMajorSubjectsNotInMajor(major_id) {
             let url = `https://localhost:44326/api/MonHocCN/${major_id}`;
 
@@ -1018,7 +1109,7 @@ export default {
             this.$bvModal.hide('editJobModal');
         },
 
-         onCancelAddSubject() {
+        onCancelAddSubject() {
             this.$bvModal.hide('addSubjectModal');
             this.selectedAddedSubjects = [];
         },
@@ -1065,8 +1156,8 @@ export default {
 
             needUpdatedJob: {},
 
-            selectedAddedSubjects:[],
-            subjectMajorJson:"",
+            selectedAddedSubjects: [],
+            subjectMajorJson: "",
         }
     },
 
