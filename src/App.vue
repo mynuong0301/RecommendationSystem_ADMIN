@@ -20,7 +20,7 @@
                     <li class="dropdown notification-list list-inline-item">
                         <div class="row align-items-center float-right  ">
 
-                            <h6 class="mt-3">Admin</h6>
+                            <h6 class="mt-3">{{this.currentUser.DisplayName}}</h6>
 
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -59,9 +59,14 @@
                         <li>
                             <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                             <ul id="chuyenNganhList" class="submenu mm-collapse mm-show">
-                                <li v-for=" (major, index) in accountJson" :key="index"><a style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a></li>
-
+                                <li v-for=" (major, index) in responseGlobalMajorData" :key="index">
+                                    <a v-if="major.ChuyenNganhId !== '-100'" style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
+                                    <a v-else style="white-space: break-spaces;" class="dropdown-item" href="/#/AddMajor">{{major.TenChuyenNganh}}</a>
+                                    </li>
+                               
                             </ul>
+
+                        
                         </li>
 
                         <li>
@@ -93,27 +98,44 @@
 
 <script>
 import axios from 'axios';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex';
 export default {
     name: 'App',
-    computed() {
-       
-         console.log('localStorage', localStorage.token);
+    computed: {
+        //
+        ...mapGetters([
+            'responseGlobalMajorData',
+        ]),
+    },
+     beforeMount
+     () {
+           console.log('localStorage', localStorage.token);
 
             if (localStorage.token) {
+                this.currentUser = JSON.parse(localStorage.user);
                 this.isLogin = true;
-                this.$router.replace({
+
+                if (window.location.href === '/Login') {
+   this.$router.replace({
                     path: '/StudentProfile'
                 });
+                }
+             
             } else {
 
                 this.isLogin = false;
             }
-    },
+     },
     mounted() {
          this.getAllMajors();
 
             if (localStorage.token) {
+              this.currentUser = JSON.parse(localStorage.user);
                 this.isLogin = true;
+
             } else {
                 this.isLogin = false;
             }
@@ -121,6 +143,8 @@ export default {
     watch: {
         '$route': function (to, from) {
                if (localStorage.token) {
+               this.currentUser = JSON.parse(localStorage.user);
+                
                 this.isLogin = true;
             } else {
                 this.isLogin = false;
@@ -130,11 +154,9 @@ export default {
     },
     methods: {
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
-            axios.get(url).then((response) => {
-                this.accountJson = response.data;
-            });
+            this.$store.dispatch('onGlobalMajorAction');
         },
+         
         showChuyenNganhList() {
             const ul = document.getElementById("chuyenNganhList");
             const arrow = document.getElementsByClassName("mdi mdi-chevron-right")[0];
@@ -152,6 +174,9 @@ export default {
             localStorage.removeItem(
                 'token'
             );
+             localStorage.removeItem(
+                'user'
+            );
             this.isLogin = false;
             this.$router.replace({
                 path: '/'
@@ -161,6 +186,7 @@ export default {
     data() {
         return {
             accountJson: "",
+            currentUser: {},
             isLogin: false,
         }
     },

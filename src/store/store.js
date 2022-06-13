@@ -38,6 +38,15 @@ const setting = {
     }),
 };
 
+//Global Major
+
+const globalMajor = {
+    state: () => ({
+
+        responseGlobalMajorData: [],
+    }),
+};
+
 export const store = new Vuex.Store({
     modules: {
         //B2: import module
@@ -45,7 +54,10 @@ export const store = new Vuex.Store({
         //student profile
         studentProfile: studentProfile,
         //setting
-        setting: setting
+        setting: setting,
+        //globalMajor
+        globalMajor: globalMajor,
+
     },
 
     // B3: Tạo mutation
@@ -101,6 +113,16 @@ export const store = new Vuex.Store({
         onGetMonHocXetCN(state, { tableData, khoaHoc }) {
             state.setting.tableDataMonHocXetCN = tableData;
             state.setting.khoaHoc = khoaHoc;
+        },
+
+        //globalMajor
+
+        onGetGlobalMajor(state, {
+
+            responseGlobalMajorData
+        }) {
+
+            state.globalMajor.responseGlobalMajorData = responseGlobalMajorData;
         },
     },
     // B4: Tạo action (cái này sẽ gọi bên vue)
@@ -250,8 +272,11 @@ export const store = new Vuex.Store({
             });
         },
 
-        onGetMonHocXetCNAction({ commit, state }, khoaHoc) {
+        onGetMonHocXetCNAction({ commit, state }, { khoaHoc, tenMonHoc }) {
             let url = 'https://localhost:44326/api/MonHocCSNvaToan/' + khoaHoc;
+            if (tenMonHoc) {
+                url += '?name=' + tenMonHoc;
+            }
             axios.get(url).then((response) => {
                 var tableData = response.data;
 
@@ -259,6 +284,19 @@ export const store = new Vuex.Store({
                     tableData,
                     khoaHoc,
                 });
+            });
+        },
+
+        //GlobalMajor
+        onGlobalMajorAction({ commit, state }, shouldSelect0) {
+            let url = 'https://localhost:44326/api/ChuyenNganh';
+
+            axios.get(url).then((response) => {
+                const responseGlobalMajorData = [...response.data, { TenChuyenNganh: 'Thêm chuyên ngành', ChuyenNganhId: '-100' }];
+                commit('onGetGlobalMajor', { responseGlobalMajorData })
+                if (shouldSelect0 && shouldSelect0 === true && responseGlobalMajorData && responseGlobalMajorData.length > 0) {
+                    window.location.href = '#/MajorDetail?id=' + responseGlobalMajorData[0].ChuyenNganhId;
+                }
             });
         },
 
@@ -309,5 +347,10 @@ export const store = new Vuex.Store({
             return state.setting.tableDataMonHocXetCN
         },
 
+        //globalMajor
+
+        responseGlobalMajorData(state) {
+            return state.globalMajor.responseGlobalMajorData
+        },
     }
 })

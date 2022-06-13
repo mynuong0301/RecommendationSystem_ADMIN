@@ -190,18 +190,7 @@ export default {
         },
 
         getSubjects() {
-            let url = 'https://localhost:44326/api/MonHoc';
-            if (this.searchKey) {
-                url += `?name=${this.searchKey}`
-            }
-            try {
-                axios.get(url).then((response) => {
-                    this.subjectJson = response.data;
-
-                });
-            } catch (e) {
-                console.log(e);
-            }
+          this.getTableData(this.searchKey);
 
         },
 
@@ -247,18 +236,19 @@ export default {
             });
         },
 
-        getTableData() {
+        getTableData(name) {
             let year = this.khoaHoc;
 
             if (!year || year === -1) {
                 year = this.yearList[0];
             }
 
-            this.$store.dispatch('onGetMonHocXetCNAction', year);
+            this.$store.dispatch('onGetMonHocXetCNAction', {khoaHoc: year, tenMonHoc: name});
         },
         onKhoaHocSelect(khoaHoc) {
             this.getSubjectsNotInYear(khoaHoc);
             this.$store.dispatch('onKhoaHocSelectAction', khoaHoc);
+            this.searchKey="";
         },
 
         onCancelAddSubject() {

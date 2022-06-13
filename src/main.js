@@ -11,6 +11,23 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { store } from './store/store.js'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
+import Vuelidate from "vuelidate";
+import VuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
+
+Vue.use(Vuelidate);
+Vue.use(VuelidateErrorExtractor, {
+    i18n: false,
+    // Define common validation messages.
+    messages: {
+        required: "{attribute} không được bỏ trống",
+        gt2000: "{attribute} phải lớn hơn 2000",
+        notGmail: "{attribute} must not be gmail",
+        gt0to10: "{attribute} phải có giá trị từ 0 đến 10",
+        email: "{attribute} is not a valid Email address.",
+        isEmailAvailable: "{attribute} is not available. Must be at least 10 characters long."
+    }
+});
+Vue.component("form-group", templates.singleErrorExtractor.foundation6);
 
 Vue.component('v-select', vSelect)
 
