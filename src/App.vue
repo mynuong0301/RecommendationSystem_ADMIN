@@ -20,7 +20,7 @@
                     <li class="dropdown notification-list list-inline-item">
                         <div class="row align-items-center float-right  ">
 
-                            <h6 class="mt-3">Admin</h6>
+                            <h6 class="mt-3">{{this.currentUser.DisplayName}}</h6>
 
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -115,10 +115,15 @@ export default {
            console.log('localStorage', localStorage.token);
 
             if (localStorage.token) {
+                this.currentUser = JSON.parse(localStorage.user);
                 this.isLogin = true;
-                this.$router.replace({
+
+                if (window.location.href === '/Login') {
+   this.$router.replace({
                     path: '/StudentProfile'
                 });
+                }
+             
             } else {
 
                 this.isLogin = false;
@@ -128,6 +133,7 @@ export default {
          this.getAllMajors();
 
             if (localStorage.token) {
+              this.currentUser = JSON.parse(localStorage.user);
                 this.isLogin = true;
 
             } else {
@@ -137,6 +143,8 @@ export default {
     watch: {
         '$route': function (to, from) {
                if (localStorage.token) {
+               this.currentUser = JSON.parse(localStorage.user);
+                
                 this.isLogin = true;
             } else {
                 this.isLogin = false;
@@ -166,6 +174,9 @@ export default {
             localStorage.removeItem(
                 'token'
             );
+             localStorage.removeItem(
+                'user'
+            );
             this.isLogin = false;
             this.$router.replace({
                 path: '/'
@@ -175,6 +186,7 @@ export default {
     data() {
         return {
             accountJson: "",
+            currentUser: {},
             isLogin: false,
         }
     },

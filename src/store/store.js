@@ -272,8 +272,11 @@ export const store = new Vuex.Store({
             });
         },
 
-        onGetMonHocXetCNAction({ commit, state }, khoaHoc) {
+        onGetMonHocXetCNAction({ commit, state }, { khoaHoc, tenMonHoc }) {
             let url = 'https://localhost:44326/api/MonHocCSNvaToan/' + khoaHoc;
+            if (tenMonHoc) {
+                url += '?name=' + tenMonHoc;
+            }
             axios.get(url).then((response) => {
                 var tableData = response.data;
 
@@ -285,12 +288,15 @@ export const store = new Vuex.Store({
         },
 
         //GlobalMajor
-        onGlobalMajorAction({ commit, state }) {
+        onGlobalMajorAction({ commit, state }, shouldSelect0) {
             let url = 'https://localhost:44326/api/ChuyenNganh';
 
             axios.get(url).then((response) => {
                 const responseGlobalMajorData = [...response.data, { TenChuyenNganh: 'Thêm chuyên ngành', ChuyenNganhId: '-100' }];
                 commit('onGetGlobalMajor', { responseGlobalMajorData })
+                if (shouldSelect0 && shouldSelect0 === true && responseGlobalMajorData && responseGlobalMajorData.length > 0) {
+                    window.location.href = '#/MajorDetail?id=' + responseGlobalMajorData[0].ChuyenNganhId;
+                }
             });
         },
 

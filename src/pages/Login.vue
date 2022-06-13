@@ -97,26 +97,34 @@ export default {
                 UserName: this.username,
                 Password: this.password
             }).then((response) => {
-                if (response.data) {
-                    var token = response.data;
-
+                alert(response.data);
+                if (response.data.token && response.data.user) {
+                    var token = response.data.token;
+                    var user = response.data.user;
                     localStorage.token = token;
+                    localStorage.user = JSON.stringify(user);
 
-// thoog báo
+                    // thoog báo
 
                     this.$router.replace({
                         path: '/StudentProfile'
                     });
                 } else {
-                    // thông báo
                      this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
                         title: 'Đăng nhập',
-                        variant: 'fail',
+                        variant: 'danger',
                         solid: true,
                         autoHideDelay: 1000,
                     });
                 }
 
+            }).catch((e) => {
+                 this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
+                        title: 'Đăng nhập',
+                        variant: 'danger',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
             });
 
             //axios.post(url, {Email: ksdfjsaf ,sdf ksjfk})
