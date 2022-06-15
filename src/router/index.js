@@ -7,6 +7,7 @@ import Setting from '@/pages/Setting.vue'
 import MajorDetail from '@/pages/MajorDetail.vue'
 import Login from '@/pages/Login.vue'
 import AddMajor from '@/pages/AddMajor.vue'
+import Account from '@/pages/Account.vue'
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
 Vue.use(Router)
@@ -40,5 +41,9 @@ export default new Router({
         path: "/AddMajor",
         name: "AddMajor",
         component: AddMajor
+    }, {
+        path: "/Account",
+        name: "Account",
+        component: Account
     }]
 })

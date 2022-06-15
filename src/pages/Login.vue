@@ -49,14 +49,14 @@
                         </div>
                     </div>
 
-                    <div class="form-group row m-t-30 m-b-0">
+                    <!--<div class="form-group row m-t-30 m-b-0">
                         <div class="col-sm-7">
                             <a href="pages-recoverpw.html" class="text-muted"><i class="fa fa-lock m-r-5"></i> Quên mật khẩu?</a>
                         </div>
                         <div class="col-sm-5 text-right">
                             <a href="pages-register.html" class="text-muted">Tạo tài khoản mới</a>
                         </div>
-                    </div>
+                    </div>-->
                 </form>
             </div>
         </div>
@@ -83,21 +83,27 @@ export default {
             password: "",
         };
     },
-    computed: {
+    beforeMount() {
         //
 
     },
     mounted() {
+        if (localStorage.token) {
 
+            this.$router.replace({
+                path: '/StudentProfile'
+            });
+
+        }
     },
     methods: {
         onLogin() {
-            let url = 'https://localhost:44326/api/UserInfo';
+            let url = 'https://localhost:44326/api/AdminInfo';
             axios.post(url, {
                 UserName: this.username,
                 Password: this.password
             }).then((response) => {
-                alert(response.data);
+
                 if (response.data.token && response.data.user) {
                     var token = response.data.token;
                     var user = response.data.user;
@@ -110,21 +116,22 @@ export default {
                         path: '/StudentProfile'
                     });
                 } else {
-                     this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
+                    this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
                         title: 'Đăng nhập',
                         variant: 'danger',
+                        toaster: 'b-toaster-top-center',
                         solid: true,
                         autoHideDelay: 1000,
                     });
                 }
 
             }).catch((e) => {
-                 this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
-                        title: 'Đăng nhập',
-                        variant: 'danger',
-                        solid: true,
-                        autoHideDelay: 1000,
-                    });
+                this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không hợp lệ!', {
+                    title: 'Đăng nhập',
+                    variant: 'danger', toaster: 'b-toaster-top-center',
+                    solid: true,
+                    autoHideDelay: 1000,
+                });
             });
 
             //axios.post(url, {Email: ksdfjsaf ,sdf ksjfk})
