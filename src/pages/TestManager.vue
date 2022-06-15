@@ -19,15 +19,16 @@
                     </div> <!-- end row -->
                 </div>
                 <div class="row mb-3">
-                    <div class="col-lg-4">
-
+                   <div style="flex: auto;">
+                    <div class="row" style="justify-content: space-between;">
+                         <div style="width: 300px; margin-left: 30px">
                         <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
-
                     </div>
 
-                    <div class="col-lg-2 m-r-1">
+                    <div class="row" style="justify-content: right;">
+                        <div style="margin-right: 20px">
                         <div class="dropdown mo-mb-2 ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{major ?  major.TenChuyenNganh: 'Chọn chuyên ngành'}} </button>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{major ?  major.TenChuyenNganh: 'Chọn chuyên ngành'}} </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
                                 <div style="height:120px !important; overflow:scroll;">
                                     <tbody v-for=" (major, index) in majorJson" :key="index">
@@ -38,9 +39,9 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-2">
+                    <div>
                         <div class="dropdown mo-mb-2">
-                            <button :disabled="major === '-1' || (major && major.ChuyenNganhId === '-1')" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
+                            <button :disabled="major === '-1' || (major && major.ChuyenNganhId === '-1')" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
                                 <div style="height:120px !important; overflow:scroll;">
                                     <tbody v-for=" (job, index) in jobData" :key="index">
@@ -50,8 +51,11 @@
                             </div>
                         </div>
                     </div>
+                        </div>
+                    </div>
+                   </div>
 
-                    <div class="col-lg-4">
+                    <div style="width: 400px; margin-right: 10px">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
                                 <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" v-b-modal="'importExcelFile'"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>

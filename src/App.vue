@@ -28,10 +28,8 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
-                                    <a class="dropdown-item" ><i class="mdi mdi-account-circle"></i> Profile</a>
-                                    <a class="dropdown-item" ><i class="mdi mdi-wallet"></i> My Wallet</a>
-                                    <a class="dropdown-item d-block" ><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
-                                    <a class="dropdown-item" ><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
+                                    <a class="dropdown-item"><i class="mdi mdi-account-circle"></i> Profile</a>
+
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item text-danger" v-on:click="logOut()"><i class="mdi mdi-power text-danger"></i> Logout</a>
                                 </div>
@@ -60,13 +58,12 @@
                             <a v-on:click="showChuyenNganhList()" class="waves-effect"><i class="fas fa-folder-open"></i> <span> Chuyên ngành <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                             <ul id="chuyenNganhList" class="submenu mm-collapse mm-show">
                                 <li v-for=" (major, index) in responseGlobalMajorData" :key="index">
-                                    <a v-if="major.ChuyenNganhId !== '-100'" style="white-space: break-spaces;" class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
-                                    <a v-else style="white-space: break-spaces;" class="dropdown-item" href="/#/AddMajor">{{major.TenChuyenNganh}}</a>
-                                    </li>
-                               
+                                    <a v-if="major.ChuyenNganhId !== '-100'" style="white-space: break-spaces; " class="dropdown-item" :href="`#/MajorDetail?id=${major.ChuyenNganhId}`">{{major.TenChuyenNganh}}</a>
+                                    <a v-else style="white-space: break-spaces;  border-style: dotted;  color:#ffffff; font-weight: 500;" class="dropdown-item" href="/#/AddMajor"> <i class="mdi mdi-plus-circle-outline" style="color:#ffffff; font-size: 20px; margin-right: 10px;"></i>Thêm mới</a>
+                                </li>
+
                             </ul>
 
-                        
                         </li>
 
                         <li>
@@ -78,7 +75,9 @@
                         <li>
                             <a href="/#/Setting" class="waves-effect"><i class="mdi mdi-settings"></i><span>Tùy chỉnh </span> </a>
                         </li>
-
+                        <li>
+                            <a href="/#/Account" class="waves-effect"><i class="mdi mdi-settings"></i><span>Quản lý tài khoản </span> </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -110,41 +109,40 @@ export default {
             'responseGlobalMajorData',
         ]),
     },
-     beforeMount
-     () {
-           console.log('localStorage', localStorage.token);
+    beforeMount() {
+        console.log('localStorage', localStorage.token);
 
-            if (localStorage.token) {
-                this.currentUser = JSON.parse(localStorage.user);
-                this.isLogin = true;
+        if (localStorage.token) {
+            this.currentUser = JSON.parse(localStorage.user);
+            this.isLogin = true;
 
-                if (window.location.href === '/Login') {
-   this.$router.replace({
+            if (window.location.href === '/') {
+                this.$router.replace({
                     path: '/StudentProfile'
                 });
-                }
-             
-            } else {
-
-                this.isLogin = false;
             }
-     },
+
+        } else {
+
+            this.isLogin = false;
+        }
+    },
     mounted() {
-         this.getAllMajors();
+        this.getAllMajors();
 
-            if (localStorage.token) {
-              this.currentUser = JSON.parse(localStorage.user);
-                this.isLogin = true;
+        if (localStorage.token) {
+            this.currentUser = JSON.parse(localStorage.user);
+            this.isLogin = true;
 
-            } else {
-                this.isLogin = false;
-            }
+        } else {
+            this.isLogin = false;
+        }
     },
     watch: {
         '$route': function (to, from) {
-               if (localStorage.token) {
-               this.currentUser = JSON.parse(localStorage.user);
-                
+            if (localStorage.token) {
+                this.currentUser = JSON.parse(localStorage.user);
+
                 this.isLogin = true;
             } else {
                 this.isLogin = false;
@@ -156,7 +154,7 @@ export default {
         getAllMajors() {
             this.$store.dispatch('onGlobalMajorAction');
         },
-         
+
         showChuyenNganhList() {
             const ul = document.getElementById("chuyenNganhList");
             const arrow = document.getElementsByClassName("mdi mdi-chevron-right")[0];
@@ -174,7 +172,7 @@ export default {
             localStorage.removeItem(
                 'token'
             );
-             localStorage.removeItem(
+            localStorage.removeItem(
                 'user'
             );
             this.isLogin = false;

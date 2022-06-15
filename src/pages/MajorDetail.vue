@@ -19,18 +19,18 @@
                 <h1 class="col-lg-9 mb-3">{{majorJson.TenChuyenNganh}} </h1>
                 <div class="row" style="margin-right: 13px; height: 40px">
 
-                 <div class="" style="margin-right: 8px">
-                    <button role="button" class="btn btn-success waves-effect waves-light m-r-5" v-on:click="onEditLinhVucNghienCuu()"><i class="mdi mdi-pencil-outline"></i></button>
+                    <div class="" style="margin-right: 8px">
+                        <button role="button" class="btn btn-success waves-effect waves-light m-r-5" v-on:click="onEditLinhVucNghienCuu()"><i class="mdi mdi-pencil-outline"></i></button>
+                    </div>
+                    <button v-on:click="setDeletedMajor(this.chuyenNganhId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteMajorModal'"><i class="far fa-trash-alt"></i></button>
                 </div>
-                <button  v-on:click="setDeletedMajor(this.chuyenNganhId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteMajorModal'"><i class="far fa-trash-alt"></i></button>
-            </div>
             </div>
 
             <div class="row mb-1" style="justify-content: space-between;">
                 <div class="col-lg-6">
                     <label> Mã chuyên ngành</label>
                 </div>
-  <div class="col-lg-6">
+                <div class="col-lg-6">
                     <label> Video</label>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         <b-form-input :readonly="true" id="MaChuyenNganh" v-model="majorJson.ChuyenNganhId"></b-form-input>
                     </div>
                 </div>
-                 <div class="col-lg-6">
+                <div class="col-lg-6">
                     <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
                     <div>
                         <b-form-input :readonly="!isEditLinhVucNghienCuu" id="LinkVideo" v-model="majorJson.LinkVideo"></b-form-input>
@@ -56,24 +56,24 @@
             </div>
 
             <div class="row mb-1" style="justify-content: space-between;">
-                 <div class="col-lg-6">
-                 <div class="row" style="justify-content: space-between;">
-                      <div class="col-lg-8"> <label> Giới thiệu chuyên ngành</label></div>
-                  
-                 </div>
+                <div class="col-lg-6">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class="col-lg-8"> <label> Giới thiệu chuyên ngành</label></div>
+
+                    </div>
                 </div>
-               
-                  <div class="col-lg-6">
-                 <div class="row" style="justify-content: space-between;">
-                      <div class="col-lg-8"> <label> Lĩnh vực nghiên cứu</label></div>
-                    
-                 </div>
+
+                <div class="col-lg-6">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class="col-lg-8"> <label> Lĩnh vực nghiên cứu</label></div>
+
+                    </div>
                 </div>
-               
+
             </div>
 
             <div class="row mb-3">
- <div class="col-lg-6">
+                <div class="col-lg-6">
                     <!--<label> {{majorJson.LinhVucNghienCuu}}</label>  -->
                     <div>
                         <b-form-textarea :readonly="!isEditLinhVucNghienCuu" id="GioiThieuChuyenNganh" v-model="majorJson.GioiThieuChuyenNganh" required rows="6"></b-form-textarea>
@@ -156,7 +156,7 @@
                         <div class="col-lg-12">
                             <b-tab title="Các học phần">
                                 <b-card-text>
-                                   
+
                                     <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
                                         <a role="button" v-b-modal="'addSubjectModal'" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
                                             <i class="fas fa-plus"></i> <i></i>
@@ -183,7 +183,7 @@
                                                             <td>
                                                                 <div class="btn-toolbar form-group mb-0">
                                                                     <div class="">
-                                                                       <!-- <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedSubject(item)" v-b-modal="'editSubjectModal'"></i></a> -->
+                                                                        <!-- <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedSubject(item)" v-b-modal="'editSubjectModal'"></i></a> -->
                                                                         <button v-on:click="setDeletedSubject(item.ChuyenNganhId, item.MonHocId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteSubjectModal'"><i class="far fa-trash-alt"></i></button>
                                                                     </div>
                                                                 </div>
@@ -444,20 +444,20 @@
     <!--Edit DinhHuongNghienCuu -->
     <!-- modal -->
     <b-modal id="editResearchModal" title="Chỉnh sửa định hướng nghiên cứu" hide-footer>
-        <form @submit.prevent="updateResearch" novalidate> 
-        <div class="modal-body">
-            <form-group :validator="$v.needUpdatedResearchOrientation.TenDinhHuong" label="Định hướng nghiên cứu">
-            <b-form-textarea id="dinhHuong" v-model="needUpdatedResearchOrientation.TenDinhHuong" :required="true"  @input="$v.needUpdatedResearchOrientation.$touch()"></b-form-textarea>
-            </form-group>
-            <label>Dự án nghiên cứu</label>
-            <b-form-textarea id="duAn" v-model="needUpdatedResearchOrientation.DuAnNghienCuu" required rows="4"></b-form-textarea>
-            <label>Chủ đề nghiên cứu</label>
-            <b-form-textarea id="chuDe" v-model="needUpdatedResearchOrientation.ChuDeNghienCuu" required rows="4"></b-form-textarea>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditResearch">Hủy</button>
-            <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
-        </div>
+        <form @submit.prevent="updateResearch" novalidate>
+            <div class="modal-body">
+                <form-group :validator="$v.needUpdatedResearchOrientation.TenDinhHuong" label="Định hướng nghiên cứu">
+                    <b-form-textarea id="dinhHuong" v-model="needUpdatedResearchOrientation.TenDinhHuong" :required="true" @input="$v.needUpdatedResearchOrientation.$touch()"></b-form-textarea>
+                </form-group>
+                <label>Dự án nghiên cứu</label>
+                <b-form-textarea id="duAn" v-model="needUpdatedResearchOrientation.DuAnNghienCuu" required rows="4"></b-form-textarea>
+                <label>Chủ đề nghiên cứu</label>
+                <b-form-textarea id="chuDe" v-model="needUpdatedResearchOrientation.ChuDeNghienCuu" required rows="4"></b-form-textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditResearch">Hủy</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+            </div>
         </form>
     </b-modal>
 
@@ -489,13 +489,13 @@
     <b-modal id="editJobModal" title="Chỉnh sửa công việc và hướng phát triển" hide-footer>
         <form @submit.prevent="updateJob" novalidate>
             <div class="modal-body">
-                <form-group :validator="$v.needUpdatedJob.TenCongViec" label="Tên công việc">
-                <b-form-input id="congViec" :required="true"  v-model="needUpdatedJob.TenCongViec"  @input="$v.needUpdatedJob.$touch()"></b-form-input>
+                <form-group :validator="$v.needUpdatedJob.TenCongViec" label="Công việc và hướng phát triển">
+                    <b-form-input id="congViec" :required="true" v-model="needUpdatedJob.TenCongViec" @input="$v.needUpdatedJob.$touch()"></b-form-input>
                 </form-group>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditJob">Hủy</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" >Lưu</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
             </div>
         </form>
     </b-modal>
@@ -503,109 +503,122 @@
     <!-- modal edit subject -->
     <b-modal id="editSubjectModal" title="Chỉnh sửa học phần" hide-footer>
         <form @submit.prevent="updateSubject" novalidate>
-        <div class="modal-body">
-            
-            <label>Mã môn học</label>
-            <b-form-textarea id="monHocId" v-model="needUpdatedSubject.MonHocId" required rows="4"></b-form-textarea>
-            <form-group :validator="$v.needUpdatedSubject.TenMonHoc" label="Tên môn học">
-            <b-form-textarea :required="true"  id="duAn" v-model="needUpdatedSubject.TenMonHoc" @input="$v.needUpdatedSubject.$touch()" ></b-form-textarea>
-            </form-group>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditSubject">Hủy</button>
-            <button type="submit" class="btn btn-primary waves-effect waves-light" >Lưu</button>
-        </div>
+            <div class="modal-body">
+
+                <form-group :validator="$v.needUpdatedSubject.MonHocId" label="Tên môn học">
+                    <b-form-textarea id="monHocId" v-model="needUpdatedSubject.MonHocId" required rows="4"></b-form-textarea>
+                </form-group>
+                <label>Mã môn học</label>
+                <b-form-textarea :required="true" id="duAn" v-model="needUpdatedSubject.TenMonHoc" @input="$v.needUpdatedSubject.$touch()"></b-form-textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditSubject">Hủy</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+            </div>
         </form>
     </b-modal>
     <!-- add job modal -->
     <div id="addJob" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm công việc và hướng phát triển</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Công việc và hướng phát triển</label>
-                    <textarea required="required" rows="5" placeholder="Nhập vào công việc và hướng phát triển " class="form-control" v-model="jobName"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addJob(jobName)">Lưu</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+        <form @submit.prevent="addJob" novalidate>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Thêm công việc và hướng phát triển</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form-group :validator="$v.jobName" label="Công việc và hướng phát triển">
+                            <textarea @input="$v.jobName.$touch()" required="required" rows="5" placeholder="Nhập vào công việc và hướng phát triển " class="form-control" v-model="jobName"></textarea>
+                        </form-group>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
     </div>
 
-    <!-- modal edit subject -->
+    <!-- modal add subject -->
     <b-modal id="addSubjectModal" title="Thêm học phần" hide-footer>
-        <div class="modal-body">
+        <form @submit.prevent="addSubjects" novalidate>
+            <div class="modal-body">
 
-            <label>Tên môn học</label>
+                <form-group :validator="$v.selectedAddedSubjects" label="Môn học">
 
-            <v-select multiple v-model="selectedAddedSubjects" :options="subjectMajorJson" label="TenMonHoc" :reduce="subject => subject.MonHocId" />
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddSubject">Hủy</button>
-            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addSubjects()">Lưu</button>
-        </div>
+                    <v-select @input="$v.selectedAddedSubjects.$touch()" multiple v-model="selectedAddedSubjects" :options="subjectMajorJson" label="TenMonHoc" :reduce="subject => subject.MonHocId" />
+                </form-group>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddSubject">Hủy</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+            </div>
+        </form>
     </b-modal>
 
     <!-- add min score modal -->
     <div id="addMinScore" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <form @submit.prevent="addMinScore" novalidate>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Thêm điểm sàn</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form-group :validator="$v.year" label="Năm">
+                            <b-form-input id="input-2" v-model="year" @input="$v.year.$touch()" placeholder="Nhập năm học"></b-form-input>
+                        </form-group>
+                        <form-group :validator="$v.score" label="Điểm">
+                            <b-form-input id="input-2" v-model="score" @input="$v.score.$touch()" placeholder="Nhập điểm"></b-form-input>
+                        </form-group>
+                        <label>Ghi chú</label>
+                        <b-form-input id="input-2" v-model="note" placeholder="Nhập ghi chú"></b-form-input>
 
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm điểm sàn</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Năm học</label>
-                    <b-form-input id="input-2" v-model="year" placeholder="Nhập năm học"></b-form-input>
-                    <label>Điểm</label>
-                    <b-form-input id="input-2" v-model="score" placeholder="Nhập điểm"></b-form-input>
-                    <label>Ghi chú</label>
-                    <b-form-input id="input-2" v-model="note" placeholder="Nhập ghi chú"></b-form-input>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addMinScore(score, year, note)">Lưu</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
     </div>
 
     <!-- add dinhHuongNghienCuu modal -->
     <div id="addResearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="myModalLabel">Thêm định hướng nghiên cứu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label>Tên định hướng</label>
-                    <textarea required="required" rows="5" placeholder="Nhập vào định hướng" class="form-control" v-model="researchName"></textarea>
-                    <label>Dự án nghiên cứu</label>
-                    <textarea required="required" rows="5" placeholder="Nhập vào dự án nghiên cứu " class="form-control" v-model="projectName"></textarea>
-                    <label>Chủ đề nghiên cứu</label>
-                    <textarea required="required" rows="5" placeholder="Nhập vào chủ đề nghiên cứu " class="form-control" v-model="topicName"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addResearch(researchName, projectName, topicName)">Lưu</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+        <form @submit.prevent="addResearch" novalidate>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Thêm định hướng nghiên cứu</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form-group :validator="$v.researchName" label="Tên định hướng">
+
+                            <textarea @input="$v.researchName.$touch()" required="required" rows="5" placeholder="Nhập vào định hướng" class="form-control" v-model="researchName"></textarea>
+                        </form-group>
+                        <label>Dự án nghiên cứu</label>
+                        <textarea required="required" rows="5" placeholder="Nhập vào dự án nghiên cứu " class="form-control" v-model="projectName"></textarea>
+                        <label>Chủ đề nghiên cứu</label>
+                        <textarea required="required" rows="5" placeholder="Nhập vào chủ đề nghiên cứu " class="form-control" v-model="topicName"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addResearch(researchName, projectName, topicName)">Lưu</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
     </div>
 </div>
 </template>
@@ -651,13 +664,32 @@ export default {
             },
         },
         //Định hướng nghiên cứu
-        needUpdatedResearchOrientation:{
-            TenDinhHuong:{
+        needUpdatedResearchOrientation: {
+            TenDinhHuong: {
                 required
             }
+        },
+        researchName: {
+            required
+        },
+        year: {
+            required,
+            gt2000: isGt2000
+        },
+        score: {
+            required,
+            gt0to10: isGt0to10
+        },
+        jobName: {
+            required
+        },
+        selectedAddedSubjects: {
+
+            required
+
         }
     },
-    
+
     watch: {
         '$route': function (to, from) {
             this.chuyenNganhId = this.$route.query.id;
@@ -870,6 +902,8 @@ export default {
         },
 
         updateResearch() {
+            this.$v.needUpdatedResearchOrientation.TenDinhHuong.$touch();
+             if (this.$v.needUpdatedResearchOrientation.TenDinhHuong.$pending || this.$v.needUpdatedResearchOrientation.TenDinhHuong.$error) return;
             let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.needUpdatedResearchOrientation.DinhHuongNghienCuuId}`;
             axios.put(url, {
                     ChuyenNganhId: this.needUpdatedResearchOrientation.ChuyenNganhId,
@@ -926,6 +960,9 @@ export default {
         },
 
         updateJob() {
+            this.$v.needUpdatedJob.TenCongViec.$touch();
+           
+             if (this.$v.needUpdatedJob.TenCongViec.$pending || this.$v.needUpdatedJob.TenCongViec.$error) return;
             let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.needUpdatedJob.CongViecVaHuongPhatTrienId}`;
             axios.put(url, {
                     CongViecVaHuongPhatTrienId: this.needUpdatedJob.CongViecVaHuongPhatTrienId,
@@ -954,7 +991,6 @@ export default {
             let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.CongViecVaHuongPhatTrienId}`;
 
             axios.delete(url, this.CongViecVaHuongPhatTrienId).then(response => {
-
 
                     this.$bvToast.toast('Xóa thành công!', {
                         title: 'Thành công',
@@ -996,12 +1032,12 @@ export default {
         },
 
         updateMinScore() {
+           
             console.log("submitted");
             this.$v.needUpdatedMinScore.$touch();
             // if its still pending or an error is returned do not submit
             if (this.$v.needUpdatedMinScore.$pending || this.$v.needUpdatedMinScore.$error) return;
             // to form submit after this
-            alert("Form submitted");
 
             let url = `https://localhost:44326/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
             axios.put(url, {
@@ -1030,10 +1066,12 @@ export default {
             this.$bvModal.hide('editMinScoreModal');
         },
 
-        addJob(jobName) {
+        addJob() {
+            this.$v.jobName.$touch();
 
+            if (this.$v.jobName.$pending || this.$v.jobName.$error) return;
             const body = {
-                "TenCongViec": jobName,
+                "TenCongViec": this.jobName,
                 "ChuyenNganhId": this.chuyenNganhId,
             }
 
@@ -1053,11 +1091,15 @@ export default {
             this.jobName = "";
         },
 
-        addMinScore(score, year, note) {
+        addMinScore() {
+            this.$v.year.$touch();
+            this.$v.score.$touch();
+            if (this.$v.year.$pending || this.$v.year.$error) return;
+            if (this.$v.score.$pending || this.$v.score.$error) return;
             const body = {
-                "Diem": score,
-                "Nam": year,
-                "GhiChu": note,
+                "Diem": this.score,
+                "Nam": this.year,
+                "GhiChu": this.note,
                 "ChuyenNganhId": this.chuyenNganhId,
             }
 
@@ -1080,6 +1122,8 @@ export default {
         },
 
         addResearch(researchName, projectName, topicName) {
+            this.$v.researchName.$touch();
+            if (this.$v.researchName.$pending || this.$v.researchName.$error) return;
             const body = {
                 "TenDinhHuong": researchName,
                 "DuAnNghienCuu": projectName,
@@ -1108,6 +1152,8 @@ export default {
         },
 
         addSubjects() {
+            this.$v.selectedAddedSubjects.$touch();
+            if (this.$v.selectedAddedSubjects.$pending || this.$v.selectedAddedSubjects.$error) return;
             let url = `https://localhost:44326/api/MonHocChuyenNganh`;
 
             this.submitting = true;
