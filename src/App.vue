@@ -73,10 +73,13 @@
                             <a href="/#/StudentProfile" class="waves-effect"><i class="fas fa-address-book"></i><span>Hồ sơ sinh viên </span> </a>
                         </li>
                         <li>
-                            <a href="/#/Setting" class="waves-effect"><i class="mdi mdi-settings"></i><span>Tùy chỉnh </span> </a>
+                            <a href="/#/Subject" class="waves-effect"><i class="mdi mdi-notebook-multiple"></i><span>Quản lý môn học </span> </a>
                         </li>
                         <li>
-                            <a href="/#/Account" class="waves-effect"><i class="mdi mdi-settings"></i><span>Quản lý tài khoản </span> </a>
+                            <a href="/#/Setting" class="waves-effect"><i class="mdi mdi-book-open-page-variant"></i><span>Môn học xét CN </span> </a>
+                        </li>
+                        <li>
+                            <a href="/#/Account" class="waves-effect"><i class="mdi mdi-account-multiple-outline"></i><span>Quản lý tài khoản </span> </a>
                         </li>
                     </ul>
                 </div>

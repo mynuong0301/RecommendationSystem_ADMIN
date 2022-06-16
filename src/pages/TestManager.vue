@@ -149,7 +149,7 @@
                                     <div class="form-group">
                                         <label>Chuyên ngành</label>
                                         <div class="dropdown mo-mb-2">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
                                                 {{majorPopup=== "-1" ? 'Chọn chuyên ngành' :majorPopup.TenChuyenNganh}}
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -162,7 +162,7 @@
                                     <div class="form-group">
                                         <label>Công việc/hướng phát triển</label>
                                         <div class="dropdown mo-mb-2">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
                                                 {{jobPopup === "-1" ? 'Chọn hướng phát triển' : jobPopup.TenCongViec}}
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -340,7 +340,7 @@ export default {
                         solid: true,
                         autoHideDelay: 1000,
                     });
-
+                    this.$bvModal.hide('importExcelFile');
                     this.getTableData();
                 }
             });

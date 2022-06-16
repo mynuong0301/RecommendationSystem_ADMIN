@@ -3,8 +3,8 @@ export function isNameJoe(value) {
     return value === "Joe";
 }
 
-export function notGmail(value = "") {
-    return !value.includes("gmail");
+export function isGmail(value = "") {
+    return value.includes("gmail");
 }
 
 export function isGt2000(value) {
@@ -12,4 +12,8 @@ export function isGt2000(value) {
 }
 export function isGt0to10(value) {
     return (value <= 10 && value >= 0);
+}
+
+export function isPasswordLength(value) {
+    return (value.length >= 8);
 }

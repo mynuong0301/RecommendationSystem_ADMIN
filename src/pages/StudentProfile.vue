@@ -50,7 +50,7 @@
                     <table class="table table-striped mb-0">
                         <thead>
                             <tr class="bg-primary" style="background-color: #1C819E !important;text-align: center">
-                                <th>#</th>
+                                <th>STT</th>
                                 <th>MSSV</th>
                                 <th>Điểm trung bình</th>
                                 <th>Chuyên ngành</th>
