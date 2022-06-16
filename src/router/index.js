@@ -8,6 +8,7 @@ import MajorDetail from '@/pages/MajorDetail.vue'
 import Login from '@/pages/Login.vue'
 import AddMajor from '@/pages/AddMajor.vue'
 import Account from '@/pages/Account.vue'
+import Subject from '@/pages/Subject.vue'
 import JwPagination from 'jw-vue-pagination';
 Vue.component('jw-pagination', JwPagination);
 Vue.use(Router)
@@ -45,5 +46,9 @@ export default new Router({
         path: "/Account",
         name: "Account",
         component: Account
+    }, {
+        path: "/Subject",
+        name: "Subject",
+        component: Subject
     }]
 })

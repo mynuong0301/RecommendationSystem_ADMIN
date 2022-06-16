@@ -9,14 +9,14 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <h3 class="page-title" style="padding-left: 0px !important;">MÔN HỌC XÉT CHUYÊN NGÀNH</h3>
+                            <h3 class="page-title" style="padding-left: 0px !important;">QUẢN LÝ MÔN HỌC</h3>
                         </div>
                     </div> <!-- end row -->
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-6">
-                        <b-form-input id="input-2" v-model="searchKey" placeholder="Nhập môn học bạn muốn tìm kiếm.." v-on:keyup.enter="getSubjects()"></b-form-input>
+                        <b-form-input id="input-2" v-model="inputNameSubject" placeholder="Nhập môn học bạn muốn tìm kiếm.." v-on:keyup.enter="getSubjects()"></b-form-input>
 
                         <!-- <form class="email-inbox">
                             <div class="form-group mb-0">
@@ -26,7 +26,7 @@
                         </form> -->
                     </div>
 
-                    <div class="col-lg-2 m-r-1">
+                    <!--<div class="col-lg-2 m-r-1">
                         <div class="dropdown mo-mb-2 ">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{ khoaHoc === -1 ? 'Chọn năm' : khoaHoc}} </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
@@ -37,12 +37,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
-                                <a style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" v-b-modal="'addSubjectModal'"><i class="fas fa-plus"></i> <i></i> <span>Thêm môn học</span> </a>
+                                <a style="background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" v-b-modal="'addSubjectAllModal'"><i class="fas fa-plus"></i> <i></i> <span>Thêm môn học</span> </a>
                             </div>
                         </div>
                     </div>
@@ -64,13 +64,11 @@
                             <th scope="row" style="width: 50px">{{index + 1}}</th>
                             <td>{{item.MonHocId}}</td>
                             <td>{{item.TenMonHoc}}</td>
-                            <!--<b-form-checkbox :id="item.MonHocId" v-model="item.XetChuyenNganh" name="checkbox-1" value="1" unchecked-value="0">
-                            </b-form-checkbox>-->
+
                             <td>
                                 <div class="btn-toolbar form-group mb-0">
-                                    <div class="">
-                                        <!-- <a href="update-product.html" role="button" class="btn btn-success waves-effect waves-light m-r-5" v-on:click="updateSubjectState(item.MonHocId)"><i class="mdi mdi-check-bold"></i></a> -->
-                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-on:click="setDeletedSubject(item.MonHocId, item.KhoaHoc)" v-b-modal="'deleteSubjectModal'"><i class="far fa-trash-alt"></i></button>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-on:click="setNeedDeletedSubject(item)" v-b-modal="'deleteSubjectModal'"><i class="far fa-trash-alt"></i></button>
                                     </div>
                                 </div>
                             </td>
@@ -80,23 +78,8 @@
                 </table>
 
                 <div class="card-footer pb-0 pt-3 " style="text-align: end; background-color: transparent;">
-                    <jw-pagination :pageSize="pageSize" :items="tableDataMonHocXetCN" @changePage="onChangePage" :labels="subjectLabels"></jw-pagination>
+                    <jw-pagination :pageSize="pageSize" :items="subjectJson" @changePage="onChangePage" :labels="subjectLabels"></jw-pagination>
                 </div>
-
-                <!-- modal add subject -->
-                <b-modal id="addSubjectModal" title="Thêm học phần xét chuyên ngành" hide-footer>
-                    <div class="modal-body">
-
-                        <label>Mã môn học</label>
-
-                        <v-select multiple v-model="selectedAddedSubjects" :options="subjectYearJson" label="TenMonHoc" :reduce="subject => subject.MonHocId" />
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddSubject">Hủy</button>
-                        <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addSubjects()">Lưu</button>
-                    </div>
-                </b-modal>
 
                 <!-- modal add subject all -->
                 <b-modal id="addSubjectAllModal" title="Thêm mới môn học" hide-footer>
@@ -125,7 +108,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteSubject()">Xác nhận</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateSubjectState()">Xác nhận</button>
                     </div>
                 </b-modal>
             </div>
@@ -150,7 +133,7 @@ const subjectLabels = {
     next: '>'
 };
 export default {
-    name: 'Setting',
+    name: 'Subject',
     validations: {
         maMonHoc: {
             required,
@@ -161,12 +144,11 @@ export default {
     },
     mounted() {
         this.getSubjects();
-        this.getAllYears();
 
     },
     created() {
-        this.CHANGE_STATE = 1;
-        this.UNCHANGE_STATE = 0;
+        this.ACTIVE_STATE = 1;
+        this.UNACTIVE_STATE = 0;
     },
     methods: {
         fetchSubjet(callback) {
@@ -175,25 +157,6 @@ export default {
         onChangePage(pageOfItems) {
             this.pageOfItems = pageOfItems;
         },
-        addSubjects() {
-            let url = `https://localhost:44326/api/MonHocCSNvaToan`;
-
-            this.submitting = true;
-            axios.post(url, {
-                    MonHocIds: this.selectedAddedSubjects,
-                    KhoaHoc: this.khoaHoc,
-                }).then(response => {
-                    this.getTableData();
-                    this.$bvModal.hide('addSubjectModal')
-                })
-                .catch(error => {
-                    this.submitting = false;
-                    this.errorMessage = error.message;
-                    console.error("There was an error", error);
-                });
-            this.selectedAddedSubjects = [];
-        },
-
         addSubjectsAll() {
             this.$v.maMonHoc.$touch();
             this.$v.tenMonHoc.$touch();
@@ -206,7 +169,12 @@ export default {
                     MonHocId: this.maMonHoc,
                     TenMonHoc: this.tenMonHoc,
                 }).then(response => {
-
+                     this.$bvToast.toast('Thêm thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
                     this.$bvModal.hide('addSubjectAllModal')
                 })
                 .catch(error => {
@@ -217,14 +185,35 @@ export default {
             this.maMonHoc = "";
             this.tenMonHoc = "";
         },
-        setDeletedSubject(sub_id, year) {
-            this.MonHocId = sub_id,
-                this.KhoaHoc = year
-        },
-        deleteSubject() {
-            let url = `https://localhost:44326/api/MonHocCSNvaToan/${this.MonHocId}/${this.khoaHoc}`;
+        setNeedDeletedSubject(object) {
+            this.$bvModal.show('deleteSubjectModal');
+            this.needDeletedSubject = {
+                ...object
 
-            axios.delete(url).then(response => {
+            };
+        },
+
+        getSubjects() {
+            let url = 'https://localhost:44326/api/MonHoc';
+            if (this.inputNameSubject) {
+                url += '?name=' + this.inputNameSubject;
+            }
+            axios.get(url).then((response) => {
+                this.subjectJson = response.data;
+            });
+        },
+
+        updateSubjectState() {
+            if (this.needDeletedSubject.isActive === this.ACTIVE_STATE) {
+                this.needDeletedSubject.isActive = this.UNACTIVE_STATE;
+            }
+
+            let url = `https://localhost:44326/api/MonHoc/${this.needDeletedSubject.MonHocId}`;
+            axios.put(url, {
+                    MonHocId: this.needDeletedSubject.MonHocId,
+                    TenMonHoc: this.needDeletedSubject.TenMonHoc,
+                    isActive: this.needDeletedSubject.isActive,
+                }).then(response => {
 
                     this.$bvToast.toast('Xóa thành công!', {
                         title: 'Thành công',
@@ -232,85 +221,13 @@ export default {
                         solid: true,
                         autoHideDelay: 1000,
                     });
-
-                    this.getTableData();
+                    this.$bvModal.hide('deleteSubjectModal');
+                    this.getSubjects();
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
                     console.error("There was an error", error);
                 });
-
-            this.$bvModal.hide('deleteSubjectModal');
-        },
-
-        getSubjects() {
-            this.getTableData(this.searchKey);
-
-        },
-
-        getSubjectsNotInYear(year) {
-            let url = `https://localhost:44326/api/MonHoc/${year}`;
-
-            try {
-                axios.get(url).then((response) => {
-                    this.subjectYearJson = response.data;
-                });
-            } catch (e) {
-                console.log(e);
-            }
-
-        },
-
-        updateSubjectState(subject) {
-            let url = `https://localhost:44326/api/MonHoc/${id}`;
-            axios.put(url, account).then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    this.errorMessage = error.message;
-                    console.error("There was an error", error);
-                });
-        },
-
-        getAllYears() {
-            let url = 'https://localhost:44326/api/MonHocCSNvaToan';
-            axios.get(url).then((response) => {
-                this.yearJson = response.data;
-
-                this.yearJson.forEach((item) => {
-                    if (!this.yearList.includes(item.KhoaHoc)) {
-                        this.yearList = [...this.yearList, item.KhoaHoc];
-                    }
-                });
-
-                if (this.yearList.length) {
-                    this.getTableData();
-                    this.getSubjectsNotInYear(this.yearList[0]);
-                }
-            });
-        },
-
-        getTableData(name) {
-            let year = this.khoaHoc;
-
-            if (!year || year === -1) {
-                year = this.yearList[0];
-            }
-
-            this.$store.dispatch('onGetMonHocXetCNAction', {
-                khoaHoc: year,
-                tenMonHoc: name
-            });
-        },
-        onKhoaHocSelect(khoaHoc) {
-            this.getSubjectsNotInYear(khoaHoc);
-            this.$store.dispatch('onKhoaHocSelectAction', khoaHoc);
-            this.searchKey = "";
-        },
-
-        onCancelAddSubject() {
-            this.$bvModal.hide('addSubjectModal');
-            this.selectedAddedSubjects = [];
         },
 
         onCancelAddSubjectAll() {
@@ -330,9 +247,9 @@ export default {
             subjectName: "",
             subjectId: "",
             subjectJson: "",
-            subjectYearJson: "",
+
             checkBoxValue: 1,
-            searchKey: "",
+            inputNameSubject: "",
             yearJson: "",
             yearList: [],
 

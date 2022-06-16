@@ -21,10 +21,12 @@ Vue.use(VuelidateErrorExtractor, {
     messages: {
         required: "{attribute} không được bỏ trống",
         gt2000: "{attribute} phải lớn hơn 2000",
-        notGmail: "{attribute} must not be gmail",
+        notGmail: "{attribute} không hợp lệ",
         gt0to10: "{attribute} phải có giá trị từ 0 đến 10",
         email: "{attribute} is not a valid Email address.",
-        isEmailAvailable: "{attribute} is not available. Must be at least 10 characters long."
+        isEmailAvailable: "{attribute} is not available. Must be at least 10 characters long.",
+        passwordLength: "{attribute} tối thiểu 8 kí tự",
+
     }
 });
 Vue.component("form-group", templates.singleErrorExtractor.foundation6);
