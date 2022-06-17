@@ -204,15 +204,15 @@ export default {
         },
 
         updateSubjectState() {
-            if (this.needDeletedSubject.isActive === this.ACTIVE_STATE) {
-                this.needDeletedSubject.isActive = this.UNACTIVE_STATE;
+            if (this.needDeletedSubject.isActiveMH === this.ACTIVE_STATE) {
+                this.needDeletedSubject.isActiveMH = this.UNACTIVE_STATE;
             }
 
             let url = `https://localhost:44326/api/MonHoc/${this.needDeletedSubject.MonHocId}`;
             axios.put(url, {
                     MonHocId: this.needDeletedSubject.MonHocId,
                     TenMonHoc: this.needDeletedSubject.TenMonHoc,
-                    isActive: this.needDeletedSubject.isActive,
+                    isActiveMH: this.needDeletedSubject.isActiveMH,
                 }).then(response => {
 
                     this.$bvToast.toast('Xóa thành công!', {

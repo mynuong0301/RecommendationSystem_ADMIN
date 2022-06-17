@@ -19,47 +19,47 @@
                     </div> <!-- end row -->
                 </div>
                 <div class="row mb-3">
-                   <div style="flex: auto;">
-                    <div class="row" style="justify-content: space-between;">
-                         <div style="width: 300px; margin-left: 30px">
-                        <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
-                    </div>
+                    <div style="flex: auto;">
+                        <div class="row" style="justify-content: space-between;">
+                            <div style="width: 300px; margin-left: 30px">
+                                <b-form-input id="input-2" v-model="inputQuestion" placeholder="Nhập câu hỏi bạn muốn tìm kiếm.." v-on:keyup.enter="getTableData()"> </b-form-input>
+                            </div>
 
-                    <div class="row" style="justify-content: right;">
-                        <div style="margin-right: 20px">
-                        <div class="dropdown mo-mb-2 ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{major ?  major.TenChuyenNganh: 'Chọn chuyên ngành'}} </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
-                                <div style="height:120px !important; overflow:scroll;">
-                                    <tbody v-for=" (major, index) in majorJson" :key="index">
-                                        <a class="dropdown-item" v-on:click="onMajorSelect(major)">{{major.TenChuyenNganh}}</a>
-                                    </tbody>
+                            <div class="row" style="justify-content: right;">
+                                <div style="margin-right: 20px">
+                                    <div class="dropdown mo-mb-2 ">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{major ?  major.TenChuyenNganh: 'Chọn chuyên ngành'}} </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                            <div style="height:120px !important; overflow:scroll;">
+                                                <tbody v-for=" (major, index) in majorJson" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onMajorSelect(major)">{{major.TenChuyenNganh}}</a>
+                                                </tbody>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="dropdown mo-mb-2">
+                                        <button :disabled="major === '-1' || (major && major.ChuyenNganhId === '-1')" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                            <div style="height:120px !important; overflow:scroll;">
+                                                <tbody v-for=" (job, index) in jobData" :key="index">
+                                                    <a class="dropdown-item" v-on:click="onJobSelect(job)">{{job.TenCongViec}}</a>
+                                                </tbody>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div>
-                        <div class="dropdown mo-mb-2">
-                            <button :disabled="major === '-1' || (major && major.ChuyenNganhId === '-1')" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" background-color: #005874; border-color: #005874"> {{job === "-1" ? 'Chọn hướng phát triển' : job.TenCongViec}} </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
-                                <div style="height:120px !important; overflow:scroll;">
-                                    <tbody v-for=" (job, index) in jobData" :key="index">
-                                        <a class="dropdown-item" v-on:click="onJobSelect(job)">{{job.TenCongViec}}</a>
-                                    </tbody>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        </div>
-                    </div>
-                   </div>
 
                     <div style="width: 400px; margin-right: 10px">
                         <div class="btn-toolbar float-lg-right form-group mb-0" role="toolbar">
                             <div class="">
                                 <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" v-b-modal="'importExcelFile'"><i class="fas fa-plus"></i> <i></i> <span>Tải tập tin câu hỏi</span> </a>
-                                <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" data-toggle="modal" data-target="#addQuestionModal"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
+                                <a style="color: #ffffff; background-color: #FFBE00; border-color: #FFBE00" class="btn btn-info waves-effect waves-light  m-r-5" role="button" v-b-modal="'addQuestionModal'"><i class="fas fa-plus"></i> <i></i> <span>Thêm câu hỏi</span> </a>
 
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                                 <b-input-group-prepend is-text>
                                     <i style="font-size: 16px !important" class="mdi mdi-file-excel"></i>
                                 </b-input-group-prepend>
-                                <b-form-file @change="onFileChange" id="form-image" v-model="excelFile"  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"></b-form-file>
+                                <b-form-file @change="onFileChange" id="form-image" v-model="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"></b-form-file>
                             </b-input-group>
                         </b-form-group>
                         <div class="modal-footer">
@@ -134,83 +134,73 @@
             </div>
 
             <!-- modal -->
-            <div id="addQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title mt-0" id="myModalLabel">Thêm câu hỏi</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
+            <b-modal id="addQuestionModal" title="Thêm câu hỏi" hide-footer>
+                <form @submit.prevent="addQuestion()" novalidate>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Chuyên ngành</label>
+                                    <div class="dropdown mo-mb-2">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                            {{majorPopup=== "-1" ? 'Chọn chuyên ngành' :majorPopup.TenChuyenNganh}}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <tbody v-for=" (major, index) in majorJson" :key="index">
+                                                <a class="dropdown-item" v-on:click="onMajorSelect(major, 1)">{{major.TenChuyenNganh}}</a>
+                                            </tbody>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Công việc/hướng phát triển</label>
+                                    <div class="dropdown mo-mb-2">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
+                                            {{jobPopup === "-1" ? 'Chọn hướng phát triển' : jobPopup.TenCongViec}}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <tbody v-for=" (job, index) in jobDataPopup" :key="index">
+                                                <a class="dropdown-item" v-on:click="onJobSelect(job, 1)">{{job.TenCongViec}}</a>
+                                            </tbody>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <form-group :validator="$v.tencauhoi" label="Tên câu hỏi">
+                                        <b-form-textarea @input="$v.tencauhoi.$touch()" required row="4" id="tencauhoi" v-model="tencauhoi" placeholder="Nhập vào nội dung câu hỏi "></b-form-textarea>
+                                    </form-group>
+                                </div>
+                                <div class="form-group" style="text-align: end;">
+                                    <div>
+                                        <button type="reset" class="btn btn-secondary waves-effect m-l-5" v-on:click="onCancelAddQuestion"> Hủy </button>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light"> Lưu </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="modal-body">
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label>Chuyên ngành</label>
-                                        <div class="dropdown mo-mb-2">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
-                                                {{majorPopup=== "-1" ? 'Chọn chuyên ngành' :majorPopup.TenChuyenNganh}}
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <tbody v-for=" (major, index) in majorJson" :key="index">
-                                                    <a class="dropdown-item" v-on:click="onMajorSelect(major, 1)">{{major.TenChuyenNganh}}</a>
-                                                </tbody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Công việc/hướng phát triển</label>
-                                        <div class="dropdown mo-mb-2">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
-                                                {{jobPopup === "-1" ? 'Chọn hướng phát triển' : jobPopup.TenCongViec}}
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <tbody v-for=" (job, index) in jobDataPopup" :key="index">
-                                                    <a class="dropdown-item" v-on:click="onJobSelect(job, 1)">{{job.TenCongViec}}</a>
-                                                </tbody>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="boder: #000000;">
-                                        <label>Câu hỏi</label>
-                                        <div>
-                                            <textarea required="" v-model="tencauhoi" class="form-control" rows="5" style="boder: #000000" placeholder="Nhập vào nội dung câu hỏi "></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" style="text-align: end;">
-                                        <div>
-                                            <button type="reset" class="btn btn-secondary waves-effect m-l-5"> Hủy </button>
-                                            <button class="btn btn-primary waves-effect waves-light" v-on:click="addQuestion(tencauhoi)"> Lưu </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <p></p>
-                        </div>
-                        <!-- <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
-                                </div> -->
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div>
+                        <p></p>
+                    </div>
+                </form>
+            </b-modal>
 
-            <!--Edit MinScore -->
+            <!--Edit editQuestionModal -->
             <!-- modal -->
             <b-modal id="editQuestionModal" title="Chỉnh sửa câu hỏi" hide-footer>
-                <div class="modal-body">
-                    <label>Chuyên ngành</label>
-                    <b-form-input id="chuyenNganh" v-model="needUpdatedQuestion.TenChuyenNganh"></b-form-input>
-                    <label>Công việc và hướng phát triển</label>
-                    <b-form-input id="congViec" v-model="needUpdatedQuestion.TenCongViec"></b-form-input>
-                    <label>Tên câu hỏi</label>
-                    <b-form-textarea id="tenCauHoi" v-model="needUpdatedQuestion.TenCauHoi" required rows="4"></b-form-textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditQuestion()">Hủy</button>
-                    <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="updateQuestion()">Lưu</button>
-                </div>
+                <form @submit.prevent="updateQuestion" novalidate>
+                    <div class="modal-body">
+                        <label>Chuyên ngành</label>
+                        <b-form-input id="chuyenNganh" v-model="needUpdatedQuestion.TenChuyenNganh" disabled="true"></b-form-input>
+                        <label>Công việc và hướng phát triển</label>
+                        <b-form-input id="congViec" v-model="needUpdatedQuestion.TenCongViec" disabled="true"></b-form-input>
+                        <form-group :validator="$v.needUpdatedQuestion.TenCauHoi" label="Tên câu hỏi">
+                            <b-form-textarea @input="$v.needUpdatedQuestion.$touch()" id="tenCauHoi" v-model="needUpdatedQuestion.TenCauHoi" required rows="4"></b-form-textarea>
+                        </form-group>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelEditQuestion()">Hủy</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                    </div>
+                </form>
             </b-modal>
         </div>
     </div>
@@ -223,6 +213,10 @@ import {
     mapGetters,
     mapActions
 } from 'vuex';
+import {
+    required,
+
+} from "vuelidate/lib/validators";
 const customLabels = {
     first: '<<',
     last: '>>',
@@ -231,6 +225,16 @@ const customLabels = {
 };
 export default {
     name: 'TestManger',
+    validations: {
+        tencauhoi: {
+            required
+        },
+        needUpdatedQuestion: {
+            TenCauHoi: {
+                required,
+            }
+        }
+    },
     computed: {
         //
         ...mapGetters([
@@ -260,6 +264,9 @@ export default {
 
         onCancelEditQuestion() {
             this.$bvModal.hide('editQuestionModal');
+        },
+        onCancelAddQuestion() {
+            this.$bvModal.hide('addQuestionModal');
         },
         onCancelDeleteQuestion() {
             this.$bvModal.hide('alertDeleteModal');
@@ -293,10 +300,12 @@ export default {
                 this.backUpQuestionName = this.questionJson.TenCauHoi;
             });
         },
-        addQuestion(tencauhoi) {
+        addQuestion() {
+            this.$v.tencauhoi.$touch();
+            if (this.$v.tencauhoi.$pending || this.$v.tencauhoi.$error) return;
             const id = this.jobPopup.CongViecVaHuongPhatTrienId;
 
-            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${tencauhoi}&id=${id}`;
+            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${this.tencauhoi}&id=${id}`;
             axios.post(url).then((response) => {
                 this.questionJson = response.data;
 
@@ -310,16 +319,17 @@ export default {
 
                     this.tencauhoi = "";
                     this.getTableData();
+                    this.$bvModal.hide('addQuestionModal')
                 }
             });
         },
 
-         onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-    
-    },
+        onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+
+        },
 
         uploadQuestionFile() {
 
@@ -330,7 +340,7 @@ export default {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
-               
+
             }).then((response) => {
 
                 if (response.data === "success") {
@@ -344,56 +354,57 @@ export default {
                     this.getTableData();
                 }
             });
-        
 
-    },
-    deleteQuestion() {
-        let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
+        },
+        deleteQuestion() {
+            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
 
-        axios.delete(url).then(response => {
-                if (response.data) {
-                    this.$bvToast.toast('Xóa câu hỏi thành công!', {
+            axios.delete(url).then(response => {
+                    if (response.data) {
+                        this.$bvToast.toast('Xóa câu hỏi thành công!', {
+                            title: 'Thành công',
+                            variant: 'success',
+                            solid: true,
+                            autoHideDelay: 1000,
+                        });
+                        this.getTableData();
+                    }
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+            this.onCancelDeleteQuestion();
+        },
+
+        updateQuestion() {
+            this.$v.needUpdatedQuestion.TenCauHoi.$touch();
+            if (this.$v.needUpdatedQuestion.TenCauHoi.$pending || this.$v.needUpdatedQuestion.TenCauHoi.$error) return;
+            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
+            axios.put(url, {
+                    BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
+                    TenCauHoi: this.needUpdatedQuestion.TenCauHoi
+                }).then(response => {
+                    console.log(response.data);
+                    this.questionJson = response.data;
+                    this.backUpQuestionName = this.questionJson.TenCauHoi;
+                    this.$bvToast.toast('Cập nhật thành công!', {
                         title: 'Thành công',
                         variant: 'success',
                         solid: true,
                         autoHideDelay: 1000,
                     });
-                    this.getTableData();
-                }
-            })
-            .catch(error => {
-                this.errorMessage = error.message;
-                console.error("There was an error", error);
-            });
-
-        this.onCancelDeleteQuestion();
-    },
-
-    updateQuestion() {
-        let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
-        axios.put(url, {
-                BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
-                TenCauHoi: this.needUpdatedQuestion.TenCauHoi
-            }).then(response => {
-                console.log(response.data);
-                this.questionJson = response.data;
-                this.backUpQuestionName = this.questionJson.TenCauHoi;
-                this.$bvToast.toast('Cập nhật thành công!', {
-                    title: 'Thành công',
-                    variant: 'success',
-                    solid: true,
-                    autoHideDelay: 1000,
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
                 });
-            })
-            .catch(error => {
-                this.errorMessage = error.message;
-                console.error("There was an error", error);
-            });
-        this.$bvModal.hide('editQuestionModal');
-    },
+            this.$bvModal.hide('editQuestionModal');
+        },
 
-},
-data() {
+    },
+    data() {
         return {
             pageOfItems: [],
             customLabels,
