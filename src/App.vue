@@ -114,29 +114,23 @@ export default {
     },
     beforeMount() {
         console.log('localStorage', localStorage.token);
-
         if (localStorage.token) {
             this.currentUser = JSON.parse(localStorage.user);
             this.isLogin = true;
-
             if (window.location.href === '/') {
                 this.$router.replace({
                     path: '/StudentProfile'
                 });
             }
-
         } else {
-
             this.isLogin = false;
         }
     },
     mounted() {
         this.getAllMajors();
-
         if (localStorage.token) {
             this.currentUser = JSON.parse(localStorage.user);
             this.isLogin = true;
-
         } else {
             this.isLogin = false;
         }
@@ -145,23 +139,19 @@ export default {
         '$route': function (to, from) {
             if (localStorage.token) {
                 this.currentUser = JSON.parse(localStorage.user);
-
                 this.isLogin = true;
             } else {
                 this.isLogin = false;
             }
         }
-
     },
     methods: {
         getAllMajors() {
             this.$store.dispatch('onGlobalMajorAction');
         },
-
         showChuyenNganhList() {
             const ul = document.getElementById("chuyenNganhList");
             const arrow = document.getElementsByClassName("mdi mdi-chevron-right")[0];
-
             if (ul.className.includes("mm-show")) {
                 ul.className = ul.className.replace("mm-show", "");
                 arrow.style.transform = 'rotate(0deg)'
@@ -169,7 +159,6 @@ export default {
                 ul.className += " mm-show";
                 arrow.style.transform = 'rotate(90deg)'
             }
-
         },
         logOut() {
             localStorage.removeItem(

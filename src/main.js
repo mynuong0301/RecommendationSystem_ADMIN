@@ -13,6 +13,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 import Vuelidate from "vuelidate";
 import VuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
+import './plugins/element.js'
 
 Vue.use(Vuelidate);
 Vue.use(VuelidateErrorExtractor, {
@@ -38,7 +39,7 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(Vuex)
-    /* eslint-disable no-new */
+/* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,
