@@ -207,7 +207,7 @@ export default {
     },
     methods: {
         getAllAccounts() {
-            let url = 'https://localhost:44326/api/Account';
+            let url = 'https://fit4u-admin.somee.com/api/Account';
             if (this.inputAdmin) {
                 url += '?displayName=' + this.inputAdmin;
             }
@@ -223,7 +223,7 @@ export default {
                 this.needUpdatedAccount.isActive = this.LOCKED_STATE;
             }
 
-            let url = `https://localhost:44326/api/Account/${this.needUpdatedAccount.AdminId}`;
+            let url = `https://fit4u-admin.somee.com/api/Account/${this.needUpdatedAccount.AdminId}`;
             axios.put(url, {
                     DisplayName: this.needUpdatedAccount.DisplayName,
                     UserName: this.needUpdatedAccount.UserName,
@@ -290,7 +290,7 @@ export default {
                 "Email": this.email,
             }
 
-            let url = 'https://localhost:44326/api/Account';
+            let url = 'https://fit4u-admin.somee.com/api/Account';
             axios.post(url, body).then((response) => {
                 this.questionJson = response.data;
 

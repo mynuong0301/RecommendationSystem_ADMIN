@@ -289,7 +289,7 @@ export default {
             this.pageOfItems = pageOfItems;
         },
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
+            let url = 'https://fit4u-admin.somee.com/api/ChuyenNganh';
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
                 this.majorJson = [{
@@ -305,7 +305,7 @@ export default {
             if (this.$v.tencauhoi.$pending || this.$v.tencauhoi.$error) return;
             const id = this.jobPopup.CongViecVaHuongPhatTrienId;
 
-            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${this.tencauhoi}&id=${id}`;
+            let url = `https://fit4u-admin.somee.com/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${this.tencauhoi}&id=${id}`;
             axios.post(url).then((response) => {
                 this.questionJson = response.data;
 
@@ -333,7 +333,7 @@ export default {
 
         uploadQuestionFile() {
 
-            let url = 'https://localhost:44326/api/ReadQuestionExcel';
+            let url = 'https://fit4u-admin.somee.com/api/ReadQuestionExcel';
             let formData = new FormData();
             formData.append("formFile", this.excelFile);
             axios.post(url, formData, {
@@ -357,7 +357,7 @@ export default {
 
         },
         deleteQuestion() {
-            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
+            let url = `https://fit4u-admin.somee.com/api/CauHoiHuongPhatTrien?ques_id=${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}&job_id=${this.needUpdatedQuestion.CongViecVaHuongPhatTrienId}`;
 
             axios.delete(url).then(response => {
                     if (response.data) {
@@ -381,7 +381,7 @@ export default {
         updateQuestion() {
             this.$v.needUpdatedQuestion.TenCauHoi.$touch();
             if (this.$v.needUpdatedQuestion.TenCauHoi.$pending || this.$v.needUpdatedQuestion.TenCauHoi.$error) return;
-            let url = `https://localhost:44326/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
+            let url = `https://fit4u-admin.somee.com/api/BaiDanhGiaDinhHuongNgheNghiep/${this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId}`;
             axios.put(url, {
                     BaiDanhGiaDinhHuongNgheNghiepId: this.needUpdatedQuestion.BaiDanhGiaDinhHuongNgheNghiepId,
                     TenCauHoi: this.needUpdatedQuestion.TenCauHoi

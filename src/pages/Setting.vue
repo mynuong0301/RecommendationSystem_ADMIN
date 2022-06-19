@@ -176,7 +176,7 @@ export default {
             this.pageOfItems = pageOfItems;
         },
         addSubjects() {
-            let url = `https://localhost:44326/api/MonHocCSNvaToan`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocCSNvaToan`;
 
             this.submitting = true;
             axios.post(url, {
@@ -199,7 +199,7 @@ export default {
             this.$v.tenMonHoc.$touch();
             if (this.$v.maMonHoc.$pending || this.$v.maMonHoc.$error) return;
             if (this.$v.tenMonHoc.$pending || this.$v.tenMonHoc.$error) return;
-            let url = 'https://localhost:44326/api/MonHoc';
+            let url = 'https://fit4u-admin.somee.com/api/MonHoc';
 
             this.submitting = true;
             axios.post(url, {
@@ -222,7 +222,7 @@ export default {
                 this.KhoaHoc = year
         },
         deleteSubject() {
-            let url = `https://localhost:44326/api/MonHocCSNvaToan/${this.MonHocId}/${this.khoaHoc}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocCSNvaToan/${this.MonHocId}/${this.khoaHoc}`;
 
             axios.delete(url).then(response => {
 
@@ -249,7 +249,7 @@ export default {
         },
 
         getSubjectsNotInYear(year) {
-            let url = `https://localhost:44326/api/MonHoc/${year}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHoc/${year}`;
 
             try {
                 axios.get(url).then((response) => {
@@ -262,7 +262,7 @@ export default {
         },
 
         updateSubjectState(subject) {
-            let url = `https://localhost:44326/api/MonHoc/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHoc/${id}`;
             axios.put(url, account).then(response => {
                     console.log(response.data);
                 })
@@ -273,7 +273,7 @@ export default {
         },
 
         getAllYears() {
-            let url = 'https://localhost:44326/api/MonHocCSNvaToan';
+            let url = 'https://fit4u-admin.somee.com/api/MonHocCSNvaToan';
             axios.get(url).then((response) => {
                 this.yearJson = response.data;
 

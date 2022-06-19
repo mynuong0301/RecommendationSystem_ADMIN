@@ -162,7 +162,7 @@ export default {
             this.$v.tenMonHoc.$touch();
             if (this.$v.maMonHoc.$pending || this.$v.maMonHoc.$error) return;
             if (this.$v.tenMonHoc.$pending || this.$v.tenMonHoc.$error) return;
-            let url = 'https://localhost:44326/api/MonHoc';
+            let url = 'https://fit4u-admin.somee.com/api/MonHoc';
 
             this.submitting = true;
             axios.post(url, {
@@ -194,7 +194,7 @@ export default {
         },
 
         getSubjects() {
-            let url = 'https://localhost:44326/api/MonHoc';
+            let url = 'https://fit4u-admin.somee.com/api/MonHoc';
             if (this.inputNameSubject) {
                 url += '?name=' + this.inputNameSubject;
             }
@@ -208,7 +208,7 @@ export default {
                 this.needDeletedSubject.isActiveMH = this.UNACTIVE_STATE;
             }
 
-            let url = `https://localhost:44326/api/MonHoc/${this.needDeletedSubject.MonHocId}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHoc/${this.needDeletedSubject.MonHocId}`;
             axios.put(url, {
                     MonHocId: this.needDeletedSubject.MonHocId,
                     TenMonHoc: this.needDeletedSubject.TenMonHoc,

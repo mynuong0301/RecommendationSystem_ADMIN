@@ -98,7 +98,7 @@ export default {
     },
     methods: {
         onLogin() {
-            let url = 'https://localhost:44326/api/AdminInfo';
+            let url = 'https://fit4u-admin.somee.com/api/AdminInfo';
             axios.post(url, {
                 UserName: this.username,
                 Password: this.password

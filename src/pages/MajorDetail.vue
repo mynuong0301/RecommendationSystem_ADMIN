@@ -604,22 +604,24 @@ export default {
     methods: {
         getMajorById(id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/ChuyenNganh/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/ChuyenNganh/${id}`;
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
                 this.backUpLinhVucNghienCuu = this.majorJson.LinhVucNghienCuu;
+                this.backUpLinkVideo = this.majorJson.LinkVideo;
+                this.backUpGioiThieuCN = this.majorJson.GioiThieuChuyenNganh;
             });
         },
         getJobByMajorId(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/CongViecVaHuongPhatTrien/${major_id}`;
             axios.get(url).then((response) => {
                 this.jobJson = response.data;
             });
         },
         getMainAndGenaralSubjectsByMajorId(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/MonHocChuyenNganh/${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocChuyenNganh/${major_id}`;
             axios.get(url).then((response) => {
                 this.subjectJson = response.data;
             });
@@ -627,14 +629,14 @@ export default {
         },
         GetQuestionsByMajorandJob(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/CauHoiHuongPhatTrien?major_id=${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/CauHoiHuongPhatTrien?major_id=${major_id}`;
             axios.get(url).then((response) => {
                 this.questionJson = response.data;
             });
         },
         GetResearchOrientationById(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/DinhHuongNghienCuu/${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/DinhHuongNghienCuu/${major_id}`;
             axios.get(url).then((response) => {
 
                 if (response.data) {
@@ -649,7 +651,7 @@ export default {
 
         GetMinScoreByMajorId(major_id) {
             console.log(this.$route.query.id);
-            let url = `https://localhost:44326/api/DiemSan/${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemSan/${major_id}`;
             axios.get(url).then((response) => {
                 this.minScoreJson = response.data;
             });
@@ -700,7 +702,7 @@ export default {
         },
 
         deleteResearchOrientation() {
-            let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.DinhHuongNghienCuuId}`;
+            let url = `https://fit4u-admin.somee.com/api/DinhHuongNghienCuu/${this.DinhHuongNghienCuuId}`;
 
             axios.delete(url, this.DinhHuongNghienCuuId).then(response => {
 
@@ -723,7 +725,7 @@ export default {
 
         deleteSubject() {
 
-            let url = `https://localhost:44326/api/MonHocChuyenNganh/${this.ChuyenNganhId}/${this.MonHocId}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocChuyenNganh/${this.ChuyenNganhId}/${this.MonHocId}`;
 
             axios.delete(url).then(response => {
 
@@ -745,7 +747,7 @@ export default {
         },
 
         deleteMinScore() {
-            let url = `https://localhost:44326/api/DiemSan/${this.DiemSanId}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemSan/${this.DiemSanId}`;
 
             axios.delete(url, this.DiemSanId).then(response => {
 
@@ -770,11 +772,13 @@ export default {
             this.$store.dispatch('onGlobalMajorAction', shouldSelect0);
         },
         updateLinhVucNghienCuu() {
-            let url = `https://localhost:44326/api/ChuyenNganh/${this.chuyenNganhId}`;
+            let url = `https://fit4u-admin.somee.com/api/ChuyenNganh/${this.chuyenNganhId}`;
             axios.put(url, this.majorJson).then(response => {
 
                     this.majorJson = response.data;
                     this.backUpLinhVucNghienCuu = this.majorJson.LinhVucNghienCuu;
+                    this.backUpLinkVideo = this.majorJson.LinkVideo;
+                    this.backUpGioiThieuCN = this.majorJson.GioiThieuChuyenNganh;
                     this.$bvToast.toast('Cập nhật thành công!', {
                         title: 'Thành công',
                         variant: 'success',
@@ -792,7 +796,7 @@ export default {
         updateResearch() {
             this.$v.needUpdatedResearchOrientation.TenDinhHuong.$touch();
             if (this.$v.needUpdatedResearchOrientation.TenDinhHuong.$pending || this.$v.needUpdatedResearchOrientation.TenDinhHuong.$error) return;
-            let url = `https://localhost:44326/api/DinhHuongNghienCuu/${this.needUpdatedResearchOrientation.DinhHuongNghienCuuId}`;
+            let url = `https://fit4u-admin.somee.com/api/DinhHuongNghienCuu/${this.needUpdatedResearchOrientation.DinhHuongNghienCuuId}`;
             axios.put(url, {
                     ChuyenNganhId: this.needUpdatedResearchOrientation.ChuyenNganhId,
                     TenDinhHuong: this.needUpdatedResearchOrientation.TenDinhHuong,
@@ -822,7 +826,7 @@ export default {
         },
 
         updateSubject() {
-            let url = `https://localhost:44326/api/MonHoc/${this.needUpdatedSubject.MonHocId}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHoc/${this.needUpdatedSubject.MonHocId}`;
             axios.put(url, {
                     MonHocId: this.needUpdatedSubject.MonHocId,
                     TenMonHoc: this.needUpdatedSubject.TenMonHoc,
@@ -851,7 +855,7 @@ export default {
             this.$v.needUpdatedJob.TenCongViec.$touch();
 
             if (this.$v.needUpdatedJob.TenCongViec.$pending || this.$v.needUpdatedJob.TenCongViec.$error) return;
-            let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.needUpdatedJob.CongViecVaHuongPhatTrienId}`;
+            let url = `https://fit4u-admin.somee.com/api/CongViecVaHuongPhatTrien/${this.needUpdatedJob.CongViecVaHuongPhatTrienId}`;
             axios.put(url, {
                     CongViecVaHuongPhatTrienId: this.needUpdatedJob.CongViecVaHuongPhatTrienId,
                     TenCongViec: this.needUpdatedJob.TenCongViec,
@@ -876,7 +880,7 @@ export default {
             this.$bvModal.hide('editJobModal');
         },
         deleteJob() {
-            let url = `https://localhost:44326/api/CongViecVaHuongPhatTrien/${this.CongViecVaHuongPhatTrienId}`;
+            let url = `https://fit4u-admin.somee.com/api/CongViecVaHuongPhatTrien/${this.CongViecVaHuongPhatTrienId}`;
 
             axios.delete(url, this.CongViecVaHuongPhatTrienId).then(response => {
 
@@ -898,7 +902,7 @@ export default {
         },
 
         deleteMajor() {
-            let url = `https://localhost:44326/api/ChuyenNganhBiXoa/${this.chuyenNganhId}`;
+            let url = `https://fit4u-admin.somee.com/api/ChuyenNganhBiXoa/${this.chuyenNganhId}`;
 
             axios.put(url, this.majorJson).then(response => {
                     this.majorJson = response.data;
@@ -927,7 +931,7 @@ export default {
             if (this.$v.needUpdatedMinScore.$pending || this.$v.needUpdatedMinScore.$error) return;
             // to form submit after this
 
-            let url = `https://localhost:44326/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemSan/${this.needUpdatedMinScore.DiemSanId}`;
             axios.put(url, {
                     Diem: this.needUpdatedMinScore.Diem,
                     Nam: this.needUpdatedMinScore.Nam,
@@ -963,7 +967,7 @@ export default {
                 "ChuyenNganhId": this.chuyenNganhId,
             }
 
-            let url = 'https://localhost:44326/api/CongViecVaHuongPhatTrien';
+            let url = 'https://fit4u-admin.somee.com/api/CongViecVaHuongPhatTrien';
             axios.post(url, body).then((response) => {
                 this.questionJson = response.data;
 
@@ -992,7 +996,7 @@ export default {
                 "ChuyenNganhId": this.chuyenNganhId,
             }
 
-            let url = 'https://localhost:44326/api/DiemSan';
+            let url = 'https://fit4u-admin.somee.com/api/DiemSan';
             axios.post(url, body).then((response) => {
                 this.minScoreJson = response.data;
 
@@ -1021,7 +1025,7 @@ export default {
                 "ChuyenNganhId": this.chuyenNganhId,
             }
 
-            let url = 'https://localhost:44326/api/DinhHuongNghienCuu';
+            let url = 'https://fit4u-admin.somee.com/api/DinhHuongNghienCuu';
             axios.post(url, body).then((response) => {
                 this.researchJsonPopup = response.data;
 
@@ -1044,7 +1048,7 @@ export default {
         addSubjects() {
             this.$v.selectedAddedSubjects.$touch();
             if (this.$v.selectedAddedSubjects.$pending || this.$v.selectedAddedSubjects.$error) return;
-            let url = `https://localhost:44326/api/MonHocChuyenNganh`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocChuyenNganh`;
 
             this.submitting = true;
             axios.post(url, {
@@ -1070,7 +1074,7 @@ export default {
         },
 
         getMajorSubjectsNotInMajor(major_id) {
-            let url = `https://localhost:44326/api/MonHocCN/${major_id}`;
+            let url = `https://fit4u-admin.somee.com/api/MonHocCN/${major_id}`;
 
             try {
                 axios.get(url).then((response) => {
@@ -1083,6 +1087,8 @@ export default {
         },
         onCancelEditLinhVucNghienCuu() {
             this.majorJson.LinhVucNghienCuu = this.backUpLinhVucNghienCuu;
+            this.majorJson.LinkVideo = this.backUpLinkVideo;
+            this.majorJson.GioiThieuChuyenNganh = this.backUpGioiThieuCN;
             this.isEditLinhVucNghienCuu = false;
         },
         onEditLinhVucNghienCuu() {
@@ -1119,6 +1125,8 @@ export default {
             researchJson: "",
             minScoreJson: "",
             backUpLinhVucNghienCuu: "",
+            backUpLinkVideo: "",
+            backUpGioiThieuCN: "",
             isEditLinhVucNghienCuu: false,
             jobName: "",
             minScoreJson: "",

@@ -221,7 +221,7 @@ export default {
             this.pageOfItems = pageOfItems;
         },
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
+            let url = 'https://fit4u-admin.somee.com/api/ChuyenNganh';
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
                 this.majorJson = [{
@@ -232,19 +232,19 @@ export default {
             });
         },
         addStudents() {
-            let url = 'https://localhost:44326/api/CauHoi';
+            let url = 'https://fit4u-admin.somee.com/api/CauHoi';
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
             });
         },
         getMainSubjectsInfo(id) {
-            let url = `https://localhost:44326/api/DiemCSN/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemCSN/${id}`;
             axios.get(url).then((response) => {
                 this.mainSubjectJson = response.data;
             });
         },
         getGeneralSubjectsInfo(id) {
-            let url = `https://localhost:44326/api/DiemMonQuanTrong/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemMonQuanTrong/${id}`;
             axios.get(url).then((response) => {
                 this.generalSubjectJson = response.data;
             });
