@@ -53,7 +53,6 @@
                                 <th>STT</th>
                                 <th>MSSV</th>
                                 <th>Điểm trung bình</th>
-                                <th>Chuyên ngành</th>
                                 <th>Định hướng nghề nghiệp</th>
                                 <th> </th>
                             </tr>
@@ -63,7 +62,6 @@
                                 <th scope="row" style="width: 50px">{{index+1}}</th>
                                 <td>{{item.MSSV}}</td>
                                 <td>{{item.DiemTBCSN}}</td>
-                                <td>{{item.TenChuyenNganh}}</td>
                                 <td>{{item.TenCongViec}}</td>
                                 <td>
                                     <div class="btn-toolbar form-group mb-0" style="justify-content: center !important;">
@@ -85,10 +83,10 @@
 
             <!-- modal -->
             <div id="viewStudentInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered" style="max-width: 610px !important;">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 720px !important;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title mt-0" id="myModalLabel">Điểm môn học</h5>
+                            <h5 class="modal-title mt-0" id="myModalLabel">Thông tin sinh viên</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -97,7 +95,38 @@
                             <div>
                                 <b-card no-body>
                                     <b-tabs card>
-                                        <b-tab title="Cơ sở ngành">
+                                             <!--Tab Kết quả chuyên ngành -->
+                                        <b-tab title="Kết quả chuyên ngành">
+                                            <b-card-text>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped mb-0">
+                                                        <thead>
+                                                            <tr class="bg-primary" style="background-color: #1C819E !important;">
+                                                                <th>STT</th>
+                                                                <th>Mã chuyên ngành</th>
+                                                                <th>Tên chuyên ngành</th>
+                                                                <th>Độ phù hợp</th>
+                                                                <th> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody v-for="(item, index) in majorResultJson" :key="index">
+                                                            <tr style="background: white !important">            
+                                                                <th v-if="index===0" scope="row" style="width: 50px; color: red;">{{index+1}}</th>
+                                                                 <th v-else scope="row" style="width: 50px">{{index+1}}</th>
+                                                                <td v-if="index===0" style=" color: red;">{{item.ChuyenNganhId}}</td>
+                                                                 <td v-else>{{item.ChuyenNganhId}}</td>
+                                                                <td v-if="index===0" style=" color: red;">{{item.TenChuyenNganh}}</td>
+                                                                <td v-else>{{item.TenChuyenNganh}}</td>
+                                                                <td v-if="index===0" style=" color: red;">{{item.PhanTram}}</td>
+                                                                <td v-else>{{item.PhanTram}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </b-card-text>
+                                        </b-tab>
+                                        <!--Tab Cơ sở ngành -->
+                                        <b-tab title="Điểm môn cơ sở ngành">
                                             <b-card-text>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped mb-0">
@@ -122,7 +151,7 @@
                                                 </div>
                                             </b-card-text>
                                         </b-tab>
-                                        <b-tab title="Đại cương quan trọng">
+                                        <b-tab title="Điểm môn đại cương quan trọng">
                                             <b-card-text>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped mb-0">
@@ -187,6 +216,7 @@ export default {
             generalSubjectJson: "",
             studentSubjectJson: "",
             inputMSSV: "",
+            majorResultJson:"",
         };
     },
     computed: {
@@ -221,7 +251,7 @@ export default {
             this.pageOfItems = pageOfItems;
         },
         getAllMajors() {
-            let url = 'https://localhost:44326/api/ChuyenNganh';
+            let url = 'https://fit4u-admin.somee.com/api/ChuyenNganh';
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
                 this.majorJson = [{
@@ -232,26 +262,35 @@ export default {
             });
         },
         addStudents() {
-            let url = 'https://localhost:44326/api/CauHoi';
+            let url = 'https://fit4u-admin.somee.com/api/CauHoi';
             axios.get(url).then((response) => {
                 this.majorJson = response.data;
             });
         },
         getMainSubjectsInfo(id) {
-            let url = `https://localhost:44326/api/DiemCSN/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemCSN/${id}`;
             axios.get(url).then((response) => {
                 this.mainSubjectJson = response.data;
             });
         },
         getGeneralSubjectsInfo(id) {
-            let url = `https://localhost:44326/api/DiemMonQuanTrong/${id}`;
+            let url = `https://fit4u-admin.somee.com/api/DiemMonQuanTrong/${id}`;
             axios.get(url).then((response) => {
                 this.generalSubjectJson = response.data;
             });
         },
         getModalData(sinhVien) {
+            this.getMajorResults(sinhVien.MSSV);
             this.getMainSubjectsInfo(sinhVien.MSSV);
             this.getGeneralSubjectsInfo(sinhVien.MSSV);
+        },
+
+        getMajorResults(id)
+        {
+            let url = `https://fit4u-admin.somee.com/api/KetQuaChuyenNganh/${id}`;
+            axios.get(url).then((response) => {
+                this.majorResultJson = response.data;
+            });
         },
     },
 
