@@ -135,11 +135,9 @@
 
             <!-- modal -->
             <b-modal id="addQuestionModal" title="Thêm câu hỏi" hide-footer>
-                <form @submit.prevent="addQuestion()" novalidate>
+                <form @submit.prevent="addQuestion" novalidate>
                     <div class="modal-body">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group">
+                        <div class="form-group">
                                     <label>Chuyên ngành</label>
                                     <div class="dropdown mo-mb-2">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 365px !important;background-color:transparent; boder:#000000; color: #000000;text-align: left;">
@@ -176,8 +174,6 @@
                                         <button type="submit" class="btn btn-primary waves-effect waves-light"> Lưu </button>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
                         <p></p>
                     </div>
                 </form>
@@ -302,12 +298,14 @@ export default {
         },
         addQuestion() {
             this.$v.tencauhoi.$touch();
+              
             if (this.$v.tencauhoi.$pending || this.$v.tencauhoi.$error) return;
+         
             const id = this.jobPopup.CongViecVaHuongPhatTrienId;
 
             let url = `https://fit4u-admin.somee.com/api/BaiDanhGiaDinhHuongNgheNghiep?tencauhoi=${this.tencauhoi}&id=${id}`;
             axios.post(url).then((response) => {
-                this.questionJson = response.data;
+                this.questionJson = response.data
 
                 if (response.data === "Success") {
                     this.$bvToast.toast('Thêm câu hỏi thành công!', {

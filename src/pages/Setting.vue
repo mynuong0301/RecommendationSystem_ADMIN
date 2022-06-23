@@ -87,6 +87,13 @@
                 <b-modal id="addSubjectModal" title="Thêm học phần xét chuyên ngành" hide-footer>
                     <div class="modal-body">
 
+                        <div class="form-group">
+                            <label>Năm</label>
+                            <div>
+                                <input type="text" v-model="currentYear" class="form-control" required="true" placeholder="7.0">
+                            </div>
+                        </div>
+
                         <label>Mã môn học</label>
 
                         <v-select multiple v-model="selectedAddedSubjects" :options="subjectYearJson" label="TenMonHoc" :reduce="subject => subject.MonHocId" />
@@ -162,7 +169,7 @@ export default {
     mounted() {
         this.getSubjects();
         this.getAllYears();
-
+        this.currentYear = this.khoaHoc;
     },
     created() {
         this.CHANGE_STATE = 1;
@@ -181,9 +188,12 @@ export default {
             this.submitting = true;
             axios.post(url, {
                     MonHocIds: this.selectedAddedSubjects,
-                    KhoaHoc: this.khoaHoc,
+                    KhoaHoc: this.currentYear,
                 }).then(response => {
+                    this.getSubjects();
+                    this.getAllYears();
                     this.getTableData();
+
                     this.$bvModal.hide('addSubjectModal')
                 })
                 .catch(error => {
@@ -232,8 +242,8 @@ export default {
                         solid: true,
                         autoHideDelay: 1000,
                     });
+                    this.getAllYears();
 
-                    this.getTableData();
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -244,6 +254,7 @@ export default {
         },
 
         getSubjects() {
+
             this.getTableData(this.searchKey);
 
         },
@@ -284,6 +295,12 @@ export default {
                 });
 
                 if (this.yearList.length) {
+
+                    if (this.tableDataMonHocXetCN.length === 1) {
+
+                        this.currentYear = this.yearList[0];
+                    } 
+
                     this.getTableData();
                     this.getSubjectsNotInYear(this.yearList[0]);
                 }
@@ -293,12 +310,19 @@ export default {
         getTableData(name) {
             let year = this.khoaHoc;
 
+            if (this.currentYear === 0) {
+                this.currentYear = year;
+            } else if (this.currentYear !== this.khoaHoc) {
+                year = this.currentYear;
+            }
+
             if (!year || year === -1) {
                 year = this.yearList[0];
+                this.currentYear = year;
             }
 
             this.$store.dispatch('onGetMonHocXetCNAction', {
-                khoaHoc: year,
+                khoaHoc: Number(year),
                 tenMonHoc: name
             });
         },
@@ -306,6 +330,7 @@ export default {
             this.getSubjectsNotInYear(khoaHoc);
             this.$store.dispatch('onKhoaHocSelectAction', khoaHoc);
             this.searchKey = "";
+            this.currentYear = khoaHoc;
         },
 
         onCancelAddSubject() {
@@ -346,6 +371,7 @@ export default {
 
             maMonHoc: "",
             tenMonHoc: "",
+            currentYear: 0,
         }
     },
     computed: {

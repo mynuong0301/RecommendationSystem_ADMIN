@@ -198,6 +198,67 @@
                                 </b-card-text>
                             </b-tab>
                         </div>
+
+                        <!-- Tab học phần quan trọng-->
+                        <div class="col-lg-12">
+                            <b-tab title="Các học phần quan trọng">
+                                <b-card-text>
+
+                                    <div class="row mb-3" style="justify-content: right; margin-right: 1px;">
+                                        <div class="col-lg-2 m-r-1" style="margin-right: 34px">
+                                            <div class="dropdown mo-mb-2 ">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:220px; background-color: #005874; border-color: #005874"> {{ selectedYear === -1 ? 'Chọn năm' : selectedYear}} </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                                                    <div style="height:120px !important; overflow:scroll;">
+                                                        <tbody v-for=" (year, index) in yearList" :key="index">
+                                                            <a class="dropdown-item" v-on:click="onKhoaHocSelect(year)">{{year}}</a>
+                                                        </tbody>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a role="button" v-b-modal="'addImportantSubjectModal'" class="btn btn-info waves-effect waves-light  m-r-5" style="background-color: rgb(255, 190, 0); border-color: rgb(255, 190, 0);">
+                                            <i class="fas fa-plus"></i> <i></i>
+                                            <span>Thêm học phần </span>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive" style="width:100%">
+                                                <table class="table table-striped mb-0">
+                                                    <thead>
+                                                        <tr class="bg-primary" style="background-color: rgb(28, 129, 158) !important;">
+                                                            <th>STT</th>
+                                                            <th>Mã môn học</th>
+                                                            <th>Tên môn học</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-for="(item, index) in importantSubjectJson" :key="index">
+                                                        <tr>
+                                                            <th scope="row" style="width: 50px;">{{index+1}}</th>
+                                                            <td>{{item.MonHocId}}</td>
+                                                            <td>{{item.TenMonHoc}}</td>
+                                                            <td>
+                                                                <div class="btn-toolbar form-group mb-0">
+                                                                    <div class="">
+                                                                        <!-- <a role="button" class="btn btn-success waves-effect waves-light m-r-5"><i class="far fa-edit" v-on:click="setNeedUpdatedSubject(item)" v-b-modal="'editSubjectModal'"></i></a> -->
+                                                                        <button v-on:click="setDeletedImportantSubject(item.MonHocQuanTrongCNId)" type="button" class="btn btn-danger waves-effect waves-light m-r-5" v-b-modal="'deleteImportSubjectModal'"><i class="far fa-trash-alt"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </b-card-text>
+                            </b-tab>
+                        </div>
+
                         <!-- Tab ĐIểm sàn-->
                         <b-tab title="Điểm sàn">
                             <b-card-text>
@@ -216,6 +277,8 @@
                                                         <th>STT</th>
                                                         <th>Năm</th>
                                                         <th>Điểm</th>
+                                                        <th>Điểm ngưỡng trên</th>
+                                                        <th>Điểm ngưỡng dưới</th>
                                                         <th>Ghi chú</th>
                                                         <th></th>
                                                     </tr>
@@ -225,6 +288,8 @@
                                                         <th scope="row" style="width: 50px;">{{index+1}}</th>
                                                         <td>{{item.Nam}}</td>
                                                         <td>{{item.Diem===0?'Không có dữ liệu' : item.Diem }}</td>
+                                                        <td>{{item.DiemSanNguongTren}}</td>
+                                                        <td>{{item.DiemSanNguongDuoi}}</td>
                                                         <td>{{item.GhiChu}}</td>
                                                         <td>
                                                             <div class="btn-toolbar form-group mb-0">
@@ -301,7 +366,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteResearchModal">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteResearchOrientation()">Xác nhận</button>
         </div>
     </b-modal>
@@ -314,8 +379,21 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteSubject">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteSubject()">Xác nhận</button>
+        </div>
+    </b-modal>
+
+    <!--deleteImportantSubjectModal -->
+    <!-- modal -->
+    <b-modal id="deleteImportSubjectModal" title="Xóa môn học" hide-footer>
+        <div class="modal-body">
+            <h5 class="font-16">Bạn có chắc chắn muốn xóa môn học này không?</h5>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteImportantSubjectModal">Hủy</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteImportantSubject()">Xác nhận</button>
         </div>
     </b-modal>
 
@@ -327,7 +405,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteJobModal">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteJob()">Xác nhận</button>
         </div>
     </b-modal>
@@ -340,7 +418,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect"  v-on:click="onCancelDeleteMajorModal()">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMajor()">Xác nhận</button>
         </div>
     </b-modal>
@@ -353,7 +431,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelDeleteMinScoreModal">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMinScore()">Xác nhận</button>
         </div>
     </b-modal>
@@ -390,6 +468,12 @@
                 </form-group>
                 <form-group :validator="$v.needUpdatedMinScore.Diem" label="Điểm">
                     <b-form-input type="number" :required="true" id="diem" v-model="needUpdatedMinScore.Diem" @input="$v.needUpdatedMinScore.$touch()"></b-form-input>
+                </form-group>
+                <form-group :validator="$v.needUpdatedMinScore.DiemSanNguongTren" label="Điểm ngưỡng trên">
+                    <b-form-input type="number" :required="true" id="nam" v-model="needUpdatedMinScore.DiemSanNguongTren" @input="$v.needUpdatedMinScore.$touch()"></b-form-input>
+                </form-group>
+                <form-group :validator="$v.needUpdatedMinScore.DiemSanNguongDuoi" label="Điểm ngưỡng dưới">
+                    <b-form-input type="number" :required="true" id="diem" v-model="needUpdatedMinScore.DiemSanNguongDuoi" @input="$v.needUpdatedMinScore.$touch()"></b-form-input>
                 </form-group>
                 <label>Ghi chú</label>
                 <b-form-textarea id="ghiChu" v-model="needUpdatedMinScore.GhiChu" required rows="4"></b-form-textarea>
@@ -444,7 +528,7 @@
                 </form-group>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddJobModal">Hủy</button>
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
             </div>
         </form>
@@ -467,6 +551,23 @@
         </form>
     </b-modal>
 
+    <!-- modal add important subject -->
+    <b-modal id="addImportantSubjectModal" title="Thêm học phần" hide-footer>
+        <form @submit.prevent="addImportantSubjects" novalidate>
+            <div class="modal-body">
+
+                <form-group :validator="$v.selectedAddedImportantSubjects" label="Môn học">
+
+                    <v-select @input="$v.selectedAddedImportantSubjects.$touch()" multiple v-model="selectedAddedImportantSubjects" :options="subjectYearJson" label="TenMonHoc" :reduce="importantSubject => importantSubject.MonHocId" />
+                </form-group>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddImportantSubject">Hủy</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+            </div>
+        </form>
+    </b-modal>
+
     <!-- add min score modal -->
     <b-modal id="addMinScore" title="Thêm điểm sàn" hide-footer>
         <form @submit.prevent="addMinScore" novalidate>
@@ -479,10 +580,16 @@
                 </form-group>
                 <label>Ghi chú</label>
                 <b-form-input id="input-2" v-model="note" placeholder="Nhập ghi chú"></b-form-input>
+                <form-group :validator="$v.highScore" label="Điểm ngưỡng trên">
+                    <b-form-input id="input-2" v-model="highScore" @input="$v.highScore.$touch()" placeholder="Nhập điểm"></b-form-input>
+                </form-group>
+                <form-group :validator="$v.lowScore" label="Điểm ngưỡng dưới">
+                    <b-form-input id="input-2" v-model="lowScore" @input="$v.lowScore.$touch()" placeholder="Nhập điểm"></b-form-input>
+                </form-group>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddMinScore">Hủy</button>
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu</button>
             </div>
         </form>
@@ -503,7 +610,7 @@
                 <textarea required="required" rows="5" placeholder="Nhập vào chủ đề nghiên cứu " class="form-control" v-model="topicName"></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelResearchModal">Hủy</button>
                 <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="addResearch(researchName, projectName, topicName)">Lưu</button>
             </div>
         </form>
@@ -534,7 +641,14 @@ export default {
                 required,
                 gt0to10: isGt0to10
             },
-            // Thêm field cho needUpdatedMinScore
+            DiemSanNguongTren: {
+                required,
+                gt0to10: isGt0to10
+            },
+            DiemSanNguongDuoi: {
+                required,
+                gt0to10: isGt0to10
+            },
 
         },
 
@@ -568,10 +682,23 @@ export default {
             required,
             gt0to10: isGt0to10
         },
+        highScore: {
+            required,
+            gt0to10: isGt0to10
+        },
+        lowScore: {
+            required,
+            gt0to10: isGt0to10
+        },
         jobName: {
             required
         },
         selectedAddedSubjects: {
+
+            required
+
+        },
+        selectedAddedImportantSubjects: {
 
             required
 
@@ -588,6 +715,7 @@ export default {
             this.GetQuestionsByMajorandJob(this.chuyenNganhId);
             this.GetResearchOrientationById(this.chuyenNganhId);
             this.GetMinScoreByMajorId(this.chuyenNganhId);
+            this.getAllYears();
         }
     },
     beforeMount() {
@@ -599,7 +727,7 @@ export default {
         this.GetQuestionsByMajorandJob(this.chuyenNganhId);
         this.GetResearchOrientationById(this.chuyenNganhId);
         this.GetMinScoreByMajorId(this.chuyenNganhId);
-
+        this.getAllYears();
     },
     methods: {
         getMajorById(id) {
@@ -675,6 +803,11 @@ export default {
             this.ChuyenNganhId = major_id
             this.MonHocId = id;
         },
+
+        setDeletedImportantSubject(id) {
+
+            this.MonHocQuanTrongCNId = id;
+        },
         setNeedUpdatedSubject(object) {
             this.$bvModal.show('editSubjectModal');
             this.needUpdatedSubject = {
@@ -694,7 +827,10 @@ export default {
         },
 
         setNeedUpdatedMinScore(object) {
-            this.needUpdatedMinScore = object;
+            this.$bvModal.show('editMinScoreModal');
+            this.needUpdatedMinScore = {
+                ...object
+            };
         },
 
         setDeletedMinScoreId(id) {
@@ -744,6 +880,29 @@ export default {
                 });
 
             this.$bvModal.hide('deleteSubjectModal');
+        },
+
+        deleteImportantSubject() {
+
+            let url = `https://fit4u-admin.somee.com/api/MonHocQuanTrongCN/${this.MonHocQuanTrongCNId}`;
+
+            axios.delete(url).then(response => {
+
+                    this.$bvToast.toast('Xóa thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+
+            this.$bvModal.hide('deleteImportSubjectModal');
         },
 
         deleteMinScore() {
@@ -937,7 +1096,9 @@ export default {
                     Nam: this.needUpdatedMinScore.Nam,
                     GhiChu: this.needUpdatedMinScore.GhiChu,
                     ChuyenNganhId: this.needUpdatedMinScore.ChuyenNganhId,
-                    DiemSanId: this.needUpdatedMinScore.DiemSanId
+                    DiemSanId: this.needUpdatedMinScore.DiemSanId,
+                    DiemSanNguongTren: this.needUpdatedMinScore.DiemSanNguongTren,
+                    DiemSanNguongDuoi: this.needUpdatedMinScore.DiemSanNguongDuoi
                 }).then(response => {
 
                     this.$bvToast.toast('Cập nhật thành công!', {
@@ -984,16 +1145,41 @@ export default {
             this.jobName = "";
         },
 
+        getAllYears() {
+            let url = 'https://fit4u-admin.somee.com/api/MonHocCSNvaToan';
+            axios.get(url).then((response) => {
+                this.yearJson = response.data;
+
+                this.yearJson.forEach((item) => {
+                    if (!this.yearList.includes(item.KhoaHoc)) {
+                        this.yearList = [...this.yearList, item.KhoaHoc];
+                    }
+                });
+
+                if (this.yearList.length) {
+                    this.selectedYear = this.yearList[0];
+                    this.getImportantSubjectsByYearOfMajor(this.yearList[0], this.chuyenNganhId);
+                    this.getSubjectsNotInImportantSubjectByYearOfMajor(this.yearList[0], this.chuyenNganhId);
+                }
+            });
+        },
+
         addMinScore() {
             this.$v.year.$touch();
             this.$v.score.$touch();
+            this.$v.highScore.$touch();
+            this.$v.lowScore.$touch();
             if (this.$v.year.$pending || this.$v.year.$error) return;
             if (this.$v.score.$pending || this.$v.score.$error) return;
+            if (this.$v.highScore.$pending || this.$v.highScore.$error) return;
+            if (this.$v.lowScore.$pending || this.$v.lowScore.$error) return;
             const body = {
                 "Diem": this.score,
                 "Nam": this.year,
                 "GhiChu": this.note,
                 "ChuyenNganhId": this.chuyenNganhId,
+                "DiemSanNguongTren": this.highScore,
+                "DiemSanNguongDuoi": this.lowScore,
             }
 
             let url = 'https://fit4u-admin.somee.com/api/DiemSan';
@@ -1013,6 +1199,8 @@ export default {
             this.year = "";
             this.score = "";
             this.note = "";
+            this.highScore = "";
+            this.lowScore = "";
         },
 
         addResearch(researchName, projectName, topicName) {
@@ -1072,6 +1260,34 @@ export default {
                 });
             this.selectedAddedSubjects = [];
         },
+        addImportantSubjects() {
+            this.$v.selectedAddedImportantSubjects.$touch();
+            if (this.$v.selectedAddedImportantSubjects.$pending || this.$v.selectedAddedImportantSubjects.$error) return;
+            let url = `https://fit4u-admin.somee.com/api/MonHocQuanTrongCN`;
+
+            this.submitting = true;
+            axios.post(url, {
+                    ChuyenNganhId: this.chuyenNganhId,
+                    KhoaHoc: this.selectedYear,
+                    MonHocIds: this.selectedAddedImportantSubjects,
+                }).then(response => {
+                    this.$bvToast.toast('Thêm học phần thành công!', {
+                        title: 'Thành công',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 1000,
+                    });
+
+                    this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+                    this.$bvModal.hide('addImportantSubjectModal')
+                })
+                .catch(error => {
+                    this.submitting = false;
+                    this.errorMessage = error.message;
+                    console.error("There was an error", error);
+                });
+            this.selectedAddedImportantSubjects = [];
+        },
 
         getMajorSubjectsNotInMajor(major_id) {
             let url = `https://fit4u-admin.somee.com/api/MonHocCN/${major_id}`;
@@ -1085,6 +1301,38 @@ export default {
             }
 
         },
+
+        getImportantSubjectsByYearOfMajor(year, major_id) {
+            let url = `https://fit4u-admin.somee.com/api/MonHocQuanTrongCN/${year}/${major_id}`;
+
+            try {
+                axios.get(url).then((response) => {
+                    this.importantSubjectJson = response.data;
+                });
+            } catch (e) {
+                console.log(e);
+            }
+
+        },
+
+        getSubjectsNotInImportantSubjectByYearOfMajor(year, major_id) {
+            let url = `https://fit4u-admin.somee.com/api/MonHocCSNvaToanNotInMonHocQuanTrongCN/${year}/${major_id}`;
+
+            try {
+                axios.get(url).then((response) => {
+                    this.subjectYearJson = response.data;
+                });
+            } catch (e) {
+                console.log(e);
+            }
+
+        },
+        onKhoaHocSelect(year) {
+            this.selectedYear = year;
+            this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+            this.getSubjectsNotInImportantSubjectByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+        },
+
         onCancelEditLinhVucNghienCuu() {
             this.majorJson.LinhVucNghienCuu = this.backUpLinhVucNghienCuu;
             this.majorJson.LinkVideo = this.backUpLinkVideo;
@@ -1114,6 +1362,54 @@ export default {
             this.$bvModal.hide('addSubjectModal');
             this.selectedAddedSubjects = [];
         },
+
+        onCancelAddImportantSubject() {
+            this.$bvModal.hide('addImportantSubjectModal');
+            this.selectedAddedImportantSubjects = [];
+        },
+
+        onCancelAddMinScore() {
+            this.$bvModal.hide('addMinScore');
+            this.year="";
+            this.note="";
+            this.highScore="";
+            this.lowScore="";
+            this.score="";
+        },
+
+         onCancelResearchModal() {
+            this.$bvModal.hide('addResearch');
+           
+            this.researchName="";
+            this.projectName="";
+            this.topicName="";
+         
+        },
+        onCancelDeleteSubject() {
+            this.$bvModal.hide('deleteSubjectModal');
+        },
+
+         onCancelDeleteMajorModal() {
+            this.$bvModal.hide('deleteMajorModal');
+        },
+
+        onCancelDeleteImportantSubjectModal() {
+            this.$bvModal.hide('deleteImportSubjectModal');
+        },
+        onCancelDeleteMinScoreModal() {
+            this.$bvModal.hide('alertDeleteMinScoreModal');
+        },
+         onCancelDeleteResearchModal() {
+            this.$bvModal.hide('alertDeleteResearchOrientationModal');
+        },
+
+        onCancelAddJobModal() {
+            this.$bvModal.hide('addJob');
+        },
+       
+       onCancelDeleteJobModal() {
+            this.$bvModal.hide('deleteJobModal');
+        },
     },
     data() {
         return {
@@ -1136,6 +1432,8 @@ export default {
             year: "",
             score: "",
             note: "",
+            highScore: "",
+            lowScore: "",
 
             researchName: "",
             projectName: "",
@@ -1161,6 +1459,15 @@ export default {
 
             selectedAddedSubjects: [],
             subjectMajorJson: "",
+
+            importantSubjectJson: "",
+            yearJson: "",
+            yearList: [],
+            subjectYearJson: "",
+            selectedYear: -1,
+            selectedAddedImportantSubjects: [],
+            MonHocQuanTrongCNId: "",
+            importantSubject: "",
         }
     },
 
