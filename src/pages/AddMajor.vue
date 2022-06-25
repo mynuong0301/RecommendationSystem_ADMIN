@@ -648,12 +648,12 @@ export default {
                 gt0to10: isGt0to10
             },
             DiemSanNguongTren: {
-                required,
-                gt0to10: isGt0to10
+                required
+    
             },
             DiemSanNguongDuoi: {
-                required,
-                gt0to10: isGt0to10
+                required
+    
             },
 
         },
@@ -694,11 +694,9 @@ export default {
         },
         highScore: {
             required,
-            gt0to10: isGt0to10
         },
         lowScore: {
             required,
-            gt0to10: isGt0to10
         },
         jobName: {
             required

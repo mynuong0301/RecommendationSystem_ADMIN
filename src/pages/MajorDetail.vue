@@ -418,7 +418,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect"  v-on:click="onCancelDeleteMajorModal()">Hủy</button>
+            <button type="button" class="btn btn-secondary waves-effect" v-on:click="onCancelDeleteMajorModal()">Hủy</button>
             <button type="button" class="btn btn-primary waves-effect waves-light" v-on:click="deleteMajor()">Xác nhận</button>
         </div>
     </b-modal>
@@ -555,7 +555,12 @@
     <b-modal id="addImportantSubjectModal" title="Thêm học phần" hide-footer>
         <form @submit.prevent="addImportantSubjects" novalidate>
             <div class="modal-body">
-
+                <div class="form-group">
+                    <label>Năm</label>
+                    <div>
+                        <input type="text" v-model="currentYear" class="form-control" required="true" placeholder="Chọn năm">
+                    </div>
+                </div>
                 <form-group :validator="$v.selectedAddedImportantSubjects" label="Môn học">
 
                     <v-select @input="$v.selectedAddedImportantSubjects.$touch()" multiple v-model="selectedAddedImportantSubjects" :options="subjectYearJson" label="TenMonHoc" :reduce="importantSubject => importantSubject.MonHocId" />
@@ -577,16 +582,16 @@
                 </form-group>
                 <form-group :validator="$v.score" label="Điểm">
                     <b-form-input id="input-2" v-model="score" @input="$v.score.$touch()" placeholder="Nhập điểm"></b-form-input>
+
+                    <form-group :validator="$v.highScore" label="Điểm ngưỡng trên">
+                        <b-form-input id="input-2" v-model="highScore" @input="$v.highScore.$touch()" placeholder="Nhập điểm"></b-form-input>
+                    </form-group>
+                    <form-group :validator="$v.lowScore" label="Điểm ngưỡng dưới">
+                        <b-form-input id="input-2" v-model="lowScore" @input="$v.lowScore.$touch()" placeholder="Nhập điểm"></b-form-input>
+                    </form-group>
                 </form-group>
                 <label>Ghi chú</label>
                 <b-form-input id="input-2" v-model="note" placeholder="Nhập ghi chú"></b-form-input>
-                <form-group :validator="$v.highScore" label="Điểm ngưỡng trên">
-                    <b-form-input id="input-2" v-model="highScore" @input="$v.highScore.$touch()" placeholder="Nhập điểm"></b-form-input>
-                </form-group>
-                <form-group :validator="$v.lowScore" label="Điểm ngưỡng dưới">
-                    <b-form-input id="input-2" v-model="lowScore" @input="$v.lowScore.$touch()" placeholder="Nhập điểm"></b-form-input>
-                </form-group>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal" v-on:click="onCancelAddMinScore">Hủy</button>
@@ -642,12 +647,10 @@ export default {
                 gt0to10: isGt0to10
             },
             DiemSanNguongTren: {
-                required,
-                gt0to10: isGt0to10
+                required
             },
             DiemSanNguongDuoi: {
-                required,
-                gt0to10: isGt0to10
+                required
             },
 
         },
@@ -684,11 +687,9 @@ export default {
         },
         highScore: {
             required,
-            gt0to10: isGt0to10
         },
         lowScore: {
             required,
-            gt0to10: isGt0to10
         },
         jobName: {
             required
@@ -895,7 +896,7 @@ export default {
                         autoHideDelay: 1000,
                     });
 
-                    this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+                    this.getAllYears();
                 })
                 .catch(error => {
                     this.errorMessage = error.message;
@@ -1157,9 +1158,13 @@ export default {
                 });
 
                 if (this.yearList.length) {
-                    this.selectedYear = this.yearList[0];
-                    this.getImportantSubjectsByYearOfMajor(this.yearList[0], this.chuyenNganhId);
-                    this.getSubjectsNotInImportantSubjectByYearOfMajor(this.yearList[0], this.chuyenNganhId);
+                    if (this.selectedYear === -1 || this.importantSubjectJson.length === 1) {
+                        this.selectedYear = this.yearList[0];
+                        this.currentYear = this.yearList[0];
+                    }
+
+                    this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+                    this.getSubjectsNotInImportantSubjectByYearOfMajor(this.selectedYear, this.chuyenNganhId);
                 }
             });
         },
@@ -1268,7 +1273,7 @@ export default {
             this.submitting = true;
             axios.post(url, {
                     ChuyenNganhId: this.chuyenNganhId,
-                    KhoaHoc: this.selectedYear,
+                    KhoaHoc: this.currentYear,
                     MonHocIds: this.selectedAddedImportantSubjects,
                 }).then(response => {
                     this.$bvToast.toast('Thêm học phần thành công!', {
@@ -1277,8 +1282,8 @@ export default {
                         solid: true,
                         autoHideDelay: 1000,
                     });
-
-                    this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
+                    this.selectedYear = this.currentYear;
+                    this.getAllYears();
                     this.$bvModal.hide('addImportantSubjectModal')
                 })
                 .catch(error => {
@@ -1329,6 +1334,7 @@ export default {
         },
         onKhoaHocSelect(year) {
             this.selectedYear = year;
+            this.currentYear = year;
             this.getImportantSubjectsByYearOfMajor(this.selectedYear, this.chuyenNganhId);
             this.getSubjectsNotInImportantSubjectByYearOfMajor(this.selectedYear, this.chuyenNganhId);
         },
@@ -1370,26 +1376,26 @@ export default {
 
         onCancelAddMinScore() {
             this.$bvModal.hide('addMinScore');
-            this.year="";
-            this.note="";
-            this.highScore="";
-            this.lowScore="";
-            this.score="";
+            this.year = "";
+            this.note = "";
+            this.highScore = "";
+            this.lowScore = "";
+            this.score = "";
         },
 
-         onCancelResearchModal() {
+        onCancelResearchModal() {
             this.$bvModal.hide('addResearch');
-           
-            this.researchName="";
-            this.projectName="";
-            this.topicName="";
-         
+
+            this.researchName = "";
+            this.projectName = "";
+            this.topicName = "";
+
         },
         onCancelDeleteSubject() {
             this.$bvModal.hide('deleteSubjectModal');
         },
 
-         onCancelDeleteMajorModal() {
+        onCancelDeleteMajorModal() {
             this.$bvModal.hide('deleteMajorModal');
         },
 
@@ -1399,15 +1405,15 @@ export default {
         onCancelDeleteMinScoreModal() {
             this.$bvModal.hide('alertDeleteMinScoreModal');
         },
-         onCancelDeleteResearchModal() {
+        onCancelDeleteResearchModal() {
             this.$bvModal.hide('alertDeleteResearchOrientationModal');
         },
 
         onCancelAddJobModal() {
             this.$bvModal.hide('addJob');
         },
-       
-       onCancelDeleteJobModal() {
+
+        onCancelDeleteJobModal() {
             this.$bvModal.hide('deleteJobModal');
         },
     },
@@ -1468,6 +1474,7 @@ export default {
             selectedAddedImportantSubjects: [],
             MonHocQuanTrongCNId: "",
             importantSubject: "",
+            currentYear: 0,
         }
     },
 
