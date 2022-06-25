@@ -190,9 +190,9 @@ export default {
                     MonHocIds: this.selectedAddedSubjects,
                     KhoaHoc: this.currentYear,
                 }).then(response => {
-                    this.getSubjects();
+                   
                     this.getAllYears();
-                    this.getTableData();
+                
 
                     this.$bvModal.hide('addSubjectModal')
                 })
@@ -284,6 +284,7 @@ export default {
         },
 
         getAllYears() {
+             this.yearList = [];
             let url = 'https://fit4u-admin.somee.com/api/MonHocCSNvaToan';
             axios.get(url).then((response) => {
                 this.yearJson = response.data;
