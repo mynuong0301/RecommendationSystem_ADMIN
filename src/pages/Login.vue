@@ -42,13 +42,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group text-center m-t-20">
-                        <div class="col-12">
-                            <button v-on:click="onLogin()" class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">Đăng nhập</button>
-                        </div>
-                    </div>
-
                     <!--<div class="form-group row m-t-30 m-b-0">
                         <div class="col-sm-7">
                             <a href="pages-recoverpw.html" class="text-muted"><i class="fa fa-lock m-r-5"></i> Quên mật khẩu?</a>
@@ -58,6 +51,14 @@
                         </div>
                     </div>-->
                 </form>
+
+                
+                    <div class="text-center m-t-20">
+                        <div class="col-12">
+                            <button v-on:click="onLogin()" class="btn btn-primary btn-block btn-lg waves-effect waves-light">Đăng nhập</button>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>
